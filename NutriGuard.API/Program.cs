@@ -14,6 +14,9 @@ builder.Services.AddAuthorization();
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("Jwt"));
 
+builder.Services.Configure<SendGridSettings>(
+    builder.Configuration.GetSection("SendGrid"));
+
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
