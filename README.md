@@ -12,7 +12,7 @@ The project follows Clean Architecture principles using ASP.NET Core and Entity 
 
 - ASP.NET Core 8 Web API
 - Entity Framework Core 8
-- SQL Server
+- PostgreSQL Server
 - ASP.NET Identity
 - JWT Authentication
 - Clean Architecture
@@ -39,7 +39,7 @@ NutriGuard.Infrastructure
 - Created Clean Architecture solution
 - Configured four projects
 - Dependency Injection
-- SQL Server configuration
+- PostgreSQL Server configuration
 
 ### Authentication
 
@@ -68,7 +68,7 @@ Created the following enums:
 
 - Entity Framework Core Code First
 - Initial Migration
-- SQL Server Database
+- PostgreSQL Server Database
 - One-to-One relationship between ApplicationUser and HealthProfile
 
 ### Swagger
