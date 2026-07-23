@@ -182,7 +182,7 @@ Each completed feature should be merged through a Pull Request.
 Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/NutriGuard.git
+git clone https://github.com/HESHAM-MOSA3D/NutriGuard.git
 ```
 
 Restore packages
