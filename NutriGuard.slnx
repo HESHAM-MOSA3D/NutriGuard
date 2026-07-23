@@ -1,6 +1,9 @@
 <Solution>
-  <Project Path="AuthLearning.API/NutriGuard.API.csproj" />
-  <Project Path="AuthLearning.Application/NutriGuard.Application.csproj" />
-  <Project Path="AuthLearning.Domain/NutriGuard.Domain.csproj" />
-  <Project Path="AuthLearning.Infrastructure/NutriGuard.Infrastructure.csproj" />
+  <Project Path="NutriGuard.API/NutriGuard.API.csproj">
+    <BuildDependency Project="NutriGuard.Application/NutriGuard.Application.csproj" />
+    <BuildDependency Project="NutriGuard.Infrastructure/NutriGuard.Infrastructure.csproj" />
+  </Project>
+  <Project Path="NutriGuard.Application/NutriGuard.Application.csproj" />
+  <Project Path="NutriGuard.Domain/NutriGuard.Domain.csproj" />
+  <Project Path="NutriGuard.Infrastructure/NutriGuard.Infrastructure.csproj" />
 </Solution>

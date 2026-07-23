@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthLearning.Domain\NutriGuard.Domain.csproj" />
+    <ProjectReference Include="..\NutriGuard.Domain\NutriGuard.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

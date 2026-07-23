@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthLearning.Application\NutriGuard.Application.csproj" />
-    <ProjectReference Include="..\AuthLearning.Infrastructure\NutriGuard.Infrastructure.csproj" />
+    <ProjectReference Include="..\NutriGuard.Application\NutriGuard.Application.csproj" />
+    <ProjectReference Include="..\NutriGuard.Infrastructure\NutriGuard.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

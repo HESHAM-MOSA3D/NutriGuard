@@ -27,10 +27,9 @@
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\AuthLearning.Application\NutriGuard.Application.csproj" />
-    <ProjectReference Include="..\AuthLearning.Domain\NutriGuard.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\NutriGuard.Application\NutriGuard.Application.csproj" />
+	  <ProjectReference Include="..\NutriGuard.Domain\NutriGuard.Domain.csproj" />
+	</ItemGroup>
 
 </Project>
