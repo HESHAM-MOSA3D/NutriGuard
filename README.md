@@ -135,7 +135,6 @@ Implemented the complete Health Profile feature.
 - Create Health Profile
 - Get Health Profile
 - Update Health Profile
-- Delete Health Profile
 - One Health Profile per User
 
 ### Validation
