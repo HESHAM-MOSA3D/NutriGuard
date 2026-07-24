@@ -17,6 +17,8 @@ The project follows Clean Architecture principles using ASP.NET Core, Entity Fra
 - JWT Authentication
 - SendGrid Email Service
 - Clean Architecture
+- Repository Pattern
+- Service Layer
 - Code First
 - Swagger
 
@@ -24,7 +26,7 @@ The project follows Clean Architecture principles using ASP.NET Core, Entity Fra
 
 ## Solution Structure
 
-```
+```text
 NutriGuard.API
 NutriGuard.Application
 NutriGuard.Domain
@@ -111,7 +113,7 @@ Implemented a complete password recovery workflow.
 - SendGrid Integration
 - HTML Email Templates
 - Email Service Abstraction
-- Transaction support to ensure OTP is not stored unless the email is sent successfully
+- Transaction support to ensure OTP is stored only after the email is sent successfully
 
 ### Authentication Improvements
 
@@ -119,6 +121,41 @@ Implemented a complete password recovery workflow.
 - Authentication message constants
 - Improved validation
 - Better error handling
+
+---
+
+# Completed Sprint 3
+
+## Health Profile Module
+
+Implemented the complete Health Profile feature.
+
+### Features
+
+- Create Health Profile
+- Get Health Profile
+- Update Health Profile
+- Delete Health Profile
+- One Health Profile per User
+
+### Validation
+
+- Height validation
+- Weight validation
+- Date of Birth validation
+- Age validation
+- Enum validation
+- Duplicate profile prevention
+
+### Architecture
+
+- Generic Repository
+- HealthProfile Repository
+- Service Layer
+- Dependency Injection
+- DTO Mapping
+- Response DTO Pattern
+- DateOnly support for Date of Birth
 
 ---
 
@@ -161,6 +198,17 @@ Implemented a complete password recovery workflow.
 
 ---
 
+# Health Profile Flow
+
+1. Authenticated user creates a health profile.
+2. Only one profile is allowed per user.
+3. User can retrieve their profile.
+4. User can update their profile.
+5. User can delete their profile.
+6. Input validation is applied before saving.
+
+---
+
 # Project Status
 
 Completed
@@ -176,31 +224,29 @@ Completed
 - PostgreSQL
 - Swagger
 - Entity Framework Core Code First
+- Health Profile CRUD
+- Generic Repository
+- Repository Pattern
+- Service Layer
 
 ---
 
-# Next Sprint (Sprint 3)
+# Next Sprint (Sprint 4)
 
-## Health Profile Module
+## Nutrition Profile Engine
 
 Planned Features
 
-- Create Health Profile
-- Update Health Profile
-- Get Health Profile
-- Complete User Profile
-- Validation
-- Mapping
-- Repository & Service Layer
+- BMR Calculator
+- TDEE Calculator
+- Daily Calories Calculator
+- Macronutrients Calculator
+- Goal-based Nutrition Targets
 
 ---
 
 # Future Roadmap
 
-- BMR Calculator
-- TDEE Calculator
-- Calories Calculator
-- Macronutrients Calculator
 - Egyptian Food Database
 - Food Search
 - Meal Logging
@@ -209,6 +255,7 @@ Planned Features
 - RAG Integration
 - Multi-Agent System
 - Voice Assistant
+- Dashboard Insights
 - SignalR Notifications
 
 ---
@@ -219,13 +266,13 @@ The project uses GitHub with feature branches.
 
 Main branch
 
-```
+```text
 master
 ```
 
 Feature branch examples
 
-```
+```text
 feature/auth
 feature/password-recovery
 feature/health-profile
