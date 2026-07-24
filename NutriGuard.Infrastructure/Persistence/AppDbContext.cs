@@ -10,10 +10,14 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
     }
-
-    public DbSet<HealthProfile> HealthProfiles { get; set; }
     public DbSet<PasswordResetOtp> PasswordResetOtps { get; set; }
+    public DbSet<HealthProfile> HealthProfiles { get; set; }
 
+    public DbSet<Food> Foods { get; set; }
+
+    public DbSet<FoodAlias> FoodAliases { get; set; }
+
+    public DbSet<FoodPreference> FoodPreferences { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

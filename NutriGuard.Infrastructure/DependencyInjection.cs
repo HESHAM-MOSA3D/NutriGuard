@@ -13,6 +13,7 @@ using NutriGuard.Infrastructure.Persistence;
 using NutriGuard.Infrastructure.Repositories;
 using NutriGuard.Infrastructure.Security;
 using NutriGuard.Infrastructure.Services;
+using NutriGuard.Infrastructure.Csv;
 using System.Text;
 
 
@@ -30,11 +31,14 @@ public static class DependencyInjection
            options.UseNpgsql(
     configuration.GetConnectionString("DefaultConnection")));
 
-
-
+        services.AddScoped<IFoodImportService, FoodImportService>();
 
         services.AddScoped<IHealthProfileRepository, HealthProfileRepository>();
+       // services.AddScoped<IFoodPreferenceRepository, FoodPreferenceRepository>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+
         services.AddScoped<IHealthProfileService, HealthProfileService>();
 
 

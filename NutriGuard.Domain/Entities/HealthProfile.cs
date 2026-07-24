@@ -22,4 +22,9 @@ public class HealthProfile
     public string UserId { get; set; } = string.Empty;
     public ApplicationUser User { get; set; } = null;
 
+    public ICollection<FoodPreference> FoodPreferences { get; set; }
+    = new List<FoodPreference>();
+
+
+
 }

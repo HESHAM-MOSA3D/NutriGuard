@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NutriGuard.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using NutriGuard.Infrastructure.Persistence;
 namespace NutriGuard.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260724201830_UpdateFoodAliasDesign")]
+    partial class UpdateFoodAliasDesign
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,39 +238,42 @@ namespace NutriGuard.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal?>("Ash")
+                    b.Property<string>("ArabicName")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Ash")
                         .HasPrecision(8, 2)
                         .HasColumnType("numeric(8,2)");
 
-                    b.Property<decimal?>("Calcium")
+                    b.Property<decimal>("Calcium")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<decimal?>("Carbohydrate")
+                    b.Property<decimal>("Carbohydrate")
                         .HasPrecision(8, 2)
                         .HasColumnType("numeric(8,2)");
 
-                    b.Property<decimal?>("Copper")
+                    b.Property<decimal>("Copper")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<decimal?>("Energy")
+                    b.Property<decimal>("Energy")
                         .HasPrecision(8, 2)
                         .HasColumnType("numeric(8,2)");
 
-                    b.Property<decimal?>("Fat")
+                    b.Property<decimal>("Fat")
                         .HasPrecision(8, 2)
                         .HasColumnType("numeric(8,2)");
 
-                    b.Property<decimal?>("Fiber")
+                    b.Property<decimal>("Fiber")
                         .HasPrecision(8, 2)
                         .HasColumnType("numeric(8,2)");
 
-                    b.Property<decimal?>("Iron")
+                    b.Property<decimal>("Iron")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<decimal?>("Magnesium")
+                    b.Property<decimal>("Magnesium")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
@@ -276,31 +282,31 @@ namespace NutriGuard.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<decimal?>("Phosphorus")
+                    b.Property<decimal>("Phosphorus")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<decimal?>("Potassium")
+                    b.Property<decimal>("Potassium")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<decimal?>("Protein")
+                    b.Property<decimal>("Protein")
                         .HasPrecision(8, 2)
                         .HasColumnType("numeric(8,2)");
 
-                    b.Property<decimal?>("RefusePercentage")
+                    b.Property<decimal>("RefusePercentage")
                         .HasPrecision(6, 2)
                         .HasColumnType("numeric(6,2)");
 
-                    b.Property<decimal?>("Riboflavin")
+                    b.Property<decimal>("Riboflavin")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<decimal?>("Sodium")
+                    b.Property<decimal>("Sodium")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<decimal?>("Thiamin")
+                    b.Property<decimal>("Thiamin")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
@@ -308,15 +314,15 @@ namespace NutriGuard.Infrastructure.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<decimal?>("VitaminC")
+                    b.Property<decimal>("VitaminC")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<decimal?>("Water")
+                    b.Property<decimal>("Water")
                         .HasPrecision(8, 2)
                         .HasColumnType("numeric(8,2)");
 
-                    b.Property<decimal?>("Zinc")
+                    b.Property<decimal>("Zinc")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
