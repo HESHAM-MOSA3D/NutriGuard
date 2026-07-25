@@ -38,7 +38,7 @@ public static class DependencyInjection
        // services.AddScoped<IFoodPreferenceRepository, FoodPreferenceRepository>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-
+        services.AddScoped<INutritionCalculatorService, NutritionCalculatorService>();
 
         services.AddScoped<IHealthProfileService, HealthProfileService>();
         services.AddScoped<IFoodPreferenceService, FoodPreferenceService>();
