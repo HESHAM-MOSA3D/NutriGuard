@@ -1,15 +1,21 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using NutriGuard.Application.Interfaces;
+using NutriGuard.Application.Interfaces.Repositories;
+using NutriGuard.Application.Interfaces.Services;
+using NutriGuard.Application.Services;
 using NutriGuard.Domain.Entities;
+using NutriGuard.Infrastructure.Csv;
 using NutriGuard.Infrastructure.Persistence;
+using NutriGuard.Infrastructure.Persistence.Repositories;
+using NutriGuard.Infrastructure.Repositories;
 using NutriGuard.Infrastructure.Security;
 using NutriGuard.Infrastructure.Services;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 
 
@@ -25,6 +31,23 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
            options.UseNpgsql(
     configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddScoped<IFoodImportService, FoodImportService>();
+
+        services.AddScoped<IHealthProfileRepository, HealthProfileRepository>();
+       // services.AddScoped<IFoodPreferenceRepository, FoodPreferenceRepository>();
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+
+        services.AddScoped<IHealthProfileService, HealthProfileService>();
+        services.AddScoped<IFoodPreferenceService, FoodPreferenceService>();
+
+        services.AddScoped<IFoodRepository, FoodRepository>();
+
+        services.AddScoped<IFoodPreferenceRepository, FoodPreferenceRepository>();
+
+
 
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         {

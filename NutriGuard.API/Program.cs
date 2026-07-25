@@ -1,3 +1,4 @@
+using NutriGuard.Application.Interfaces.Services;
 using NutriGuard.Application.Settings;
 using NutriGuard.Infrastructure;
 using Swashbuckle.AspNetCore;
@@ -60,6 +61,20 @@ builder.Services.AddSwaggerGen(options =>
 
 
 var app = builder.Build();
+
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var foodImporter = scope.ServiceProvider
+        .GetRequiredService<IFoodImportService>();
+
+    await foodImporter.SeedFoodsAsync();
+}
+
+
+
+
 
 app.UseSwagger();
 

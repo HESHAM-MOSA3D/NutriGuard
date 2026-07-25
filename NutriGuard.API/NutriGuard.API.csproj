@@ -22,4 +22,8 @@
     <ProjectReference Include="..\NutriGuard.Infrastructure\NutriGuard.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SeedData\" />
+  </ItemGroup>
+
 </Project>

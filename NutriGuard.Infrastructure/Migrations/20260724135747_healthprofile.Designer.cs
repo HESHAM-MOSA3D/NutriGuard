@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NutriGuard.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using NutriGuard.Infrastructure.Persistence;
 namespace NutriGuard.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260724135747_healthprofile")]
+    partial class healthprofile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,166 +230,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("NutriGuard.Domain.Entities.Food", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal?>("Ash")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
-
-                    b.Property<decimal?>("Calcium")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("Carbohydrate")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
-
-                    b.Property<decimal?>("Copper")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("Energy")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
-
-                    b.Property<decimal?>("Fat")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
-
-                    b.Property<decimal?>("Fiber")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
-
-                    b.Property<decimal?>("Iron")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("Magnesium")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<decimal?>("Phosphorus")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("Potassium")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("Protein")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
-
-                    b.Property<decimal?>("RefusePercentage")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("numeric(6,2)");
-
-                    b.Property<decimal?>("Riboflavin")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("Sodium")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("Thiamin")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("VitaminA")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("VitaminC")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.Property<decimal?>("Water")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
-
-                    b.Property<decimal?>("Zinc")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("numeric(10,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Foods", (string)null);
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.FoodAlias", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Alias")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<int>("FoodId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Language")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Alias", "Language");
-
-                    b.HasIndex("FoodId", "Alias", "Language")
-                        .IsUnique();
-
-                    b.ToTable("FoodAliases");
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.FoodPreference", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("FoodId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("HealthProfileId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PreferenceType")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodId");
-
-                    b.HasIndex("HealthProfileId", "FoodId", "PreferenceType")
-                        .IsUnique();
-
-                    b.ToTable("FoodPreferences", (string)null);
-                });
-
             modelBuilder.Entity("NutriGuard.Domain.Entities.HealthProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -533,36 +376,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.Navigation("HealthProfile");
                 });
 
-            modelBuilder.Entity("NutriGuard.Domain.Entities.FoodAlias", b =>
-                {
-                    b.HasOne("NutriGuard.Domain.Entities.Food", "Food")
-                        .WithMany("Aliases")
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Food");
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.FoodPreference", b =>
-                {
-                    b.HasOne("NutriGuard.Domain.Entities.Food", "Food")
-                        .WithMany("FoodPreferences")
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("NutriGuard.Domain.Entities.HealthProfile", "HealthProfile")
-                        .WithMany("FoodPreferences")
-                        .HasForeignKey("HealthProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Food");
-
-                    b.Navigation("HealthProfile");
-                });
-
             modelBuilder.Entity("NutriGuard.Domain.Entities.HealthProfile", b =>
                 {
                     b.HasOne("NutriGuard.Domain.Entities.ApplicationUser", "User")
@@ -583,18 +396,6 @@ namespace NutriGuard.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.Food", b =>
-                {
-                    b.Navigation("Aliases");
-
-                    b.Navigation("FoodPreferences");
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.HealthProfile", b =>
-                {
-                    b.Navigation("FoodPreferences");
                 });
 #pragma warning restore 612, 618
         }

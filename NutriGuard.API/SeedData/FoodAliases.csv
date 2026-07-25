@@ -1,0 +1,1227 @@
+Food,Alias,Language
+Barley Grains,Barley,1
+Barley Grains,شعير,2
+Barley Grains,حبوب شعير,2
+Corn Grains (White),Corn,1
+Corn Grains (White),ذرة بيضاء,2
+Corn Grains (Yellow),Corn,1
+Corn Grains (Yellow),ذرة صفراء,2
+Corn Flakes,Corn,1
+Corn Flakes,Flakes,1
+Corn Flakes,كورن فليكس,2
+Corn Flour,Corn,1
+Corn Flour,Flour,1
+Corn Flour,دقيق ذرة,2
+"Corn Kernels, Canned",Corn,1
+"Corn Kernels, Canned",Kernels,1
+"Corn Kernels, Canned",ذرة معلبة,2
+"Corn Kernels on Cob, Grilled",Corn,1
+"Corn Kernels on Cob, Grilled",Kernels,1
+"Corn Kernels on Cob, Grilled",Cob,1
+"Corn Kernels on Cob, Grilled",ذرة مشوية,2
+"Corn Kernels on Cob, Grilled",كوز ذرة مشوي,2
+Popcorn,فشار,2
+Puffed Corn,Corn,1
+Puffed Corn,ذرة منفوشة,2
+Corn Starch,Corn,1
+Corn Starch,Starch,1
+Corn Starch,نشا ذرة,2
+Macaroni,مكرونة,2
+"Macaroni with Tomato, Cooked",Macaroni,1
+"Macaroni with Tomato, Cooked",Tomato,1
+"Macaroni with Tomato, Cooked",مكرونة بالصلصة,2
+"Macaroni with Tomato and Meat, Cooked",Macaroni,1
+"Macaroni with Tomato and Meat, Cooked",Tomato,1
+"Macaroni with Tomato and Meat, Cooked",مكرونة باللحمة والصلصة,2
+Fried Noodles,Noodles,1
+Fried Noodles,شعرية مقلية,2
+Rice Grains (Long),Rice,1
+Rice Grains (Long),Long,1
+Rice Grains (Long),أرز حبة طويلة,2
+Rice Grains (Short),Rice,1
+Rice Grains (Short),Short,1
+Rice Grains (Short),أرز حبة قصيرة,2
+Rice Flour,Rice,1
+Rice Flour,Flour,1
+Rice Flour,دقيق الأرز,2
+Rice Flour,نشا الأرز,2
+Fried Rice,Rice,1
+Fried Rice,أرز مقلي,2
+Fried Rice with Noodles,Rice,1
+Fried Rice with Noodles,Noodles,1
+Fried Rice with Noodles,أرز بالشعرية,2
+Fried Rice with Onions,Rice,1
+Fried Rice with Onions,Onions,1
+Fried Rice with Onions,أرز بالبصل,2
+Fortified Rice Baby Food,Rice,1
+Fortified Rice Baby Food,أرز مدعم للأطفال,2
+Rice (Koshari),Rice,1
+Rice (Koshari),Koshari,1
+Rice (Koshari),كشري,2
+"Rice (Koshari), Market",Rice,1
+"Rice (Koshari), Market",Koshari,1
+"Rice (Koshari), Market",كشري من المحل,2
+Rice Pudding with Milk,Rice,1
+Rice Pudding with Milk,Pudding,1
+Rice Pudding with Milk,Milk,1
+Rice Pudding with Milk,رز باللبن,2
+Puffed/Crisp Rice,Rice,1
+Puffed/Crisp Rice,أرز منفوش,2
+Semolina,سميد,2
+Sorghum Grains,Sorghum,1
+Sorghum Grains,ذرة رفيعة,2
+Wheat Bran,Wheat,1
+Wheat Bran,Bran,1
+Wheat Bran,ردة القمح,2
+Wheat Bran,نخالة,2
+Wheat Grains,Wheat,1
+Wheat Grains,قمح,2
+Wheat Grains,حبوب قمح,2
+"Wheat Grains (Bolila, Canned)",Wheat,1
+"Wheat Grains (Bolila, Canned)",Bolila,1
+"Wheat Grains (Bolila, Canned)",بليلة معلبة,2
+Wheat Flour (Brown),Wheat,1
+Wheat Flour (Brown),Flour,1
+Wheat Flour (Brown),دقيق أسمر,2
+Wheat Flour (White),Wheat,1
+Wheat Flour (White),Flour,1
+Wheat Flour (White),دقيق أبيض,2
+Fortified Wheat Baby Food,Wheat,1
+Fortified Wheat Baby Food,قمح مدعم للأطفال,2
+"Wheat Koskos, Plain",Wheat,1
+"Wheat Koskos, Plain",Koskos,1
+"Wheat Koskos, Plain",كسكسي سادة,2
+"Wheat Koskos, Sweet",Wheat,1
+"Wheat Koskos, Sweet",Koskos,1
+"Wheat Koskos, Sweet",Sweet,1
+"Wheat Koskos, Sweet",كسكسي بالسكر,2
+Parboiled Wheat (Burghul),Parboiled,1
+Parboiled Wheat (Burghul),Wheat,1
+Parboiled Wheat (Burghul),Burghul,1
+Parboiled Wheat (Burghul),برغل,2
+Rubbed Wheat (Fereek),Rubbed,1
+Rubbed Wheat (Fereek),Wheat,1
+Rubbed Wheat (Fereek),Fereek,1
+Rubbed Wheat (Fereek),فريك,2
+"Rubbed Wheat, Cooked",Rubbed,1
+"Rubbed Wheat, Cooked",Wheat,1
+"Rubbed Wheat, Cooked",فريك مطبوخ,2
+"Rubbed Wheat with Meat, Cooked",Rubbed,1
+"Rubbed Wheat with Meat, Cooked",Wheat,1
+"Rubbed Wheat with Meat, Cooked",فريك باللحمة,2
+Chocolate Coated Biscuit,Chocolate,1
+Chocolate Coated Biscuit,Biscuit,1
+Chocolate Coated Biscuit,بسكويت بالشوكولاتة,2
+Cream Filled Biscuit,Cream,1
+Cream Filled Biscuit,Biscuit,1
+Cream Filled Biscuit,بسكويت بالكريمة,2
+Date Filled Biscuit,Date,1
+Date Filled Biscuit,Biscuit,1
+Date Filled Biscuit,بسكويت بالتمر,2
+Digestive Biscuit,Digestive,1
+Digestive Biscuit,Biscuit,1
+Digestive Biscuit,بسكويت دايجستف,2
+Nice Biscuit,Nice,1
+Nice Biscuit,Biscuit,1
+Nice Biscuit,بسكويت نايس,2
+Plain Biscuit,Biscuit,1
+Plain Biscuit,بسكويت سادة,2
+Plain Biscuit (Iron-Fortified),Biscuit,1
+Plain Biscuit (Iron-Fortified),Iron,1
+Plain Biscuit (Iron-Fortified),بسكويت مدعم بالحديد,2
+Salted Biscuit,Biscuit,1
+Salted Biscuit,بسكويت مملح,2
+Salted Biscuit (Pretzel),Biscuit,1
+Salted Biscuit (Pretzel),Pretzel,1
+Salted Biscuit (Pretzel),بريتزل,2
+Chocolate Coated Wafer Biscuit,Chocolate,1
+Chocolate Coated Wafer Biscuit,Wafer,1
+Chocolate Coated Wafer Biscuit,Biscuit,1
+Chocolate Coated Wafer Biscuit,ويفر بالشوكولاتة,2
+Cream Filled Wafer Biscuit,Cream,1
+Cream Filled Wafer Biscuit,Wafer,1
+Cream Filled Wafer Biscuit,Biscuit,1
+Cream Filled Wafer Biscuit,ويفر بالكريمة,2
+Baladi Bread,Baladi,1
+Baladi Bread,Bread,1
+Baladi Bread,عيش بلدي,2
+Baladi Bread,خبز بلدي,2
+Baladi Bread (Wheat/Corn),Baladi,1
+Baladi Bread (Wheat/Corn),Bread,1
+Baladi Bread (Wheat/Corn),Wheat,1
+Baladi Bread (Wheat/Corn),Corn,1
+Baladi Bread (Wheat/Corn),عيش بلدي ذرة وقمح,2
+Dry Bran Bread (Sin),Dry,1
+Dry Bran Bread (Sin),Bran,1
+Dry Bran Bread (Sin),Bread,1
+Dry Bran Bread (Sin),Sin,1
+Dry Bran Bread (Sin),عيش ردة,2
+Buns with Sesame,Buns,1
+Buns with Sesame,Sesame,1
+Buns with Sesame,كايزر بالسمسم,2
+Corn/Wheat Bread (1:1),Corn,1
+Corn/Wheat Bread (1:1),Wheat,1
+Corn/Wheat Bread (1:1),Bread,1
+Corn/Wheat Bread (1:1),عيش ذرة وقمح ١:١,2
+Corn/Wheat Bread (1:2),Corn,1
+Corn/Wheat Bread (1:2),Wheat,1
+Corn/Wheat Bread (1:2),Bread,1
+Corn/Wheat Bread (1:2),عيش ذرة وقمح ١:٢,2
+Corn/Wheat Bread (2:1),Corn,1
+Corn/Wheat Bread (2:1),Wheat,1
+Corn/Wheat Bread (2:1),Bread,1
+Corn/Wheat Bread (2:1),عيش ذرة وقمح ٢:١,2
+Bread Crumb,Bread,1
+Bread Crumb,Crumb,1
+Bread Crumb,فتات عيش,2
+Bread Crumb,بقسماط,2
+French Bread,French,1
+French Bread,Bread,1
+French Bread,عيش فينو,2
+French Bread,خبز فرنسي,2
+Lebanese Bread,Lebanese,1
+Lebanese Bread,Bread,1
+Lebanese Bread,خبز لبناني,2
+Lebanese Bread (Brown),Lebanese,1
+Lebanese Bread (Brown),Bread,1
+Lebanese Bread (Brown),خبز لبناني أسمر,2
+Shami Bread,Shami,1
+Shami Bread,Bread,1
+Shami Bread,عيش شامي,2
+Shamsy Bread,Shamsy,1
+Shamsy Bread,Bread,1
+Shamsy Bread,عيش شمسي,2
+Sliced Bread (Brown Toast),Sliced,1
+Sliced Bread (Brown Toast),Bread,1
+Sliced Bread (Brown Toast),Toast,1
+Sliced Bread (Brown Toast),توست أسمر,2
+Sliced Bread (White Toast),Sliced,1
+Sliced Bread (White Toast),Bread,1
+Sliced Bread (White Toast),Toast,1
+Sliced Bread (White Toast),توست أبيض,2
+Bread Sticks with Sesame,Bread,1
+Bread Sticks with Sesame,Sticks,1
+Bread Sticks with Sesame,Sesame,1
+Bread Sticks with Sesame,عصي خبز بالسمسم,2
+Bread Sticks (Fayesh),Bread,1
+Bread Sticks (Fayesh),Sticks,1
+Bread Sticks (Fayesh),Fayesh,1
+Bread Sticks (Fayesh),فايش,2
+Cup Cake,Cup,1
+Cup Cake,Cake,1
+Cup Cake,كيك كوب,2
+Cup Cake,مافن,2
+Sponge Cake,Sponge,1
+Sponge Cake,Cake,1
+Sponge Cake,كيكة اسفنجية,2
+Flaky Pastry,Flaky,1
+Flaky Pastry,Pastry,1
+Flaky Pastry,عجينة مورقة,2
+Date Pie (School),Date,1
+Date Pie (School),Pie,1
+Date Pie (School),فطيرة بالتمر,2
+"Fiteer Pie, Meshaltet",Fiteer,1
+"Fiteer Pie, Meshaltet",Pie,1
+"Fiteer Pie, Meshaltet",Meshaltet,1
+"Fiteer Pie, Meshaltet",فطير مشلتت,2
+"Fiteer Pie, Market",Fiteer,1
+"Fiteer Pie, Market",Pie,1
+"Fiteer Pie, Market",فطير من المحل,2
+Rucak Pie with Meat,Rucak,1
+Rucak Pie with Meat,Pie,1
+Rucak Pie with Meat,رقاق باللحمة,2
+Pizza with Cheese Topping,Pizza,1
+Pizza with Cheese Topping,Cheese,1
+Pizza with Cheese Topping,بيتزا بالجبنة,2
+Pizza with Meat/Sausage Topping,Pizza,1
+Pizza with Meat/Sausage Topping,Sausage,1
+Pizza with Meat/Sausage Topping,بيتزا باللحمة والسجق,2
+Pizza with Seafood Topping,Pizza,1
+Pizza with Seafood Topping,Seafood,1
+Pizza with Seafood Topping,بيتزا بالمأكولات البحرية,2
+Vegetarian Pizza,Vegetarian,1
+Vegetarian Pizza,Pizza,1
+Vegetarian Pizza,بيتزا خضار,2
+White Cheese Sandwich,Cheese,1
+White Cheese Sandwich,Sandwich,1
+White Cheese Sandwich,ساندوتش جبنة بيضاء,2
+Yellow Cheese Sandwich,Cheese,1
+Yellow Cheese Sandwich,Sandwich,1
+Yellow Cheese Sandwich,ساندوتش جبنة صفراء,2
+Fried Brain Sandwich,Brain,1
+Fried Brain Sandwich,Sandwich,1
+Fried Brain Sandwich,ساندوتش مخ مقلي,2
+Fried Chicken Sandwich,Chicken,1
+Fried Chicken Sandwich,Sandwich,1
+Fried Chicken Sandwich,ساندوتش فراخ مقلية,2
+Fried Eggplant Sandwich,Eggplant,1
+Fried Eggplant Sandwich,Sandwich,1
+Fried Eggplant Sandwich,ساندوتش باذنجان مقلي,2
+Fried Liver Sandwich,Liver,1
+Fried Liver Sandwich,Sandwich,1
+Fried Liver Sandwich,ساندوتش كبدة,2
+Fried Shrimp Sandwich,Shrimp,1
+Fried Shrimp Sandwich,Sandwich,1
+Fried Shrimp Sandwich,ساندوتش جمبري مقلي,2
+Fried Taamia Sandwich,Taamia,1
+Fried Taamia Sandwich,Sandwich,1
+Fried Taamia Sandwich,ساندوتش طعمية,2
+Fried Taamia Sandwich,ساندوتش فلافل,2
+Grilled Chicken Sandwich,Chicken,1
+Grilled Chicken Sandwich,Sandwich,1
+Grilled Chicken Sandwich,ساندوتش فراخ مشوية,2
+Grilled Kofta Sandwich,Kofta,1
+Grilled Kofta Sandwich,Sandwich,1
+Grilled Kofta Sandwich,ساندوتش كفتة مشوية,2
+Hamburger Sandwich,Hamburger,1
+Hamburger Sandwich,Sandwich,1
+Hamburger Sandwich,ساندوتش هامبورجر,2
+Hotdog Sandwich,Hotdog,1
+Hotdog Sandwich,Sandwich,1
+Hotdog Sandwich,ساندوتش هوت دوج,2
+Shawerma Meat Sandwich,Shawerma,1
+Shawerma Meat Sandwich,Sandwich,1
+Shawerma Meat Sandwich,ساندوتش شاورما لحمة,2
+Stewed Foul Sandwich,Stewed,1
+Stewed Foul Sandwich,Foul,1
+Stewed Foul Sandwich,Sandwich,1
+Stewed Foul Sandwich,ساندوتش فول,2
+Chufa Tuber (Hab-Alaziz),Chufa,1
+Chufa Tuber (Hab-Alaziz),Tuber,1
+Chufa Tuber (Hab-Alaziz),Hab,1
+Chufa Tuber (Hab-Alaziz),Alaziz,1
+Chufa Tuber (Hab-Alaziz),حب العزيز,2
+"Chufa Tuber, Wet",Chufa,1
+"Chufa Tuber, Wet",Tuber,1
+"Chufa Tuber, Wet",حب العزيز طازج,2
+Colocasia,قلقاس,2
+"Colocasia, Cooked",Colocasia,1
+"Colocasia, Cooked",قلقاس مطبوخ,2
+Potatoes,بطاطس,2
+Potato Chips,Potato,1
+Potato Chips,Chips,1
+Potato Chips,شيبسي,2
+Fried Potatoes,Potatoes,1
+Fried Potatoes,بطاطس مقلية,2
+Potatoes Cooked with Tomato,Potatoes,1
+Potatoes Cooked with Tomato,Tomato,1
+Potatoes Cooked with Tomato,بطاطس بالصلصة,2
+Mashed Potatoes with Milk,Potatoes,1
+Mashed Potatoes with Milk,Milk,1
+Mashed Potatoes with Milk,بطاطس مهروسة باللبن,2
+Mashed Potatoes with Meat/Egg,Potatoes,1
+Mashed Potatoes with Meat/Egg,Egg,1
+Mashed Potatoes with Meat/Egg,بطاطس مهروسة باللحمة والبيض,2
+Potatoes Stuffed with Meat,Potatoes,1
+Potatoes Stuffed with Meat,بطاطس محشية لحمة,2
+Sweet Potatoes,Sweet,1
+Sweet Potatoes,Potatoes,1
+Sweet Potatoes,بطاطا,2
+Broad Beans,Broad,1
+Broad Beans,Beans,1
+Broad Beans,فول,2
+Broad Beans (Bisara),Broad,1
+Broad Beans (Bisara),Beans,1
+Broad Beans (Bisara),Bisara,1
+Broad Beans (Bisara),بيصارة,2
+Decorticated Broad Beans,Broad,1
+Decorticated Broad Beans,Beans,1
+Decorticated Broad Beans,فول مقشور,2
+"Broad Beans (Foul), Canned",Broad,1
+"Broad Beans (Foul), Canned",Beans,1
+"Broad Beans (Foul), Canned",Foul,1
+"Broad Beans (Foul), Canned",فول معلب,2
+Broad Beans (Foul Medames),Broad,1
+Broad Beans (Foul Medames),Beans,1
+Broad Beans (Foul Medames),Foul,1
+Broad Beans (Foul Medames),Medames,1
+Broad Beans (Foul Medames),فول مدمس,2
+Broad Beans (Menabet),Broad,1
+Broad Beans (Menabet),Beans,1
+Broad Beans (Menabet),Menabet,1
+Broad Beans (Menabet),فول منبت,2
+"Broad Beans (Nabet), Cooked",Broad,1
+"Broad Beans (Nabet), Cooked",Beans,1
+"Broad Beans (Nabet), Cooked",Nabet,1
+"Broad Beans (Nabet), Cooked",فول نابت مطبوخ,2
+"Broad Beans (Taamia), Fried",Broad,1
+"Broad Beans (Taamia), Fried",Beans,1
+"Broad Beans (Taamia), Fried",Taamia,1
+"Broad Beans (Taamia), Fried",طعمية,2
+"Broad Beans (Taamia), Fried",فلافل,2
+Kidney Beans (Red),Kidney,1
+Kidney Beans (Red),Beans,1
+Kidney Beans (Red),لوبيا حمراء,2
+Kidney Beans (Red),فاصوليا حمراء,2
+Kidney Beans (White),Kidney,1
+Kidney Beans (White),Beans,1
+Kidney Beans (White),فاصوليا بيضاء,2
+"White Kidney Beans, Cooked",Kidney,1
+"White Kidney Beans, Cooked",Beans,1
+"White Kidney Beans, Cooked",فاصوليا بيضاء مطبوخة,2
+White Kidney Beans with Meat,Kidney,1
+White Kidney Beans with Meat,Beans,1
+White Kidney Beans with Meat,فاصوليا بيضاء باللحمة,2
+Mung Beans,Mung,1
+Mung Beans,Beans,1
+Mung Beans,ماش,2
+Chickpeas,حمص,2
+Chickpeas (Homos Sham),Chickpeas,1
+Chickpeas (Homos Sham),Homos,1
+Chickpeas (Homos Sham),Sham,1
+Chickpeas (Homos Sham),حمص شامي,2
+Yellow Chickpeas,Chickpeas,1
+Yellow Chickpeas,حمص أصفر,2
+Dry Cowpeas,لوبيا,2
+Fresh Cowpeas,لوبيا,2
+Dry Cowpeas,Cowpeas,1
+Fresh Cowpeas,Cowpeas,1
+"Cowpeas, Cooked",Cowpeas,1
+"Cowpeas, Cooked",لوبيا مطبوخة,2
+Cowpeas Cooked with Meat,Cowpeas,1
+Cowpeas Cooked with Meat,لوبيا باللحمة,2
+Fenugreek,حلبة,2
+Unpeeled Lentils,Lentils,1
+Unpeeled Lentils,عدس أسمر,2
+"Unpeeled Lentils, Cooked",Lentils,1
+"Unpeeled Lentils, Cooked",عدس أسمر مطبوخ,2
+Peeled Lentils (Yellow),Lentils,1
+Peeled Lentils (Yellow),عدس أصفر مقشور,2
+"Peeled Lentils with Rice, Cooked",Lentils,1
+"Peeled Lentils with Rice, Cooked",Rice,1
+"Peeled Lentils with Rice, Cooked",عدس بالأرز,2
+Peeled Lentil Soup,Lentil,1
+Peeled Lentil Soup,Soup,1
+Peeled Lentil Soup,شوربة عدس,2
+Lupines,ترمس,2
+Lupines (Termis),Lupines,1
+Lupines (Termis),Termis,1
+Lupines (Termis),ترمس,2
+Dry Peas,بسلة,2
+Green Peas,بسلة,2
+Dry Peas,Peas,1
+Green Peas,Peas,1
+Soybeans,فول الصويا,2
+Soybean Flour,Soybean,1
+Soybean Flour,Flour,1
+Soybean Flour,دقيق الصويا,2
+Almonds,لوز,2
+Dry Coconut,Dry,1
+Dry Coconut,Coconut,1
+Dry Coconut,جوز هند ناشف,2
+Dry Coconut,نارجيل,2
+Hazelnuts,بندق,2
+Peanuts,فول سوداني,2
+Pine Nuts,Pine,1
+Pine Nuts,Nuts,1
+Pine Nuts,صنوبر,2
+Pistachio Nuts,Pistachio,1
+Pistachio Nuts,Nuts,1
+Pistachio Nuts,فستق,2
+Salted Pumpkin Seeds,Pumpkin,1
+Salted Pumpkin Seeds,Seeds,1
+Salted Pumpkin Seeds,لب أبيض مملح,2
+Sesame Seeds,Sesame,1
+Sesame Seeds,Seeds,1
+Sesame Seeds,سمسم,2
+Sesame Butter (Tehina),Sesame,1
+Sesame Butter (Tehina),Butter,1
+Sesame Butter (Tehina),Tehina,1
+Sesame Butter (Tehina),طحينة,2
+Walnuts,عين جمل,2
+Walnuts,جوز,2
+Salted Watermelon Seeds,Watermelon,1
+Salted Watermelon Seeds,Seeds,1
+Salted Watermelon Seeds,لب بطيخ مملح,2
+Artichokes,خرشوف,2
+Artichoke Salad,Artichoke,1
+Artichoke Salad,Salad,1
+Artichoke Salad,سلطة خرشوف,2
+Green Broad Beans,Broad,1
+Green Broad Beans,Beans,1
+Green Broad Beans,فول أخضر,2
+Green Beans,Beans,1
+Green Beans,فاصوليا خضراء,2
+"Green Beans, Cooked",Beans,1
+"Green Beans, Cooked",فاصوليا خضراء مطبوخة,2
+Beetroots,بنجر,2
+Broccoli,بروكلي,2
+Brussels Sprouts,Brussels,1
+Brussels Sprouts,Sprouts,1
+Brussels Sprouts,كرنب بروكسل,2
+Red Cabbage,Cabbage,1
+Red Cabbage,كرنب أحمر,2
+White Cabbage,Cabbage,1
+White Cabbage,كرنب أبيض,2
+White Cabbage,ملفوف,2
+Cabbage Stuffed with Rice,Cabbage,1
+Cabbage Stuffed with Rice,Rice,1
+Cabbage Stuffed with Rice,كرنب محشي,2
+Cabbage Stuffed with Rice and Meat,Cabbage,1
+Cabbage Stuffed with Rice and Meat,Rice,1
+Cabbage Stuffed with Rice and Meat,كرنب محشي باللحمة,2
+Carrots,جزر,2
+Cauliflower,قرنبيط,2
+Cauliflower,زهرة,2
+"Cauliflower, Cooked",Cauliflower,1
+"Cauliflower, Cooked",قرنبيط مطبوخ,2
+"Cauliflower with Meat, Cooked",Cauliflower,1
+"Cauliflower with Meat, Cooked",قرنبيط باللحمة,2
+Celery,كرفس,2
+Swiss Chard,Swiss,1
+Swiss Chard,Chard,1
+Swiss Chard,سلق,2
+Green Chickpeas,Chickpeas,1
+Green Chickpeas,حمص أخضر,2
+Chicory,هندباء,2
+Chicory,شيكوريا,2
+Coriander Leaves,كزبرة,2
+Coriander Seeds,كزبرة,2
+Coriander Leaves,Coriander,1
+Coriander Seeds,Coriander,1
+Cucumber,خيار,2
+Pickled Cucumber,Pickled,1
+Pickled Cucumber,Cucumber,1
+Pickled Cucumber,خيار مخلل,2
+Dill,شبت,2
+Black or White Eggplant,Eggplant,1
+Black or White Eggplant,باذنجان أسود أو أبيض,2
+Round Eggplant,Eggplant,1
+Round Eggplant,باذنجان بلدي,2
+Round Eggplant,باذنجان مدور,2
+"Eggplant, Cooked",Eggplant,1
+"Eggplant, Cooked",باذنجان مطبوخ,2
+Eggplant Cooked with Meat,Eggplant,1
+Eggplant Cooked with Meat,باذنجان باللحمة,2
+Fried Eggplant,Eggplant,1
+Fried Eggplant,باذنجان مقلي,2
+Eggplant Stuffed with Rice,Eggplant,1
+Eggplant Stuffed with Rice,Rice,1
+Eggplant Stuffed with Rice,باذنجان محشي,2
+Fennel,شمر,2
+Fenugreek Leaves,Fenugreek,1
+Fenugreek Leaves,Leaves,1
+Fenugreek Leaves,ورق حلبة,2
+Garden Rocket,Garden,1
+Garden Rocket,Rocket,1
+Garden Rocket,جرجير,2
+Garlic Bulb,Garlic,1
+Garlic Bulb,ثوم,2
+Grape Leaves,Grape,1
+Grape Leaves,Leaves,1
+Grape Leaves,ورق عنب,2
+Pickled Grape Leaves,Pickled,1
+Pickled Grape Leaves,Grape,1
+Pickled Grape Leaves,Leaves,1
+Pickled Grape Leaves,ورق عنب مخلل,2
+Grape Leaves Stuffed with Rice,Grape,1
+Grape Leaves Stuffed with Rice,Leaves,1
+Grape Leaves Stuffed with Rice,Rice,1
+Grape Leaves Stuffed with Rice,ورق عنب محشي,2
+Jew's Mallow,Jew's,1
+Jew's Mallow,Mallow,1
+Jew's Mallow,ملوخية,2
+"Jew's Mallow, Cooked",Jew's,1
+"Jew's Mallow, Cooked",Mallow,1
+"Jew's Mallow, Cooked",ملوخية مطبوخة,2
+Leek Bulb,Leek,1
+Leek Bulb,كراث,2
+Iceberg Lettuce,Iceberg,1
+Iceberg Lettuce,Lettuce,1
+Iceberg Lettuce,خس أيسبرج,2
+Lettuce Leaves,Lettuce,1
+Lettuce Leaves,Leaves,1
+Lettuce Leaves,ورق خس,2
+Lettuce Stuffed with Rice,Lettuce,1
+Lettuce Stuffed with Rice,Rice,1
+Lettuce Stuffed with Rice,خس محشي,2
+Lettuce Stuffed with Rice and Meat,Lettuce,1
+Lettuce Stuffed with Rice and Meat,Rice,1
+Lettuce Stuffed with Rice and Meat,خس محشي باللحمة,2
+Mallow,خبيزة,2
+"Mallow, Cooked",Mallow,1
+"Mallow, Cooked",خبيزة مطبوخة,2
+Mint,نعناع,2
+Mushrooms,مشروم,2
+Mushrooms,عيش الغراب,2
+Canned Mushrooms,Mushrooms,1
+Canned Mushrooms,مشروم معلب,2
+Okra,بامية,2
+"Okra, Cooked",Okra,1
+"Okra, Cooked",بامية مطبوخة,2
+Okra Cooked with Meat,Okra,1
+Okra Cooked with Meat,بامية باللحمة,2
+Pickled Black Olives,Pickled,1
+Pickled Black Olives,Olives,1
+Pickled Black Olives,زيتون أسود مخلل,2
+Pickled Green Olives,Pickled,1
+Pickled Green Olives,Olives,1
+Pickled Green Olives,زيتون أخضر مخلل,2
+Pickled Green Onions,Pickled,1
+Pickled Green Onions,Onions,1
+Pickled Green Onions,بصل أخضر مخلل,2
+Mature Onion Bulb,Mature,1
+Mature Onion Bulb,Onion,1
+Mature Onion Bulb,بصل ناشف,2
+Mature Onion Bulb,بصل يابس,2
+Pickled Onions,Pickled,1
+Pickled Onions,Onions,1
+Pickled Onions,بصل مخلل,2
+Parsley,بقدونس,2
+"Peas and Carrots, Cooked",Peas,1
+"Peas and Carrots, Cooked",Carrots,1
+"Peas and Carrots, Cooked",بسلة وجزر,2
+Green Peppers,Peppers,1
+Green Peppers,فلفل أخضر,2
+Orange/Red/Yellow Peppers,Peppers,1
+Orange/Red/Yellow Peppers,فلفل ألوان,2
+Pumpkin,قرع عسلي,2
+Pumpkin,يقطين,2
+Purslane,رجلة,2
+Red Radishes,Radishes,1
+Red Radishes,فجل أحمر,2
+White Radishes,Radishes,1
+White Radishes,فجل أبيض,2
+White Radish Root/Leaves,Radish,1
+White Radish Root/Leaves,Root,1
+White Radish Root/Leaves,Leaves,1
+White Radish Root/Leaves,فجل أبيض بالورق,2
+Spinach,سبانخ,2
+"Spinach, Cooked",Spinach,1
+"Spinach, Cooked",سبانخ مطبوخة,2
+Spinach Cooked with Meat,Spinach,1
+Spinach Cooked with Meat,سبانخ باللحمة,2
+Squash,كوسة,2
+"Squash, Cooked",Squash,1
+"Squash, Cooked",كوسة مطبوخة,2
+Squash Cooked with Meat,Squash,1
+Squash Cooked with Meat,كوسة باللحمة,2
+Squash Stuffed with Rice,Squash,1
+Squash Stuffed with Rice,Rice,1
+Squash Stuffed with Rice,كوسة محشية,2
+Squash Stuffed with Rice and Meat,Squash,1
+Squash Stuffed with Rice and Meat,Rice,1
+Squash Stuffed with Rice and Meat,كوسة محشية باللحمة,2
+Tomatoes,طماطم,2
+Tomatoes,قوطة,2
+Tomato Ketchup,Tomato,1
+Tomato Ketchup,Ketchup,1
+Tomato Ketchup,كاتشب,2
+Tomato Roots,Tomato,1
+Tomato Roots,Roots,1
+Tomato Roots,جذور طماطم,2
+Turnip Roots,Turnip,1
+Turnip Roots,Roots,1
+Turnip Roots,لفت,2
+Pickled Vegetables,Pickled,1
+Pickled Vegetables,Vegetables,1
+Pickled Vegetables,مخلل خضار,2
+Pickled Vegetables,طرشي,2
+Apples,تفاح,2
+Apricots,مشمش,2
+Dried Apricots,Apricots,1
+Dried Apricots,مشمش مجفف,2
+Dried Apricots,قمر الدين,2
+Avocado,أفوكادو,2
+Bananas,موز,2
+Cantaloupe,شمام,2
+Custard Apple,Custard,1
+Custard Apple,Apple,1
+Custard Apple,قشطة,2
+Dates,بلح,2
+Dates,تمر,2
+Dried Dates (Agwa),Dates,1
+Dried Dates (Agwa),Agwa,1
+Dried Dates (Agwa),عجوة,2
+Figs,تين,2
+Dried Figs,Figs,1
+Dried Figs,تين مجفف,2
+Grapefruit,جريب فروت,2
+Seedless Grapes,Seedless,1
+Seedless Grapes,Grapes,1
+Seedless Grapes,عنب بنات بدون بذر,2
+Guavas,جوافة,2
+Husk Tomatoes,Husk,1
+Husk Tomatoes,Tomatoes,1
+Husk Tomatoes,عنب الديب,2
+Jujube,نبق,2
+Kiwifruit,كيوي,2
+Lemons,ليمون,2
+Sweet Lemons,Sweet,1
+Sweet Lemons,Lemons,1
+Sweet Lemons,ليمون حلو,2
+Lime,ليمون أخضر,2
+Lime,لومي,2
+Loquat,بشملة,2
+Loquat,أكي دنيا,2
+Mandarin,يوسفي,2
+Mangoes,مانجو,2
+Melons,بطيخ أصفر,2
+Mulberry,توت,2
+Oranges,برتقال,2
+Papaya,بابايا,2
+Peaches,خوخ,2
+Pears,كمثرى,2
+Pears,أجاص,2
+Persimmon,كاكا,2
+Pineapple,أناناس,2
+Plums,برقوق,2
+Pomegranate,رمان,2
+Prickly Pears,Prickly,1
+Prickly Pears,Pears,1
+Prickly Pears,تين شوكي,2
+Dried Prunes,Prunes,1
+Dried Prunes,برقوق مجفف,2
+Raisins,زبيب,2
+Raspberries,توت العليق,2
+Strawberries,فراولة,2
+Sycamore,جميز,2
+Watermelons,بطيخ,2
+Fruit Flavored Candy (Hard),Fruit,1
+Fruit Flavored Candy (Hard),Flavored,1
+Fruit Flavored Candy (Hard),Candy,1
+Fruit Flavored Candy (Hard),حلوى بنكهة فواكه,2
+Folia Candy,Folia,1
+Folia Candy,Candy,1
+Folia Candy,حلوى فوليا,2
+Homosia Candy,Homosia,1
+Homosia Candy,Candy,1
+Homosia Candy,حمصية,2
+Jellybean Candy,Jellybean,1
+Jellybean Candy,Candy,1
+Jellybean Candy,حلوى جيلي بينز,2
+Koozassal Candy,Koozassal,1
+Koozassal Candy,Candy,1
+Koozassal Candy,كوزاصل,2
+Malban Candy,Malban,1
+Malban Candy,Candy,1
+Malban Candy,ملبن,2
+Nogha Candy with Nuts,Nogha,1
+Nogha Candy with Nuts,Candy,1
+Nogha Candy with Nuts,Nuts,1
+Nogha Candy with Nuts,نوجا بالمكسرات,2
+Semsemia Candy,Semsemia,1
+Semsemia Candy,Candy,1
+Semsemia Candy,سمسمية,2
+Toffee Candy,Toffee,1
+Toffee Candy,Candy,1
+Toffee Candy,توفي,2
+Chewing Gum,Chewing,1
+Chewing Gum,Gum,1
+Chewing Gum,علكة,2
+Chewing Gum,لبان,2
+Milk Chocolate,Milk,1
+Milk Chocolate,Chocolate,1
+Milk Chocolate,شوكولاتة باللبن,2
+Coconut Chocolate,Coconut,1
+Coconut Chocolate,Chocolate,1
+Coconut Chocolate,شوكولاتة بجوز الهند,2
+Assalia Candy,Assalia,1
+Assalia Candy,Candy,1
+Assalia Candy,عسلية,2
+Chocolate with Nuts,Chocolate,1
+Chocolate with Nuts,Nuts,1
+Chocolate with Nuts,شوكولاتة بالمكسرات,2
+Corn Syrup,Corn,1
+Corn Syrup,Syrup,1
+Corn Syrup,شيرة الذرة,2
+Halawa Tehinia,Halawa,1
+Halawa Tehinia,Tehinia,1
+Halawa Tehinia,حلاوة طحينية,2
+Halawa Tehinia with Nuts,Halawa,1
+Halawa Tehinia with Nuts,Tehinia,1
+Halawa Tehinia with Nuts,Nuts,1
+Halawa Tehinia with Nuts,حلاوة طحينية بالمكسرات,2
+Honey,عسل,2
+Jams,مربى,2
+Jelly Powder,Jelly,1
+Jelly Powder,جيلي بودرة,2
+Molasses,عسل أسود,2
+Oriental Baklava,Oriental,1
+Oriental Baklava,Baklava,1
+Oriental Baklava,بقلاوة,2
+Oriental Baklava (Assorted),Oriental,1
+Oriental Baklava (Assorted),Baklava,1
+Oriental Baklava (Assorted),بقلاوة مشكلة,2
+Oriental Balah El-Sham,Oriental,1
+Oriental Balah El-Sham,Balah,1
+Oriental Balah El-Sham,Sham,1
+Oriental Balah El-Sham,بلح الشام,2
+Oriental Basbusa,Oriental,1
+Oriental Basbusa,Basbusa,1
+Oriental Basbusa,بسبوسة,2
+Oriental Basbusa with Nuts,Oriental,1
+Oriental Basbusa with Nuts,Basbusa,1
+Oriental Basbusa with Nuts,Nuts,1
+Oriental Basbusa with Nuts,بسبوسة بالمكسرات,2
+Oriental Eish Saraya (Cream),Oriental,1
+Oriental Eish Saraya (Cream),Eish,1
+Oriental Eish Saraya (Cream),Saraya,1
+Oriental Eish Saraya (Cream),Cream,1
+Oriental Eish Saraya (Cream),عيش السرايا,2
+Oriental Ghoraiba,Oriental,1
+Oriental Ghoraiba,Ghoraiba,1
+Oriental Ghoraiba,غريبة,2
+Oriental Kaak Eid,Oriental,1
+Oriental Kaak Eid,Kaak,1
+Oriental Kaak Eid,Eid,1
+Oriental Kaak Eid,كعك العيد,2
+Oriental Katait,Oriental,1
+Oriental Katait,Katait,1
+Oriental Katait,قطايف,2
+"Oriental Kunafa, Cream",Oriental,1
+"Oriental Kunafa, Cream",Kunafa,1
+"Oriental Kunafa, Cream",Cream,1
+"Oriental Kunafa, Cream",كنافة بالقشطة,2
+Oriental Kunafa with Nuts,Oriental,1
+Oriental Kunafa with Nuts,Kunafa,1
+Oriental Kunafa with Nuts,Nuts,1
+Oriental Kunafa with Nuts,كنافة بالمكسرات,2
+Oriental Lukmet El-Kady,Oriental,1
+Oriental Lukmet El-Kady,Lukmet,1
+Oriental Lukmet El-Kady,Kady,1
+Oriental Lukmet El-Kady,لقمة القاضي,2
+Oriental Maamoul,Oriental,1
+Oriental Maamoul,Maamoul,1
+Oriental Maamoul,معمول,2
+Sugar (Sucrose),Sugar,1
+Sugar (Sucrose),Sucrose,1
+Sugar (Sucrose),سكر,2
+Sugar (Fructose),Sugar,1
+Sugar (Fructose),Fructose,1
+Sugar (Fructose),سكر الفواكه,2
+Sugar (Fructose),فركتوز,2
+Sweeteners,محليات,2
+Chocolate Topping,Chocolate,1
+Chocolate Topping,صوص شوكولاتة,2
+Beef Basterma,Beef,1
+Beef Basterma,Basterma,1
+Beef Basterma,بسطرمة,2
+Beef Basterma Meat,Beef,1
+Beef Basterma Meat,Basterma,1
+Beef Basterma Meat,لحم بسطرمة,2
+Beef Brain,Beef,1
+Beef Brain,Brain,1
+Beef Brain,مخ بقري,2
+Fried Beef Brain,Beef,1
+Fried Beef Brain,Brain,1
+Fried Beef Brain,مخ مقلي,2
+Beef Burger,Beef,1
+Beef Burger,Burger,1
+Beef Burger,برجر لحم,2
+Grilled Beef Burger,Beef,1
+Grilled Beef Burger,Burger,1
+Grilled Beef Burger,برجر لحم مشوي,2
+Beef Frankfurter,Beef,1
+Beef Frankfurter,Frankfurter,1
+Beef Frankfurter,سجق فرانكفورتر لحم,2
+Beef Head,Beef,1
+Beef Head,Head,1
+Beef Head,راس بقري,2
+Boiled Beef Head Meat,Beef,1
+Boiled Beef Head Meat,Head,1
+Boiled Beef Head Meat,لحم راس مسلوق,2
+Beef Heart,Beef,1
+Beef Heart,Heart,1
+Beef Heart,قلب بقري,2
+Beef Kidneys,Beef,1
+Beef Kidneys,Kidneys,1
+Beef Kidneys,كلاوي بقري,2
+Beef Knuckle,Beef,1
+Beef Knuckle,Knuckle,1
+Beef Knuckle,موزة بقري,2
+Beef Liver,Beef,1
+Beef Liver,Liver,1
+Beef Liver,كبدة بقري,2
+Beef Luncheon,Beef,1
+Beef Luncheon,Luncheon,1
+Beef Luncheon,لنشون لحم,2
+Beef Lung,Beef,1
+Beef Lung,Lung,1
+Beef Lung,رئة بقري,2
+Beef Meat,Beef,1
+Beef Meat,لحم بقري,2
+Beef Meat Round,Beef,1
+Beef Meat Round,لحم بقري موزة,2
+"Beef Meat (Kofta, Fried)",Beef,1
+"Beef Meat (Kofta, Fried)",Kofta,1
+"Beef Meat (Kofta, Fried)",كفتة مقلية,2
+"Beef Meat (Kofta, Grilled)",Beef,1
+"Beef Meat (Kofta, Grilled)",Kofta,1
+"Beef Meat (Kofta, Grilled)",كفتة مشوية,2
+Beef Meat (Kofta/Rice),Beef,1
+Beef Meat (Kofta/Rice),Kofta,1
+Beef Meat (Kofta/Rice),Rice,1
+Beef Meat (Kofta/Rice),كفتة بالأرز,2
+"Beef Meat (Kubeba, Fried)",Beef,1
+"Beef Meat (Kubeba, Fried)",Kubeba,1
+"Beef Meat (Kubeba, Fried)",كبيبة مقلية,2
+Beef Meat (Brown Sauce),Beef,1
+Beef Meat (Brown Sauce),لحم بصوص بني,2
+Corned Beef Meat (Canned),Corned,1
+Corned Beef Meat (Canned),Beef,1
+Corned Beef Meat (Canned),كورد بيف,2
+Corned Beef Meat (Canned),لحم مقدد معلب,2
+Beef Sausage,Beef,1
+Beef Sausage,Sausage,1
+Beef Sausage,سجق لحم,2
+Grilled Beef Sausage,Beef,1
+Grilled Beef Sausage,Sausage,1
+Grilled Beef Sausage,سجق مشوي,2
+Beef Spleen,Beef,1
+Beef Spleen,Spleen,1
+Beef Spleen,طحال بقري,2
+Beef Tongue,Beef,1
+Beef Tongue,Tongue,1
+Beef Tongue,لسان بقري,2
+Boiled Beef Tongue,Beef,1
+Boiled Beef Tongue,Tongue,1
+Boiled Beef Tongue,لسان بقري مسلوق,2
+Buffalo Meat,Buffalo,1
+Buffalo Meat,لحم جاموسي,2
+Camel Liver,Camel,1
+Camel Liver,Liver,1
+Camel Liver,كبدة جمل,2
+Camel Meat,Camel,1
+Camel Meat,لحم جمل,2
+Chicken Frankfurter,Chicken,1
+Chicken Frankfurter,Frankfurter,1
+Chicken Frankfurter,سجق فراخ,2
+Chicken Gizzard,Chicken,1
+Chicken Gizzard,Gizzard,1
+Chicken Gizzard,قوانص فراخ,2
+Chicken Liver,Chicken,1
+Chicken Liver,Liver,1
+Chicken Liver,كبدة فراخ,2
+Chicken Luncheon,Chicken,1
+Chicken Luncheon,Luncheon,1
+Chicken Luncheon,لنشون فراخ,2
+Boiled Chicken,Chicken,1
+Boiled Chicken,فراخ مسلوقة,2
+Fried Chicken,Chicken,1
+Fried Chicken,فراخ مقلية,2
+Grilled Chicken,Chicken,1
+Grilled Chicken,فراخ مشوية,2
+Chicken Meat (Dark),Chicken,1
+Chicken Meat (Dark),لحم فراخ غامق,2
+Chicken Meat (Light),Chicken,1
+Chicken Meat (Light),صدور فراخ,2
+Chicken Meat (Light),لحم فراخ فاتح,2
+Chicken Meat and Skin,Chicken,1
+Chicken Meat and Skin,فراخ بالجلد,2
+Duck Meat and Skin,Duck,1
+Duck Meat and Skin,بط بالجلد,2
+Goat Meat,Goat,1
+Goat Meat,لحم ماعز,2
+Goose Meat and Skin,Goose,1
+Goose Meat and Skin,وز بالجلد,2
+Lamb Kidneys,Lamb,1
+Lamb Kidneys,Kidneys,1
+Lamb Kidneys,كلاوي ضاني,2
+Lamb Liver,Lamb,1
+Lamb Liver,Liver,1
+Lamb Liver,كبدة ضاني,2
+Lamb Meat,Lamb,1
+Lamb Meat,لحم ضاني,2
+Lamb Meat (Kabab),Lamb,1
+Lamb Meat (Kabab),Kabab,1
+Lamb Meat (Kabab),كباب ضاني,2
+Pigeon Meat and Skin,Pigeon,1
+Pigeon Meat and Skin,حمام بالجلد,2
+Pork Meat,Pork,1
+Pork Meat,لحم خنزير,2
+Rabbit Meat,Rabbit,1
+Rabbit Meat,لحم أرانب,2
+Turkey Frankfurter,Turkey,1
+Turkey Frankfurter,Frankfurter,1
+Turkey Frankfurter,سجق رومي,2
+Turkey Luncheon,Turkey,1
+Turkey Luncheon,Luncheon,1
+Turkey Luncheon,لنشون رومي,2
+Turkey Meat and Skin,Turkey,1
+Turkey Meat and Skin,رومي بالجلد,2
+Veal Meat,Veal,1
+Veal Meat,لحم عجل بتلو,2
+Whole Chicken Egg,Chicken,1
+Whole Chicken Egg,Egg,1
+Whole Chicken Egg,بيضة كاملة,2
+Chicken Egg White,Chicken,1
+Chicken Egg White,Egg,1
+Chicken Egg White,بياض بيض,2
+Chicken Egg Yolk,Chicken,1
+Chicken Egg Yolk,Egg,1
+Chicken Egg Yolk,Yolk,1
+Chicken Egg Yolk,صفار بيض,2
+Whole Duck Egg,Duck,1
+Whole Duck Egg,Egg,1
+Whole Duck Egg,بيض بط,2
+Omelet (Ijaa),Omelet,1
+Omelet (Ijaa),Ijaa,1
+Omelet (Ijaa),عجة,2
+Bream,دنيس,2
+Golden Bream,Golden,1
+Golden Bream,Bream,1
+Golden Bream,دنيس ذهبي,2
+Catfish (Bayad),Catfish,1
+Catfish (Bayad),Bayad,1
+Catfish (Bayad),بياض,2
+River Catfish,River,1
+River Catfish,Catfish,1
+River Catfish,قرموط نهري,2
+Scaled Catfish,Scaled,1
+Scaled Catfish,Catfish,1
+Scaled Catfish,قرموط بقشر,2
+Salted Catfish,Catfish,1
+Salted Catfish,قرموط مملح,2
+Salted Catfish,فسيخ قرموط,2
+Crab,كابوريا,2
+Crab,سرطان بحر,2
+Eel Fish,Eel,1
+Eel Fish,Fish,1
+Eel Fish,ثعبان البحر,2
+Eel Fish,أنقليس,2
+Fried Fish Finger,Fish,1
+Fried Fish Finger,Finger,1
+Fried Fish Finger,أصابع سمك مقلية,2
+Smoked Herring,Smoked,1
+Smoked Herring,Herring,1
+Smoked Herring,رنجة مدخنة,2
+Lizard Fish,Lizard,1
+Lizard Fish,Fish,1
+Lizard Fish,أبو شوكة,2
+Fried Lizard Fish,Lizard,1
+Fried Lizard Fish,Fish,1
+Fried Lizard Fish,أبو شوكة مقلي,2
+Canned Mackerel,Mackerel,1
+Canned Mackerel,ماكريل معلب,2
+Mullet,بوري,2
+Grilled Mullet,Mullet,1
+Grilled Mullet,بوري مشوي,2
+Salted Mullet,Mullet,1
+Salted Mullet,بوري مملح,2
+Salted Mullet,فسيخ بوري,2
+Sardines,سردين,2
+Canned Sardines,Sardines,1
+Canned Sardines,سردين معلب,2
+Grilled Sardine,Sardine,1
+Grilled Sardine,سردين مشوي,2
+Salted Sardine,Sardine,1
+Salted Sardine,سردين مملح,2
+Shrimp,جمبري,2
+Boiled Shrimp,Shrimp,1
+Boiled Shrimp,جمبري مسلوق,2
+Sole,سمك موسى,2
+Fried Sole,Sole,1
+Fried Sole,سمك موسى مقلي,2
+Tilapia,بلطي,2
+Fried Tilapia,Tilapia,1
+Fried Tilapia,بلطي مقلي,2
+Grilled Tilapia,Tilapia,1
+Grilled Tilapia,بلطي مشوي,2
+Canned Tuna,Tuna,1
+Canned Tuna,تونة معلبة,2
+Butter (Unsalted),Butter,1
+Butter (Unsalted),زبدة غير مملحة,2
+Butter Oil (Ghee),Butter,1
+Butter Oil (Ghee),Oil,1
+Butter Oil (Ghee),Ghee,1
+Butter Oil (Ghee),سمنة,2
+Butter Oil (Ghee),سمن بلدي,2
+Camembert Cheese,Camembert,1
+Camembert Cheese,Cheese,1
+Camembert Cheese,جبنة كممبير,2
+Cheddar Cheese,Cheddar,1
+Cheddar Cheese,Cheese,1
+Cheddar Cheese,جبنة تشيدر,2
+Gouda Cheese,Gouda,1
+Gouda Cheese,Cheese,1
+Gouda Cheese,جبنة جودة,2
+Kareesh Cheese,Kareesh,1
+Kareesh Cheese,Cheese,1
+Kareesh Cheese,جبنة قريش,2
+Low Fat Kareesh Cheese,Kareesh,1
+Low Fat Kareesh Cheese,Cheese,1
+Low Fat Kareesh Cheese,جبنة قريش قليلة الدسم,2
+Kareesh Cheese (Mish),Kareesh,1
+Kareesh Cheese (Mish),Cheese,1
+Kareesh Cheese (Mish),Mish,1
+Kareesh Cheese (Mish),مش,2
+Mozzarella Cheese,Mozzarella,1
+Mozzarella Cheese,Cheese,1
+Mozzarella Cheese,جبنة موزاريلا,2
+Parmesan Cheese,Parmesan,1
+Parmesan Cheese,Cheese,1
+Parmesan Cheese,جبنة بارميزان,2
+Processed Cheese,Processed,1
+Processed Cheese,Cheese,1
+Processed Cheese,جبنة مطبوخة,2
+Processed Cheese,جبنة مصنعة,2
+Cheese Spread,Cheese,1
+Cheese Spread,Spread,1
+Cheese Spread,جبنة سبريد,2
+White Cheese,Cheese,1
+White Cheese,جبنة بيضاء,2
+"White Cheese, Half Cream",Cheese,1
+"White Cheese, Half Cream",Cream,1
+"White Cheese, Half Cream",جبنة بيضاء نص دسم,2
+Roquefort Cheese,Roquefort,1
+Roquefort Cheese,Cheese,1
+Roquefort Cheese,جبنة روكفور,2
+Whipping Cream,Whipping,1
+Whipping Cream,Cream,1
+Whipping Cream,كريمة خفق,2
+Fermented Milk,Fermented,1
+Fermented Milk,Milk,1
+Fermented Milk,لبن رايب,2
+Fermented Skim Milk,Fermented,1
+Fermented Skim Milk,Milk,1
+Fermented Skim Milk,لبن رايب خالي الدسم,2
+Buffalo Milk,Buffalo,1
+Buffalo Milk,Milk,1
+Buffalo Milk,لبن جاموسي,2
+Cow Milk,Cow,1
+Cow Milk,Milk,1
+Cow Milk,لبن بقري,2
+Human Milk,Human,1
+Human Milk,Milk,1
+Human Milk,لبن أم,2
+Human Milk,حليب أم,2
+Chocolate Milk,Chocolate,1
+Chocolate Milk,Milk,1
+Chocolate Milk,لبن بالشوكولاتة,2
+Full Cream Milk,Cream,1
+Full Cream Milk,Milk,1
+Full Cream Milk,لبن كامل الدسم,2
+Fruit Milk,Fruit,1
+Fruit Milk,Milk,1
+Fruit Milk,لبن بالفواكه,2
+Half Cream Milk,Cream,1
+Half Cream Milk,Milk,1
+Half Cream Milk,لبن نص دسم,2
+Low Fat Skimmed Milk,Milk,1
+Low Fat Skimmed Milk,لبن خالي الدسم,2
+Skim Milk Powder,Milk,1
+Skim Milk Powder,لبن بودرة خالي الدسم,2
+Whole Milk Powder,Milk,1
+Whole Milk Powder,لبن بودرة كامل الدسم,2
+Yoghurt,زبادي,2
+Low Fat Yoghurt,Yoghurt,1
+Low Fat Yoghurt,زبادي قليل الدسم,2
+Fruit Yoghurt,Fruit,1
+Fruit Yoghurt,Yoghurt,1
+Fruit Yoghurt,زبادي بالفواكه,2
+Non-Alcoholic Beer,Non,1
+Non-Alcoholic Beer,Alcoholic,1
+Non-Alcoholic Beer,Beer,1
+Non-Alcoholic Beer,بيرة بدون كحول,2
+Carbonated Barley Drink,Carbonated,1
+Carbonated Barley Drink,Barley,1
+Carbonated Barley Drink,Drink,1
+Carbonated Barley Drink,مشروب الشعير الغازي,2
+Carbonated Soft Drink,Carbonated,1
+Carbonated Soft Drink,Soft,1
+Carbonated Soft Drink,Drink,1
+Carbonated Soft Drink,مشروب غازي,2
+Diet Carbonated Soft Drink,Carbonated,1
+Diet Carbonated Soft Drink,Soft,1
+Diet Carbonated Soft Drink,Drink,1
+Diet Carbonated Soft Drink,مشروب غازي دايت,2
+Carbonated Tonic Water,Carbonated,1
+Carbonated Tonic Water,Tonic,1
+Carbonated Tonic Water,Water,1
+Carbonated Tonic Water,مياه تونيك غازية,2
+Instant Chocolate Drink,Chocolate,1
+Instant Chocolate Drink,Drink,1
+Instant Chocolate Drink,مشروب شوكولاتة سريع التحضير,2
+Instant Coffee Powder Drink,Coffee,1
+Instant Coffee Powder Drink,Drink,1
+Instant Coffee Powder Drink,قهوة سريعة التحضير,2
+Instant Fruit Powder Drink,Fruit,1
+Instant Fruit Powder Drink,Drink,1
+Instant Fruit Powder Drink,مشروب فواكه سريع التحضير,2
+Instant Tea Powder Drink,Tea,1
+Instant Tea Powder Drink,Drink,1
+Instant Tea Powder Drink,شاي سريع التحضير,2
+Apple Juice,Apple,1
+Apple Juice,Juice,1
+Apple Juice,عصير تفاح,2
+Sweetened Apple Juice,Apple,1
+Sweetened Apple Juice,Juice,1
+Sweetened Apple Juice,عصير تفاح محلى,2
+Sweetened Grape Juice,Grape,1
+Sweetened Grape Juice,Juice,1
+Sweetened Grape Juice,عصير عنب محلى,2
+Grapefruit Juice,Grapefruit,1
+Grapefruit Juice,Juice,1
+Grapefruit Juice,عصير جريب فروت,2
+Orange Juice,Juice,1
+Orange Juice,عصير برتقال,2
+Sweetened Orange Juice,Juice,1
+Sweetened Orange Juice,عصير برتقال محلى,2
+Peach Juice,Peach,1
+Peach Juice,Juice,1
+Peach Juice,عصير خوخ,2
+Pomegranate Juice,Pomegranate,1
+Pomegranate Juice,Juice,1
+Pomegranate Juice,عصير رمان,2
+Sugarcane Juice,Sugarcane,1
+Sugarcane Juice,Juice,1
+Sugarcane Juice,عصير قصب,2
+Tomato Juice,Tomato,1
+Tomato Juice,Juice,1
+Tomato Juice,عصير طماطم,2
+Apricot Nectar,Apricot,1
+Apricot Nectar,Nectar,1
+Apricot Nectar,عصير مشمش,2
+Fruit Cocktail Nectar,Fruit,1
+Fruit Cocktail Nectar,Cocktail,1
+Fruit Cocktail Nectar,Nectar,1
+Fruit Cocktail Nectar,عصير كوكتيل فواكه,2
+Guava Nectar,Guava,1
+Guava Nectar,Nectar,1
+Guava Nectar,عصير جوافة,2
+Mango Nectar,Mango,1
+Mango Nectar,Nectar,1
+Mango Nectar,عصير مانجو,2
+Cardamom,حبهان,2
+Cardamom,هيل,2
+Cinnamon,قرفة,2
+Clove,قرنفل,2
+Cumin,كمون,2
+Ginger,زنجبيل,2
+Nutmeg,جوزة الطيب,2
+Black Pepper,Pepper,1
+Black Pepper,فلفل أسود,2
+Red Pepper,Pepper,1
+Red Pepper,فلفل أحمر,2
+Red Pepper,شطة,2
+Thyme,زعتر,2
+Baking Powder,Baking,1
+Baking Powder,بيكنج بودر,2
+Chicken Stock,Chicken,1
+Chicken Stock,مرقة فراخ,2
+Chicken Stock,شوربة فراخ,2
+Cocoa Powder,Cocoa,1
+Cocoa Powder,كاكاو بودرة,2
+Dom Powder,Dom,1
+Dom Powder,دوم,2
+Gelatin,جيلاتين,2
+Kishk,كشك,2
+Mayonnaise,مايونيز,2
+Vegetable Oil,Vegetable,1
+Vegetable Oil,Oil,1
+Vegetable Oil,زيت نباتي,2
+Salad Dressing,Salad,1
+Salad Dressing,Dressing,1
+Salad Dressing,صوص سلطة,2
+Table/Cooking Salt,Salt,1
+Table/Cooking Salt,ملح طعام,2
+Sodium Reduced Salt,Salt,1
+Sodium Reduced Salt,ملح قليل الصوديوم,2
+Tamarind,تمر هندي,2
+Compressed Yeast,Compressed,1
+Compressed Yeast,Yeast,1
+Compressed Yeast,خميرة طازجة,2
+Dried Yeast,Yeast,1
+Dried Yeast,خميرة فورية,2
+Dried Yeast,خميرة جافة,2
