@@ -17,4 +17,8 @@ public interface IHealthProfileService
         string userId,
         UpdateHealthProfileRequestDto request,
         CancellationToken cancellationToken = default);
+
+    Task<ProfileCompletionResponseDto> GetCompletionStatusAsync(
+        string userId,
+        CancellationToken cancellationToken = default);
 }

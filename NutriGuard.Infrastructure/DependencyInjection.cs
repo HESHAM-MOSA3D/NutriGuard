@@ -9,11 +9,12 @@ using NutriGuard.Application.Interfaces.Repositories;
 using NutriGuard.Application.Interfaces.Services;
 using NutriGuard.Application.Services;
 using NutriGuard.Domain.Entities;
+using NutriGuard.Infrastructure.Csv;
 using NutriGuard.Infrastructure.Persistence;
+using NutriGuard.Infrastructure.Persistence.Repositories;
 using NutriGuard.Infrastructure.Repositories;
 using NutriGuard.Infrastructure.Security;
 using NutriGuard.Infrastructure.Services;
-using NutriGuard.Infrastructure.Csv;
 using System.Text;
 
 
@@ -40,9 +41,11 @@ public static class DependencyInjection
 
 
         services.AddScoped<IHealthProfileService, HealthProfileService>();
+        services.AddScoped<IFoodPreferenceService, FoodPreferenceService>();
 
+        services.AddScoped<IFoodRepository, FoodRepository>();
 
-
+        services.AddScoped<IFoodPreferenceRepository, FoodPreferenceRepository>();
 
 
 

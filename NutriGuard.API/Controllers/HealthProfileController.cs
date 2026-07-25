@@ -66,4 +66,28 @@ public class HealthProfileController : ControllerBase
             ? Ok(result)
             : BadRequest(result);
     }
+
+    [HttpGet("completion-status")]
+    public async Task<IActionResult> GetCompletionStatus(
+        CancellationToken cancellationToken)
+    {
+        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return Unauthorized();
+        }
+
+        var response = await _healthProfileService
+            .GetCompletionStatusAsync(
+                userId,
+                cancellationToken);
+
+        if (!response.IsSuccess)
+        {
+            return NotFound(response);
+        }
+
+        return Ok(response);
+    }
 }

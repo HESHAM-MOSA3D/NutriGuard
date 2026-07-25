@@ -11,6 +11,12 @@ public interface IFoodPreferenceRepository
 
     Task<bool> ExistsAsync(
         int healthProfileId,
-        string foodName,
+        int foodId,
         CancellationToken cancellationToken = default);
+
+
+    Task<FoodPreference?> GetAsync(
+    int healthProfileId,
+    int foodId,
+    CancellationToken cancellationToken = default);
 }

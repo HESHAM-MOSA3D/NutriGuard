@@ -156,4 +156,58 @@ public class HealthProfileService : IHealthProfileService
             null!,
             "Health profile deleted successfully.");
     }
+
+
+
+    public async Task<ProfileCompletionResponseDto> GetCompletionStatusAsync(
+    string userId,
+    CancellationToken cancellationToken = default)
+    {
+        var profile = await _healthProfileRepository
+            .GetByUserIdAsync(userId, cancellationToken);
+
+        if (profile is null)
+        {
+            return ProfileCompletionResponseDto.Failure(
+                "Health profile not found.");
+        }
+
+        var missingFields = new List<string>();
+
+        if (profile.Height <= 0)
+            missingFields.Add("Height");
+
+        if (profile.Weight <= 0)
+            missingFields.Add("Weight");
+
+        if (profile.DateOfBirth == default)
+            missingFields.Add("DateOfBirth");
+
+        if (profile.Gender == 0)
+            missingFields.Add("Gender");
+
+        if (profile.ActivityLevel == 0)
+            missingFields.Add("ActivityLevel");
+
+        if (profile.DietType == 0)
+            missingFields.Add("DietType");
+
+        if (profile.Goal == 0)
+            missingFields.Add("Goal");
+
+        const int totalFields = 7;
+
+        var completedFields = totalFields - missingFields.Count;
+
+        var percentage = (int)Math.Round(
+            completedFields * 100.0 / totalFields);
+
+        return ProfileCompletionResponseDto.Success(
+            new ProfileCompletionDto
+            {
+                CompletionPercentage = percentage,
+                IsCompleted = percentage == 100,
+                MissingFields = missingFields
+            });
+    }
 }
