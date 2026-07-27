@@ -2,29 +2,30 @@
 
 ## Overview
 
-NutriGuard is an AI-powered personal nutrition assistant designed specifically for Egyptian users. The system helps users build healthier eating habits through artificial intelligence, nutrition science, and Egyptian food data.
+NutriGuard is an AI-powered personal nutrition assistant designed specifically for Egyptian users. The system helps users build healthier eating habits through artificial intelligence, nutrition science, and authentic Egyptian food data.
 
 The project follows Clean Architecture principles using ASP.NET Core, Entity Framework Core, PostgreSQL, and ASP.NET Identity.
 
 ---
 
-## Technology Stack
+# Technology Stack
 
 - ASP.NET Core 8 Web API
 - Entity Framework Core 8
 - PostgreSQL
 - ASP.NET Identity
 - JWT Authentication
-- SendGrid Email Service
+- SendGrid
+- CsvHelper
+- Swagger
 - Clean Architecture
 - Repository Pattern
 - Service Layer
 - Code First
-- Swagger
 
 ---
 
-## Solution Structure
+# Solution Structure
 
 ```text
 NutriGuard.API
@@ -39,11 +40,11 @@ NutriGuard.Infrastructure
 
 ## Project Setup
 
-- Created Clean Architecture solution
-- Configured four projects
+- Clean Architecture
 - Dependency Injection
-- PostgreSQL configuration
+- PostgreSQL Configuration
 - Entity Framework Core Code First
+- Initial Migration
 
 ## Authentication
 
@@ -51,116 +52,125 @@ NutriGuard.Infrastructure
 - Custom ApplicationUser
 - User Registration
 - User Login
-- JWT Token Generation
-- JWT Authorization
+- JWT Authentication
 - Protected Endpoints
-
-## Domain
-
-Created the following entities
-
-- ApplicationUser
-- HealthProfile
-
-Created the following enums
-
-- Gender
-- ActivityLevel
-- DietType
-- Goal
-
-## Database
-
-- Entity Framework Core Code First
-- Initial Migration
-- PostgreSQL Database
-- One-to-One relationship between ApplicationUser and HealthProfile
-
-## Swagger
-
-- Swagger Documentation
-- JWT Authorization Support
 
 ---
 
 # Completed Sprint 2
 
-## Password Recovery Module
-
-Implemented a complete password recovery workflow.
-
-### Features
-
-- Forgot Password
-- OTP Generation
-- OTP Verification
-- Password Reset
-- Confirm Password Validation
-- Email Verification Flow
-
-### Security
-
-- One active OTP per user
-- Previous OTPs are automatically invalidated
-- OTP expiration
-- Failed attempts counter
-- Maximum failed attempts protection
-- OTP verification before password reset
-- Generic responses to prevent email enumeration
-
-### Email Service
-
-- SendGrid Integration
-- HTML Email Templates
-- Email Service Abstraction
-- Transaction support to ensure OTP is stored only after the email is sent successfully
-
-### Authentication Improvements
-
-- Unified AuthResponseDto
-- Authentication message constants
-- Improved validation
-- Better error handling
-
----
-
-# Completed Sprint 3
-
-## Health Profile Module
-
-Implemented the complete Health Profile feature.
+## Health Profile
 
 ### Features
 
 - Create Health Profile
 - Get Health Profile
 - Update Health Profile
-- One Health Profile per User
+- Delete Health Profile
+- Food Preferences
+- Profile Completion Status
 
 ### Validation
 
-- Height validation
-- Weight validation
-- Date of Birth validation
-- Age validation
-- Enum validation
-- Duplicate profile prevention
+- Height Validation
+- Weight Validation
+- Date of Birth Validation
+- Age Validation
+- Enum Validation
+- One Health Profile per User
 
-### Architecture
+---
 
-- Generic Repository
-- HealthProfile Repository
-- Service Layer
-- Dependency Injection
-- DTO Mapping
-- Response DTO Pattern
-- DateOnly support for Date of Birth
+# Completed Sprint 3
+
+## Nutrition Calculator
+
+Automatically calculates personalized nutrition targets based on the user's health profile.
+
+### Features
+
+- BMR Calculation
+- TDEE Calculation
+- Daily Calories Target
+- Macronutrient Targets
+- Goal-Based Adjustments
+- Diet-Based Adjustments
+- Automatic Target Recalculation
+
+### API
+
+```text
+GET /api/nutrition-target
+```
+
+Returns
+
+- BMR
+- TDEE
+- Daily Calories
+- Protein Target
+- Carbohydrates Target
+- Fat Target
+
+---
+
+# Completed Sprint 4
+
+## Food Database
+
+### Features
+
+- Food Entity
+- Food Categories
+- Food Nutritional Values
+- Food Aliases
+- Egyptian Food Dataset Import (CSV)
+
+### APIs
+
+```text
+GET /api/foods
+GET /api/foods/{id}
+GET /api/foods/search
+GET /api/foods/categories
+```
+
+---
+
+## Recipe Database
+
+### Features
+
+- Recipe Entity
+- RecipeIngredient Entity
+- Egyptian Recipes Dataset Import (CSV)
+- Recipe Search
+- Recipe Details
+
+### APIs
+
+```text
+GET /api/recipes
+GET /api/recipes/{id}
+```
+
+Each recipe contains
+
+- Ingredients
+- Quantities
+- Units
+- Preparation Instructions
+- Description
+- Preparation Time
+- Servings
+
+Recipes are fully linked with the Food database.
 
 ---
 
 # Current Database Tables
 
-## Identity Tables
+## Identity
 
 - AspNetUsers
 - AspNetRoles
@@ -170,41 +180,15 @@ Implemented the complete Health Profile feature.
 - AspNetUserRoles
 - AspNetUserTokens
 
-## Application Tables
+## Application
 
 - HealthProfiles
 - PasswordResetOtps
-
----
-
-# Authentication Flow
-
-## Registration
-
-1. Register a new user.
-2. Login.
-3. Receive JWT Token.
-4. Access protected endpoints.
-
-## Password Recovery
-
-1. User requests password reset.
-2. System generates a secure OTP.
-3. OTP is sent via email.
-4. User verifies the OTP.
-5. User resets the password.
-6. OTP becomes invalid immediately after password reset.
-
----
-
-# Health Profile Flow
-
-1. Authenticated user creates a health profile.
-2. Only one profile is allowed per user.
-3. User can retrieve their profile.
-4. User can update their profile.
-5. User can delete their profile.
-6. Input validation is applied before saving.
+- FoodCategories
+- Foods
+- FoodAliases
+- Recipes
+- RecipeIngredients
 
 ---
 
@@ -215,81 +199,115 @@ Completed
 - Clean Architecture
 - ASP.NET Identity
 - JWT Authentication
-- User Registration
-- User Login
-- Password Recovery
-- OTP Verification
-- SendGrid Email Integration
-- PostgreSQL
-- Swagger
-- Entity Framework Core Code First
-- Health Profile CRUD
-- Generic Repository
+- Health Profile
+- Nutrition Calculator
+- Food Database
+- Food Categories
+- Food Aliases
+- Recipe Database
+- CSV Import
 - Repository Pattern
 - Service Layer
+- Swagger
+- PostgreSQL
 
 ---
 
-# Next Sprint (Sprint 4)
+# Next Sprint
 
-## Nutrition Profile Engine
+## Sprint 5 — Meal Logging & Tracking
 
 Planned Features
 
-- BMR Calculator
-- TDEE Calculator
-- Daily Calories Calculator
-- Macronutrients Calculator
-- Goal-based Nutrition Targets
+- Log Meals
+- Log Water Intake
+- Daily Calories Tracking
+- Macro Tracking
+- Micro Tracking
+- Remaining Daily Targets
+- Weight Logging
+- Daily History
 
 ---
 
 # Future Roadmap
 
-- Egyptian Food Database
-- Food Search
-- Meal Logging
+## Sprint 6
+
 - Nutrition Rules Engine
-- AI Recommendation Engine
-- RAG Integration
-- Multi-Agent System
-- Voice Assistant
-- Dashboard Insights
+- Allergy Rules
+- Halal Rules
+- Diet Rules
+- Goal Rules
+
+## Sprint 7
+
+- AI Knowledge Base (RAG)
+- PostgreSQL pgvector / ChromaDB
+- Embeddings
+- Semantic Search
+
+## Sprint 8
+
+- AI Conversation
+- Chat API
+- Tool Calling
+
+## Sprint 9
+
+- Meal Planning Agent
+
+## Sprint 10
+
+- Insights & Motivation
+
+## Sprint 11
+
 - SignalR Notifications
+
+## Sprint 12
+
+- Voice Assistant
+
+## Sprint 13
+
+- Preference Memory
+
+## Sprint 14
+
+- Optimization & Deployment
 
 ---
 
 # Team Workflow
 
-The project uses GitHub with feature branches.
-
-Main branch
+Git Flow
 
 ```text
 master
-```
+develop
 
-Feature branch examples
-
-```text
-feature/auth
-feature/password-recovery
+feature/authentication
 feature/health-profile
-feature/profile-calculator
+feature/nutrition-calculator
 feature/meal-logging
 feature/rules-engine
 feature/rag
 ```
 
-Developers should never push directly to the main branch.
+Rules
 
-Each feature must be merged through a Pull Request.
+- Never push directly to `master`
+- Create a feature branch
+- Open a Pull Request
+- Merge into `develop`
+- Release from `develop` to `master`
 
 ---
 
 # Getting Started
 
-Clone the repository
+Clone
 
 ```bash
 git clone https://github.com/HESHAM-MOSA3D/NutriGuard.git
@@ -307,7 +325,7 @@ Apply migrations
 dotnet ef database update
 ```
 
-Run the project
+Run
 
 ```bash
 dotnet run
