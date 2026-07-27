@@ -17,14 +17,14 @@ public class UpdateHealthProfileRequestDto : IValidatableObject
     [EnumDataType(typeof(Gender))]
     public Gender Gender { get; set; }
 
-    [EnumDataType(typeof(ActivityLevel))]
-    public ActivityLevel ActivityLevel { get; set; }
+    //[EnumDataType(typeof(ActivityLevel))]
+    public ActivityLevel? ActivityLevel { get; set; }
 
-    [EnumDataType(typeof(DietType))]
-    public DietType DietType { get; set; }
+   // [EnumDataType(typeof(DietType))]
+    public DietType? DietType { get; set; }
 
-    [EnumDataType(typeof(Goal))]
-    public Goal Goal { get; set; }
+    //[EnumDataType(typeof(Goal))]
+    public Goal ?Goal { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {

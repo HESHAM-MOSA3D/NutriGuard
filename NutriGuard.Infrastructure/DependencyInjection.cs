@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,10 +9,11 @@ using NutriGuard.Application.Interfaces;
 using NutriGuard.Application.Interfaces.Repositories;
 using NutriGuard.Application.Interfaces.Services;
 using NutriGuard.Application.Services;
+using NutriGuard.Application.Validators.Foods;
 using NutriGuard.Domain.Entities;
 using NutriGuard.Infrastructure.Csv;
 using NutriGuard.Infrastructure.Persistence;
-using NutriGuard.Infrastructure.Persistence.Repositories;
+
 using NutriGuard.Infrastructure.Repositories;
 using NutriGuard.Infrastructure.Security;
 using NutriGuard.Infrastructure.Services;
@@ -33,6 +35,7 @@ public static class DependencyInjection
     configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IFoodImportService, FoodImportService>();
+        services.AddScoped<IFoodService, FoodService>();
 
         services.AddScoped<IHealthProfileRepository, HealthProfileRepository>();
        // services.AddScoped<IFoodPreferenceRepository, FoodPreferenceRepository>();
@@ -46,6 +49,15 @@ public static class DependencyInjection
         services.AddScoped<IFoodRepository, FoodRepository>();
 
         services.AddScoped<IFoodPreferenceRepository, FoodPreferenceRepository>();
+
+
+        services.AddScoped<IRecipeImportService, RecipeImportService>();
+
+        services.AddValidatorsFromAssemblyContaining<FoodSearchRequestValidator>();
+
+
+        services.AddScoped<IRecipeRepository, RecipeRepository>();
+        services.AddScoped<IRecipeService, RecipeService>();
 
 
 

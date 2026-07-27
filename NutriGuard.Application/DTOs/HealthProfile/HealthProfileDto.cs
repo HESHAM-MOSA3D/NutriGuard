@@ -4,6 +4,8 @@ namespace NutriGuard.Application.DTOs.HealthProfile;
 
 public class HealthProfileDto
 {
+        public int Id { get; set; }
+
     public double Height { get; set; }
 
     public double Weight { get; set; }
@@ -12,9 +14,9 @@ public class HealthProfileDto
 
     public Gender Gender { get; set; }
 
-    public ActivityLevel ActivityLevel { get; set; }
+    public ActivityLevel? ActivityLevel { get; set; }
 
-    public DietType DietType { get; set; }
+    public DietType? DietType { get; set; }
 
-    public Goal Goal { get; set; }
+    public Goal? Goal { get; set; }
 }

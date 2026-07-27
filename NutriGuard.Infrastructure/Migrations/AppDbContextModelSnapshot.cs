@@ -20,6 +20,7 @@ namespace NutriGuard.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "pg_trgm");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -263,6 +264,9 @@ namespace NutriGuard.Infrastructure.Migrations
                         .HasPrecision(8, 2)
                         .HasColumnType("numeric(8,2)");
 
+                    b.Property<int>("FoodCategoryId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal?>("Iron")
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
@@ -322,7 +326,15 @@ namespace NutriGuard.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("FoodCategoryId")
+                        .HasDatabaseName("idx_foods_categoryid");
+
+                    b.HasIndex(new[] { "Name" }, "idx_foods_name_trgm");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex(new[] { "Name" }, "idx_foods_name_trgm"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex(new[] { "Name" }, "idx_foods_name_trgm"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex(new[] { "Name" }, "ix_foods_name_unique")
                         .IsUnique();
 
                     b.ToTable("Foods", (string)null);
@@ -349,12 +361,39 @@ namespace NutriGuard.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Alias")
+                        .HasDatabaseName("idx_foodaliases_alias_trgm");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Alias"), "gin");
+                    NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Alias"), new[] { "gin_trgm_ops" });
+
                     b.HasIndex("Alias", "Language");
 
                     b.HasIndex("FoodId", "Alias", "Language")
                         .IsUnique();
 
                     b.ToTable("FoodAliases");
+                });
+
+            modelBuilder.Entity("NutriGuard.Domain.Entities.FoodCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("FoodCategories", (string)null);
                 });
 
             modelBuilder.Entity("NutriGuard.Domain.Entities.FoodPreference", b =>
@@ -395,19 +434,19 @@ namespace NutriGuard.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ActivityLevel")
+                    b.Property<int?>("ActivityLevel")
                         .HasColumnType("integer");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
 
-                    b.Property<int>("DietType")
+                    b.Property<int?>("DietType")
                         .HasColumnType("integer");
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Goal")
+                    b.Property<int?>("Goal")
                         .HasColumnType("integer");
 
                     b.Property<double>("Height")
@@ -473,6 +512,78 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.ToTable("PasswordResetOtps");
                 });
 
+            modelBuilder.Entity("NutriGuard.Domain.Entities.Recipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("Instructions")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("PreparationTimeMinutes")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Servings")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Recipes", (string)null);
+                });
+
+            modelBuilder.Entity("NutriGuard.Domain.Entities.RecipeIngredient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Quantity")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodId");
+
+                    b.HasIndex("RecipeId", "FoodId")
+                        .IsUnique();
+
+                    b.ToTable("RecipeIngredients", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -533,6 +644,17 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.Navigation("HealthProfile");
                 });
 
+            modelBuilder.Entity("NutriGuard.Domain.Entities.Food", b =>
+                {
+                    b.HasOne("NutriGuard.Domain.Entities.FoodCategory", "FoodCategory")
+                        .WithMany("Foods")
+                        .HasForeignKey("FoodCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("FoodCategory");
+                });
+
             modelBuilder.Entity("NutriGuard.Domain.Entities.FoodAlias", b =>
                 {
                     b.HasOne("NutriGuard.Domain.Entities.Food", "Food")
@@ -585,6 +707,25 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("NutriGuard.Domain.Entities.RecipeIngredient", b =>
+                {
+                    b.HasOne("NutriGuard.Domain.Entities.Food", "Food")
+                        .WithMany()
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("NutriGuard.Domain.Entities.Recipe", "Recipe")
+                        .WithMany("RecipeIngredients")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Food");
+
+                    b.Navigation("Recipe");
+                });
+
             modelBuilder.Entity("NutriGuard.Domain.Entities.Food", b =>
                 {
                     b.Navigation("Aliases");
@@ -592,9 +733,19 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.Navigation("FoodPreferences");
                 });
 
+            modelBuilder.Entity("NutriGuard.Domain.Entities.FoodCategory", b =>
+                {
+                    b.Navigation("Foods");
+                });
+
             modelBuilder.Entity("NutriGuard.Domain.Entities.HealthProfile", b =>
                 {
                     b.Navigation("FoodPreferences");
+                });
+
+            modelBuilder.Entity("NutriGuard.Domain.Entities.Recipe", b =>
+                {
+                    b.Navigation("RecipeIngredients");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,4 +17,10 @@ public interface IFoodPreferenceService
         int healthProfileId,
         int foodId,
         CancellationToken cancellationToken = default);
+
+    Task<FoodPreferenceResponseDto> UpdateAsync(
+    int healthProfileId,
+    int foodId,
+    UpdateFoodPreferenceRequestDto request,
+    CancellationToken cancellationToken = default);
 }

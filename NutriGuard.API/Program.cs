@@ -3,6 +3,9 @@ using NutriGuard.Application.Settings;
 using NutriGuard.Infrastructure;
 using Swashbuckle.AspNetCore;
 
+using NutriGuard.Infrastructure.Persistence.Seed;
+using NutriGuard.Infrastructure.Persistence;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,14 +67,44 @@ var app = builder.Build();
 
 
 
+//using (var scope = app.Services.CreateScope())
+//{
+//    var foodImporter = scope.ServiceProvider
+//        .GetRequiredService<IFoodImportService>();
+
+//    await foodImporter.SeedFoodsAsync();
+//}
+
+
+
+
+
+
+//SeedData From CSV Files
+
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+
+//    var context = services.GetRequiredService<AppDbContext>();
+
+//    await FoodCategorySeeder.SeedAsync(context);
+
+//    var foodImporter = services
+//        .GetRequiredService<IFoodImportService>();
+
+//    await foodImporter.SeedFoodsAsync();
+//}
+
+
+
 using (var scope = app.Services.CreateScope())
 {
-    var foodImporter = scope.ServiceProvider
-        .GetRequiredService<IFoodImportService>();
+    var recipeImporter = scope.ServiceProvider
+        .GetRequiredService<IRecipeImportService>();
 
-    await foodImporter.SeedFoodsAsync();
+    await recipeImporter.SeedRecipesAsync();
 }
-
 
 
 

@@ -13,17 +13,17 @@ public class CreateHealthProfileRequestDto : IValidatableObject
 
     [Required]
     public DateOnly DateOfBirth { get; set; }
-    [EnumDataType(typeof(Gender))]
+  //  [EnumDataType(typeof(Gender))]
     public Gender Gender { get; set; }
 
-    [EnumDataType(typeof(ActivityLevel))]
-    public ActivityLevel ActivityLevel { get; set; }
+    //[EnumDataType(typeof(ActivityLevel))]
+    public ActivityLevel? ActivityLevel { get; set; }
 
-    [EnumDataType(typeof(DietType))]
-    public DietType DietType { get; set; }
+   // [EnumDataType(typeof(DietType))]
+    public DietType? DietType { get; set; }
 
     [EnumDataType(typeof(Goal))]
-    public Goal Goal { get; set; }
+    public Goal ?Goal { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {

@@ -30,6 +30,11 @@ public class FoodAliasConfiguration : IEntityTypeConfiguration<FoodAlias>
             x.Language
         }).IsUnique();
 
+        builder.HasIndex(x => x.Alias)
+            .HasMethod("gin")
+            .HasOperators("gin_trgm_ops")
+            .HasDatabaseName("idx_foodaliases_alias_trgm");
+
         builder.HasOne(x => x.Food)
             .WithMany(x => x.Aliases)
             .HasForeignKey(x => x.FoodId)

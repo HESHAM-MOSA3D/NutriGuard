@@ -2,71 +2,134 @@
 using Microsoft.AspNetCore.Mvc;
 using NutriGuard.Application.DTOs.FoodPreference;
 using NutriGuard.Application.Interfaces.Services;
+using System.Security.Claims;
 
 namespace NutriGuard.API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/health-profile/{healthProfileId:int}/food-preferences")]
+[Route("api/food-preferences")]
 public class FoodPreferenceController : ControllerBase
 {
     private readonly IFoodPreferenceService _foodPreferenceService;
+    private readonly IHealthProfileService _healthProfileService;
 
-    public FoodPreferenceController(IFoodPreferenceService foodPreferenceService)
+    public FoodPreferenceController(
+        IFoodPreferenceService foodPreferenceService,
+        IHealthProfileService healthProfileService)
     {
         _foodPreferenceService = foodPreferenceService;
+        _healthProfileService = healthProfileService;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Get(
-        int healthProfileId,
-        CancellationToken cancellationToken)
-    {
-        var response = await _foodPreferenceService
-            .GetByHealthProfileIdAsync(healthProfileId, cancellationToken);
 
-        if (!response.IsSuccess)
-        {
-            return NotFound(response);
-        }
-
-        return Ok(response);
-    }
 
     [HttpPost]
     public async Task<IActionResult> Add(
-        int healthProfileId,
-        [FromBody] AddFoodPreferenceRequestDto request,
-        CancellationToken cancellationToken)
+     [FromBody] AddFoodPreferenceRequestDto request,
+     CancellationToken cancellationToken)
     {
-        var response = await _foodPreferenceService
-            .AddAsync(healthProfileId, request, cancellationToken);
+        var healthProfileId = await GetHealthProfileIdAsync(cancellationToken);
 
-        if (!response.IsSuccess)
-        {
-            return BadRequest(response);
-        }
+        if (healthProfileId is null)
+            return NotFound("Health profile not found.");
 
-        return CreatedAtAction(
-            nameof(Get),
-            new { healthProfileId },
-            response);
+        var response = await _foodPreferenceService.AddAsync(
+            healthProfileId.Value,
+            request,
+            cancellationToken);
+
+        return response.IsSuccess
+            ? Ok(response)
+            : BadRequest(response);
     }
-
     [HttpDelete("{foodId:int}")]
     public async Task<IActionResult> Delete(
-        int healthProfileId,
-        int foodId,
-        CancellationToken cancellationToken)
+     int foodId,
+     CancellationToken cancellationToken)
     {
-        var response = await _foodPreferenceService
-            .RemoveAsync(healthProfileId, foodId, cancellationToken);
+        var healthProfileId = await GetHealthProfileIdAsync(cancellationToken);
 
-        if (!response.IsSuccess)
-        {
-            return NotFound(response);
-        }
+        if (healthProfileId is null)
+            return NotFound("Health profile not found.");
 
-        return NoContent();
+        var response = await _foodPreferenceService.RemoveAsync(
+            healthProfileId.Value,
+            foodId,
+            cancellationToken);
+
+        return response.IsSuccess
+            ? NoContent()
+            : NotFound(response);
+    }
+
+
+
+
+
+    [HttpPut("{foodId:int}")]
+    public async Task<IActionResult> Update(
+    int foodId,
+    [FromBody] UpdateFoodPreferenceRequestDto request,
+    CancellationToken cancellationToken)
+    {
+        var healthProfileId = await GetHealthProfileIdAsync(cancellationToken);
+
+        if (healthProfileId is null)
+            return NotFound("Health profile not found.");
+
+        var response = await _foodPreferenceService.UpdateAsync(
+            healthProfileId.Value,
+            foodId,
+            request,
+            cancellationToken);
+
+        return response.IsSuccess
+            ? Ok(response)
+            : BadRequest(response);
+    }
+
+
+
+
+
+    [HttpGet]
+    public async Task<IActionResult> Get(
+    CancellationToken cancellationToken)
+    {
+        var healthProfileId = await GetHealthProfileIdAsync(cancellationToken);
+
+        if (healthProfileId is null)
+            return NotFound("Health profile not found.");
+
+        var response = await _foodPreferenceService.GetByHealthProfileIdAsync(
+            healthProfileId.Value,
+            cancellationToken);
+
+        return response.IsSuccess
+            ? Ok(response)
+            : NotFound(response);
+    }
+
+
+
+
+
+    private async Task<int?> GetHealthProfileIdAsync(
+    CancellationToken cancellationToken)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrWhiteSpace(userId))
+            return null;
+
+        var profile = await _healthProfileService.GetAsync(
+            userId,
+            cancellationToken);
+
+        if (!profile.IsSuccess || profile.Data is null)
+            return null;
+
+        return profile.Data.Id;
     }
 }
