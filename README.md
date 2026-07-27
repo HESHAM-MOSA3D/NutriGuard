@@ -52,6 +52,9 @@ NutriGuard.Infrastructure
 - Custom ApplicationUser
 - User Registration
 - User Login
+- Forgot Password
+- Verify-Otp
+- Change Password
 - JWT Authentication
 - Protected Endpoints
 
