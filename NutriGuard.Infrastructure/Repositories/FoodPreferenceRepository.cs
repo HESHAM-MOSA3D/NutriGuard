@@ -20,6 +20,7 @@ public sealed class FoodPreferenceRepository
         return await _dbSet
             .Where(x => x.HealthProfileId == healthProfileId)
             .Include(x => x.Food)
+    .ThenInclude(f => f.FoodCategory)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
@@ -42,10 +43,38 @@ public sealed class FoodPreferenceRepository
     CancellationToken cancellationToken = default)
     {
         return await _dbSet
-            .Include(x => x.Food)
+           .Include(x => x.Food)
+    .ThenInclude(f => f.FoodCategory)
             .FirstOrDefaultAsync(
                 x => x.HealthProfileId == healthProfileId &&
                      x.FoodId == foodId,
                 cancellationToken);
+    }
+
+
+
+ 
+    public async Task AddAsync(
+    FoodPreference preference,
+    CancellationToken cancellationToken = default)
+    {
+        await _dbSet.AddAsync(preference, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UpdateAsync(
+        FoodPreference preference,
+        CancellationToken cancellationToken = default)
+    {
+        _dbSet.Update(preference);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteAsync(
+        FoodPreference preference,
+        CancellationToken cancellationToken = default)
+    {
+        _dbSet.Remove(preference);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

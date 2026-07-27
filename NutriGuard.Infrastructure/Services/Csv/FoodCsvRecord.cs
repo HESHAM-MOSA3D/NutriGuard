@@ -45,4 +45,6 @@ public class FoodCsvRecord
     public decimal ?Thiamin { get; set; }
 
     public decimal? Riboflavin { get; set; }
+
+    public string Category { get; set; } = string.Empty;
 }

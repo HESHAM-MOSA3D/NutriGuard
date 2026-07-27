@@ -39,9 +39,20 @@ public class FoodConfiguration : IEntityTypeConfiguration<Food>
         builder.Property(x => x.Thiamin).HasPrecision(10, 2);
         builder.Property(x => x.Riboflavin).HasPrecision(10, 2);
 
-        builder.HasIndex(x => x.Name)
+        builder.HasIndex(new[] { nameof(Food.Name) }, "ix_foods_name_unique")
             .IsUnique();
 
+        builder.HasIndex(new[] { nameof(Food.Name) }, "idx_foods_name_trgm")
+            .IsUnique(false)
+            .HasMethod("gin")
+            .HasOperators("gin_trgm_ops");
 
+        builder.HasIndex(x => x.FoodCategoryId)
+            .HasDatabaseName("idx_foods_categoryid");
+
+        builder.HasOne(x => x.FoodCategory)
+            .WithMany(x => x.Foods)
+            .HasForeignKey(x => x.FoodCategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

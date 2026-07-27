@@ -5,6 +5,8 @@ public class Food
     public int Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
+
+    
     public decimal ?RefusePercentage { get; set; }
 
     public decimal ?Water { get; set; }
@@ -45,7 +47,9 @@ public class Food
 
     public decimal? Riboflavin { get; set; }
 
+    public int FoodCategoryId { get; set; }
 
+    public FoodCategory FoodCategory { get; set; } = null!;
     public ICollection<FoodAlias> Aliases { get; set; } = new List<FoodAlias>();
 
     public ICollection<FoodPreference> FoodPreferences { get; set; } = new List<FoodPreference>();

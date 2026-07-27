@@ -47,6 +47,7 @@ public class HealthProfileService : IHealthProfileService
 
         var dto = new HealthProfileDto
         {
+            Id = profile.Id,
             Height = profile.Height,
             Weight = profile.Weight,
             DateOfBirth = profile.DateOfBirth,
@@ -77,6 +78,7 @@ public class HealthProfileService : IHealthProfileService
 
         var dto = new HealthProfileDto
         {
+            Id = profile.Id,
             Height = profile.Height,
             Weight = profile.Weight,
             DateOfBirth = profile.DateOfBirth,
@@ -120,6 +122,7 @@ public class HealthProfileService : IHealthProfileService
 
         var dto = new HealthProfileDto
         {
+            
             Height = profile.Height,
             Weight = profile.Weight,
             DateOfBirth = profile.DateOfBirth,
@@ -186,13 +189,13 @@ public class HealthProfileService : IHealthProfileService
         if (profile.Gender == 0)
             missingFields.Add("Gender");
 
-        if (profile.ActivityLevel == 0)
+        if (profile.ActivityLevel is null)
             missingFields.Add("ActivityLevel");
 
-        if (profile.DietType == 0)
+        if (profile.DietType is null)
             missingFields.Add("DietType");
 
-        if (profile.Goal == 0)
+        if (profile.Goal is null)
             missingFields.Add("Goal");
 
         const int totalFields = 7;

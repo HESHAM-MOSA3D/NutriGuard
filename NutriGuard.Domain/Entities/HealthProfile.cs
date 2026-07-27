@@ -13,11 +13,11 @@ public class HealthProfile
     public DateOnly DateOfBirth { get; set; }
     public Gender Gender { get; set; }
 
-    public ActivityLevel ActivityLevel { get; set; }
+    public ActivityLevel? ActivityLevel { get; set; }
 
-    public DietType DietType { get; set; }
+    public DietType ?DietType { get; set; }
 
-    public Goal Goal { get; set; }
+    public Goal ?Goal { get; set; }
 
     public string UserId { get; set; } = string.Empty;
     public ApplicationUser User { get; set; } = null;

@@ -29,7 +29,19 @@ public sealed class NutritionCalculatorService
                 "Health profile not found.");
         }
 
+
+
+
         var age = CalculateAge(profile.DateOfBirth);
+        if (profile.ActivityLevel is null ||
+    profile.DietType is null ||
+    profile.Goal is null)
+        {
+            return NutritionTargetResponseDto.Failure(
+                "Health profile is incomplete.");
+        }
+
+
 
         var bmr = CalculateBmr(
             profile.Gender,
@@ -37,19 +49,33 @@ public sealed class NutritionCalculatorService
             profile.Height,
             age);
 
+        var tdee = bmr * GetActivityFactor(profile.ActivityLevel.Value);
+
+        var dailyCalories = CalculateDailyCalories(
+            tdee,
+            profile.Goal.Value);
+
+        var proteinCalories =
+            dailyCalories * GetProteinRatio(profile.DietType.Value);
+
+        var carbsCalories =
+            dailyCalories * GetCarbsRatio(profile.DietType.Value);
+
+        var fatCalories =
+            dailyCalories * GetFatRatio(profile.DietType.Value);
         var dto = new NutritionTargetDto
         {
             Bmr = Math.Round(bmr, 2),
 
-            Tdee = 0,
+            Tdee = Math.Round(tdee, 2),
 
-            DailyCalories = 0,
+            DailyCalories = Math.Round(dailyCalories, 2),
 
-            ProteinGrams = 0,
+            ProteinGrams = Math.Round(proteinCalories / 4, 2),
 
-            CarbsGrams = 0,
+            CarbsGrams = Math.Round(carbsCalories / 4, 2),
 
-            FatGrams = 0
+            FatGrams = Math.Round(fatCalories / 9, 2)
         };
 
         return NutritionTargetResponseDto.Success(dto);
@@ -88,4 +114,75 @@ public sealed class NutritionCalculatorService
              - (5 * age)
              - 161;
     }
+
+    private static double GetActivityFactor(ActivityLevel activityLevel)
+    {
+        return activityLevel switch
+        {
+            ActivityLevel.Sedentary => 1.20,
+            ActivityLevel.LightlyActive => 1.375,
+            ActivityLevel.ModeratelyActive => 1.55,
+            ActivityLevel.VeryActive => 1.725,
+            ActivityLevel.ExtremelyActive => 1.90,
+            _ => 1.20
+        };
+    }
+
+
+
+    private static double CalculateDailyCalories(
+    double tdee,
+    Goal goal)
+    {
+        return goal switch
+        {
+            Goal.LoseWeight => tdee - 500,
+            Goal.MaintainWeight => tdee,
+            Goal.GainWeight => tdee + 300,
+            _ => tdee
+        };
+    }
+
+
+
+    private static double GetProteinRatio(DietType dietType)
+    {
+        return dietType switch
+        {
+            DietType.Balanced => 0.30,
+            DietType.LowCarb => 0.35,
+            DietType.Vegan => 0.20,
+            _ => 0.30
+        };
+    }
+
+
+
+    private static double GetCarbsRatio(DietType dietType)
+    {
+        return dietType switch
+        {
+            DietType.Balanced => 0.40,
+            DietType.LowCarb => 0.25,
+            DietType.Vegan => 0.55,
+            _ => 0.40
+        };
+    }
+
+
+
+    private static double GetFatRatio(DietType dietType)
+    {
+        return dietType switch
+        {
+            DietType.Balanced => 0.30,
+            DietType.LowCarb => 0.40,
+            DietType.Vegan => 0.25,
+            _ => 0.30
+        };
+    }
+
+
+
+
 }

@@ -39,10 +39,21 @@ public class FoodImportService : IFoodImportService
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
         var foodRecords = csv.GetRecords<FoodCsvRecord>().ToList();
+
+
+        var categoriesDictionary = await _context.FoodCategories
+    .ToDictionaryAsync(
+        x => x.Name,
+        x => x.Id,
+        cancellationToken);
+
+
         Console.WriteLine($"Food Records Read: {foodRecords.Count}");
 
         var foods = foodRecords.Select(x => new Food
         {
+            FoodCategoryId = categoriesDictionary[x.Category],
+
             Name = x.Name,
 
             RefusePercentage = x.RefusePercentage ?? 0,

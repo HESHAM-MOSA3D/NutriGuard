@@ -56,8 +56,7 @@ public sealed class FoodPreferenceService : IFoodPreferenceService
             preference,
             cancellationToken);
 
-        await _foodPreferenceRepository.SaveChangesAsync(
-            cancellationToken);
+       
 
         return FoodPreferenceResponseDto.Success(
             new FoodPreferenceDto
@@ -108,10 +107,9 @@ public sealed class FoodPreferenceService : IFoodPreferenceService
                 "Food preference not found.");
         }
 
-        _foodPreferenceRepository.Delete(preference);
-
-        await _foodPreferenceRepository.SaveChangesAsync(
-            cancellationToken);
+        await _foodPreferenceRepository.DeleteAsync(
+     preference,
+     cancellationToken);
 
         return FoodPreferenceResponseDto.Success(
             new FoodPreferenceDto
@@ -123,5 +121,46 @@ public sealed class FoodPreferenceService : IFoodPreferenceService
                 CreatedAt = preference.CreatedAt
             },
             "Food preference removed successfully.");
+    }
+
+
+
+
+
+
+
+    public async Task<FoodPreferenceResponseDto> UpdateAsync(
+    int healthProfileId,
+    int foodId,
+    UpdateFoodPreferenceRequestDto request,
+    CancellationToken cancellationToken = default)
+    {
+        var preference = await _foodPreferenceRepository.GetAsync(
+            healthProfileId,
+            foodId,
+            cancellationToken);
+
+        if (preference is null)
+        {
+            return FoodPreferenceResponseDto.Failure(
+                "Food preference not found.");
+        }
+
+        preference.PreferenceType = request.PreferenceType;
+
+        await _foodPreferenceRepository.UpdateAsync(
+            preference,
+            cancellationToken);
+
+        return FoodPreferenceResponseDto.Success(
+            new FoodPreferenceDto
+            {
+                Id = preference.Id,
+                FoodId = preference.FoodId,
+                FoodName = preference.Food.Name,
+                PreferenceType = preference.PreferenceType,
+                CreatedAt = preference.CreatedAt
+            },
+            "Food preference updated successfully.");
     }
 }

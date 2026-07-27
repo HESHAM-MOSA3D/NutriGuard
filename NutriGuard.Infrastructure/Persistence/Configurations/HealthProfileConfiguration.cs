@@ -23,13 +23,13 @@ public class HealthProfileConfiguration : IEntityTypeConfiguration<HealthProfile
                .IsRequired();
 
         builder.Property(x => x.ActivityLevel)
-               .IsRequired();
+       .IsRequired(false);
 
         builder.Property(x => x.DietType)
-               .IsRequired();
+               .IsRequired(false);
 
         builder.Property(x => x.Goal)
-               .IsRequired();
+               .IsRequired(false);
 
         builder.HasOne(x => x.User)
                .WithOne()

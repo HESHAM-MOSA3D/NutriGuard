@@ -1,10 +1,11 @@
 ﻿using NutriGuard.Domain.Entities;
 
-namespace NutriGuard.Application.Interfaces.Repositories;
-
 public interface IFoodPreferenceRepository
-    : IGenericRepository<FoodPreference>
 {
+    Task AddAsync(
+        FoodPreference preference,
+        CancellationToken cancellationToken = default);
+
     Task<IEnumerable<FoodPreference>> GetByHealthProfileIdAsync(
         int healthProfileId,
         CancellationToken cancellationToken = default);
@@ -14,9 +15,16 @@ public interface IFoodPreferenceRepository
         int foodId,
         CancellationToken cancellationToken = default);
 
-
     Task<FoodPreference?> GetAsync(
-    int healthProfileId,
-    int foodId,
-    CancellationToken cancellationToken = default);
+        int healthProfileId,
+        int foodId,
+        CancellationToken cancellationToken = default);
+
+    Task UpdateAsync(
+        FoodPreference preference,
+        CancellationToken cancellationToken = default);
+
+    Task DeleteAsync(
+        FoodPreference preference,
+        CancellationToken cancellationToken = default);
 }
