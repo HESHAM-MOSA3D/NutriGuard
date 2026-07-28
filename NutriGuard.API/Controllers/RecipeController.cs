@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using NutriGuard.Application.DTOs.Recipe;
 using NutriGuard.Application.Interfaces.Services;
+using FluentValidation;
+using NutriGuard.Application.DTOs.Recipe;
 
 namespace NutriGuard.API.Controllers;
 
@@ -8,24 +12,18 @@ namespace NutriGuard.API.Controllers;
 public class RecipesController : ControllerBase
 {
     private readonly IRecipeService _recipeService;
+    private readonly IValidator<RecipeSearchRequestDto> _validator;
 
-    public RecipesController(IRecipeService recipeService)
+    public RecipesController(IRecipeService recipeService, IValidator<RecipeSearchRequestDto> validator)
     {
         _recipeService = recipeService;
+        _validator = validator;
     }
-
     [HttpGet]
     public async Task<IActionResult> GetAll(
-        [FromQuery] string? searchTerm,
-        [FromQuery] int pageNumber = 1,
-        [FromQuery] int pageSize = 10,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
-        var result = await _recipeService.GetAllAsync(
-            searchTerm,
-            pageNumber,
-            pageSize,
-            cancellationToken);
+        var result = await _recipeService.GetAllAsync(cancellationToken);
 
         return Ok(result);
     }
@@ -44,4 +42,47 @@ public class RecipesController : ControllerBase
 
         return Ok(result);
     }
+
+
+
+    //[HttpGet("search")]
+    //public async Task<IActionResult> Search(
+    //[FromQuery] string name,
+    //CancellationToken cancellationToken)
+    //{
+    //    var result = await _recipeService.SearchAsync(
+    //        name,
+    //        cancellationToken);
+
+    //    return Ok(result);
+    //}
+
+
+
+
+
+
+    [HttpGet("search")]
+    public async Task<IActionResult> Search(
+     [FromQuery] RecipeSearchRequestDto request,
+     CancellationToken cancellationToken)
+    {
+        var validationResult =
+            await _validator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors.Select(e => new
+            {
+                Field = e.PropertyName,
+                Error = e.ErrorMessage
+            }));
+        }
+
+        var result =
+            await _recipeService.SearchAsync(request, cancellationToken);
+
+        return Ok(result);
+    }
+
 }

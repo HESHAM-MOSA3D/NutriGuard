@@ -1,35 +1,31 @@
-﻿using System.Text;
+﻿
+
+
 
 namespace NutriGuard.Application.Common.Helpers;
 
+
+
 public static class ArabicNormalizer
 {
-    public static string Normalize(string? text)
+    public static string Normalize(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
-            return string.Empty;
+            return "";
 
-        text = text.Trim();
+        return text
+            .Trim()
+            .ToLower()
 
-        text = text
-            .Replace('أ', 'ا')
-            .Replace('إ', 'ا')
-            .Replace('آ', 'ا')
-            .Replace('ى', 'ي')
-            .Replace('ة', 'ه')
-            .Replace('ؤ', 'و')
-            .Replace('ئ', 'ي');
+            .Replace("أ", "ا")
+            .Replace("إ", "ا")
+            .Replace("آ", "ا")
 
-        var sb = new StringBuilder();
+            .Replace("ة", "ه")
 
-        foreach (var c in text)
-        {
-            if (c >= '\u064B' && c <= '\u065F')
-                continue;
+            .Replace("ى", "ي")
 
-            sb.Append(c);
-        }
-
-        return sb.ToString();
+            .Replace("ؤ", "و")
+            .Replace("ئ", "ي");
     }
 }

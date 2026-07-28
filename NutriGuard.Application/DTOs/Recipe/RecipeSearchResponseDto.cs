@@ -1,6 +1,6 @@
 ﻿namespace NutriGuard.Application.DTOs.Recipe;
 
-public class RecipeDetailsDto
+public class RecipeSearchResponseDto
 {
     public int Id { get; set; }
 
@@ -8,13 +8,11 @@ public class RecipeDetailsDto
 
     public string Description { get; set; } = string.Empty;
 
-    public string Instructions { get; set; } = string.Empty;
-
     public int Servings { get; set; }
 
     public int PreparationTimeMinutes { get; set; }
 
-    public List<RecipeIngredientDto> Ingredients { get; set; }
-        = new();
-    public List<string> Aliases { get; set; } = new();
+    public List<string> Aliases { get; set; } = [];
+
+    public List<RecipeIngredientDto> Ingredients { get; set; } = [];
 }

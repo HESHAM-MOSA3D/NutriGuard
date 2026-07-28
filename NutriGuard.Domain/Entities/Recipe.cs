@@ -18,4 +18,7 @@ public class Recipe
 
     public ICollection<RecipeIngredient> RecipeIngredients { get; set; }
         = new List<RecipeIngredient>();
+
+    public ICollection<RecipeAlias> RecipeAliases { get; set; }
+    = new List<RecipeAlias>();
 }
