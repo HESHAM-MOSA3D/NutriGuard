@@ -59,6 +59,10 @@ public static class DependencyInjection
         services.AddScoped<IRecipeRepository, RecipeRepository>();
         services.AddScoped<IRecipeService, RecipeService>();
 
+        services.AddScoped<DatabaseSeeder>();
+
+        services.AddValidatorsFromAssemblyContaining<FoodSearchRequestValidator>();
+
 
 
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>

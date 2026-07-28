@@ -11,4 +11,7 @@ public class RecipeDto
     public int Servings { get; set; }
 
     public int PreparationTimeMinutes { get; set; }
+    public List<string> Aliases { get; set; } = new();
+
+    public List<RecipeIngredientDto> Ingredients { get; set; } = new();
 }

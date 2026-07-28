@@ -13,32 +13,33 @@ public class RecipeService : IRecipeService
         _recipeRepository = recipeRepository;
     }
 
-    public async Task<RecipeListResponseDto> GetAllAsync(
-    string? searchTerm,
-    int pageNumber,
-    int pageSize,
-    CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<RecipeDto>> GetAllAsync(
+     CancellationToken cancellationToken = default)
     {
-        var (items, totalCount) =
-            await _recipeRepository.GetPagedAsync(
-                searchTerm,
-                pageNumber,
-                pageSize,
-                cancellationToken);
+        var recipes = await _recipeRepository.GetAllAsync(cancellationToken);
 
-        var dto = items.Select(x => new RecipeDto
+        return recipes.Select(recipe => new RecipeDto
         {
-            Id = x.Id,
-            Name = x.Name,
-            Description = x.Description,
-            Servings = x.Servings,
-            PreparationTimeMinutes = x.PreparationTimeMinutes
+            Id = recipe.Id,
+            Name = recipe.Name,
+            Description = recipe.Description,
+            Servings = recipe.Servings,
+            PreparationTimeMinutes = recipe.PreparationTimeMinutes,
+            Ingredients = recipe.RecipeIngredients
+           .Select(i => new RecipeIngredientDto
+            {
+              FoodId = i.FoodId,
+              FoodName = i.Food.Name,
+             Quantity = i.Quantity,
+             Unit = i.Unit.ToString()
+            })
+           .ToList(),
+            Aliases = recipe.RecipeAliases
+           .Select(a => a.Alias)
+           .ToList()
+
         }).ToList();
-
-        return RecipeListResponseDto.Success(dto, totalCount);
     }
-
-
 
 
     public async Task<RecipeResponseDto> GetByIdAsync(
@@ -63,6 +64,9 @@ public class RecipeService : IRecipeService
             Instructions = recipe.Instructions,
             Servings = recipe.Servings,
             PreparationTimeMinutes = recipe.PreparationTimeMinutes,
+            Aliases = recipe.RecipeAliases
+           .Select(x => x.Alias)
+           .ToList(),
 
             Ingredients = recipe.RecipeIngredients
                 .Select(x => new RecipeIngredientDto
@@ -76,5 +80,50 @@ public class RecipeService : IRecipeService
         };
 
         return RecipeResponseDto.Success(dto);
+
     }
+
+    public async Task<RecipeListResponseDto> SearchAsync(
+    RecipeSearchRequestDto request,
+    CancellationToken cancellationToken = default)
+    {
+        var (recipes, totalCount) =
+            await _recipeRepository.SearchAsync(
+                request.SearchTerm,
+                request.PageNumber,
+                request.PageSize,
+                request.SortBy,
+                request.SortDescending,
+                cancellationToken);
+
+        var dto = recipes.Select(recipe => new RecipeDto
+        {
+            Id = recipe.Id,
+            Name = recipe.Name,
+            Description = recipe.Description,
+            Servings = recipe.Servings,
+            PreparationTimeMinutes = recipe.PreparationTimeMinutes,
+
+            Aliases = recipe.RecipeAliases
+                .Select(x => x.Alias)
+                .Distinct()
+                .ToList(),
+
+            Ingredients = recipe.RecipeIngredients
+                .Select(x => new RecipeIngredientDto
+                {
+                    FoodId = x.FoodId,
+                    FoodName = x.Food.Name,
+                    Quantity = x.Quantity,
+                    Unit = x.Unit.ToString()
+                })
+                .ToList()
+
+        }).ToList();
+
+        return RecipeListResponseDto.Success(dto, totalCount);
+    }
+
+
+
 }
