@@ -45,23 +45,6 @@ public class RecipesController : ControllerBase
 
 
 
-    //[HttpGet("search")]
-    //public async Task<IActionResult> Search(
-    //[FromQuery] string name,
-    //CancellationToken cancellationToken)
-    //{
-    //    var result = await _recipeService.SearchAsync(
-    //        name,
-    //        cancellationToken);
-
-    //    return Ok(result);
-    //}
-
-
-
-
-
-
     [HttpGet("search")]
     public async Task<IActionResult> Search(
      [FromQuery] RecipeSearchRequestDto request,

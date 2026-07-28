@@ -4,7 +4,6 @@ using NutriGuard.Application.DTOs.Food;
 using NutriGuard.Application.Interfaces.Services;
 using NutriGuard.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using NutriGuard.Infrastructure.Persistence;
 
 namespace NutriGuard.API.Controllers;
 
@@ -93,34 +92,4 @@ public sealed class FoodsController : ControllerBase
         return Ok(categories);
     }
 
-
-
-
-
-
-
-    //[HttpGet("search")]
-    //public async Task<IActionResult> Search(
-    //    [FromQuery] FoodSearchRequestDto request,
-    //    CancellationToken cancellationToken)
-    //{
-    //    var result = await _foodService.SearchAsync(
-    //        request,
-    //        cancellationToken);
-
-    //    return Ok(result);
-    //}
-
-
-    //[HttpGet("category/{categoryId:int}")]
-    //public async Task<IActionResult> GetByCategory(
-    //    int categoryId,
-    //    CancellationToken cancellationToken)
-    //{
-    //    var result = await _foodService.GetByCategoryAsync(
-    //        categoryId,
-    //        cancellationToken);
-
-    //    return Ok(result);
-    //}
 }

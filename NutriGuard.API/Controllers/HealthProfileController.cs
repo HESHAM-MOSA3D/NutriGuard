@@ -123,11 +123,4 @@ public class HealthProfileController : ControllerBase
         return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 
-
-
-
-
-   
-
-
 }
