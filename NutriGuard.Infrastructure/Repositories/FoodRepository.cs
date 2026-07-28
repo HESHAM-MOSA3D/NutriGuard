@@ -15,21 +15,23 @@ public sealed class FoodRepository
     }
 
     public async Task<IReadOnlyList<Food>> GetAllAsync(
-        CancellationToken cancellationToken = default)
+       CancellationToken cancellationToken = default)
     {
         return await _dbSet
             .Include(x => x.FoodCategory)
+            .Include(x => x.Aliases)
             .AsNoTracking()
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
     }
 
     public async Task<Food?> GetByIdAsync(
-        int id,
-        CancellationToken cancellationToken = default)
+    int id,
+    CancellationToken cancellationToken = default)
     {
         return await _dbSet
             .Include(x => x.FoodCategory)
+            .Include(x => x.Aliases)
             .AsNoTracking()
             .FirstOrDefaultAsync(
                 x => x.Id == id,

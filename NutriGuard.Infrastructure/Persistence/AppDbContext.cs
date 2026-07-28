@@ -1,7 +1,8 @@
-using NutriGuard.Domain.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 
+using Microsoft.EntityFrameworkCore;
+using NutriGuard.Domain.Entities;
+using System.Reflection.Emit;
+using NutriGuard.Application.Common.Helpers;
 namespace NutriGuard.Infrastructure.Persistence;
 
 public class AppDbContext : IdentityDbContext<ApplicationUser>
@@ -18,7 +19,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<FoodPreference> FoodPreferences { get; set; }
     public DbSet<FoodCategory> FoodCategories => Set<FoodCategory>();
     public DbSet<Recipe> Recipes => Set<Recipe>();
-
+    public DbSet<RecipeAlias> RecipeAliases => Set<RecipeAlias>();
     public DbSet<RecipeIngredient> RecipeIngredients => Set<RecipeIngredient>();
     public DbSet<MealLog> MealLogs => Set<MealLog>();
     public DbSet<MealItem> MealItems => Set<MealItem>();
@@ -27,6 +28,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+       
         base.OnModelCreating(builder);
 
         builder.HasPostgresExtension("pg_trgm");
