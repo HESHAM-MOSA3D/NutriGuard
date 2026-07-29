@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NutriGuard.Application.DTOs.HealthProfile;
 using NutriGuard.Application.Interfaces.Services;
@@ -22,9 +22,6 @@ public class HealthProfileController : ControllerBase
         _healthProfileService = healthProfileService;
         _foodPreferenceService = foodPreferenceService;
     }
-
-
-
 
 
     [HttpPost]
@@ -100,27 +97,5 @@ public class HealthProfileController : ControllerBase
         return Ok(response);
     }
 
-
-
-
-    [HttpPost("food-preferences")]
-    public async Task<IActionResult> AddFoodPreference(
-        AddFoodPreferenceRequestDto request,
-        CancellationToken cancellationToken)
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
-        var profile = await _healthProfileService.GetAsync(userId, cancellationToken);
-
-        if (!profile.IsSuccess)
-            return NotFound(profile);
-
-        var result = await _foodPreferenceService.AddAsync(
-            profile.Data.Id,
-            request,
-            cancellationToken);
-
-        return result.IsSuccess ? Ok(result) : BadRequest(result);
-    }
 
 }
