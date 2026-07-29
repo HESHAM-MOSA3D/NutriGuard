@@ -1,5 +1,4 @@
-
-namespace NutriGuard.Domain.Enums;
+﻿namespace NutriGuard.Domain.Enums;
 
 public enum MealType
 {
@@ -8,4 +7,3 @@ public enum MealType
     Dinner = 3,
     Snack = 4
 }
-

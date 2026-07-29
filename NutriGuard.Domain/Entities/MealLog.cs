@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NutriGuard.Domain.Enums;
+﻿using NutriGuard.Domain.Enums;
 
 namespace NutriGuard.Domain.Entities;
 
@@ -21,3 +22,8 @@ public class MealLog
     public ICollection<MealItem> MealItems { get; set; } = new List<MealItem>();
 }
 
+    public DateTime LoggedAt { get; set; } = DateTime.UtcNow;
+
+    public ICollection<MealLogItem> MealItems { get; set; }
+        = new List<MealLogItem>();
+}
