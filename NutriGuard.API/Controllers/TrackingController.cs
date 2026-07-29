@@ -66,26 +66,53 @@ public class TrackingController : ControllerBase
     }
 
     [HttpDelete("meals/{mealLogId}")]
-    public async Task<IActionResult> DeleteMeal(int mealLogId)
-    {
-        var userId = GetUserId();
-        var result = await _trackingService.DeleteMealAsync(userId, mealLogId);
-        return result.IsSuccess ? Ok(result) : BadRequest(result);
-    }
+public async Task<IActionResult> DeleteMeal(
+    int mealLogId,
+    CancellationToken cancellationToken)
+{
+    var userId = GetUserId();
 
-    [HttpDelete("water/{waterLogId}")]
-    public async Task<IActionResult> DeleteWater(int waterLogId)
-    {
-        var userId = GetUserId();
-        var result = await _trackingService.DeleteWaterAsync(userId, waterLogId);
-        return result.IsSuccess ? Ok(result) : BadRequest(result);
-    }
+    var response = await _trackingService.DeleteMealAsync(
+        userId,
+        mealLogId,
+        cancellationToken);
 
-    [HttpDelete("weight/{weightLogId}")]
-    public async Task<IActionResult> DeleteWeight(int weightLogId)
-    {
-        var userId = GetUserId();
-        var result = await _trackingService.DeleteWeightAsync(userId, weightLogId);
-        return result.IsSuccess ? Ok(result) : BadRequest(result);
-    }
+    return response.IsSuccess
+        ? NoContent()
+        : NotFound(response);
+}
+
+[HttpDelete("water/{waterLogId}")]
+public async Task<IActionResult> DeleteWater(
+    int waterLogId,
+    CancellationToken cancellationToken)
+{
+    var userId = GetUserId();
+
+    var response = await _trackingService.DeleteWaterAsync(
+        userId,
+        waterLogId,
+        cancellationToken);
+
+    return response.IsSuccess
+        ? NoContent()
+        : NotFound(response);
+}
+
+[HttpDelete("weight/{weightLogId}")]
+public async Task<IActionResult> DeleteWeight(
+    int weightLogId,
+    CancellationToken cancellationToken)
+{
+    var userId = GetUserId();
+
+    var response = await _trackingService.DeleteWeightAsync(
+        userId,
+        weightLogId,
+        cancellationToken);
+
+    return response.IsSuccess
+        ? NoContent()
+        : NotFound(response);
+}
 }
