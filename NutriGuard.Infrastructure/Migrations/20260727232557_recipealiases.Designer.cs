@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NutriGuard.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using NutriGuard.Infrastructure.Persistence;
 namespace NutriGuard.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260727232557_recipealiases")]
+    partial class recipealiases
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -467,68 +470,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.ToTable("HealthProfiles");
                 });
 
-            modelBuilder.Entity("NutriGuard.Domain.Entities.MealItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("FoodId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MealLogId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("Quantity")
-                        .HasPrecision(8, 2)
-                        .HasColumnType("numeric(8,2)");
-
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodId");
-
-                    b.HasIndex("MealLogId");
-
-                    b.ToTable("MealItems", (string)null);
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.MealLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<int>("MealType")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Date");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MealLogs", (string)null);
-                });
-
             modelBuilder.Entity("NutriGuard.Domain.Entities.PasswordResetOtp", b =>
                 {
                     b.Property<int>("Id")
@@ -673,66 +614,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.ToTable("RecipeIngredients", (string)null);
                 });
 
-            modelBuilder.Entity("NutriGuard.Domain.Entities.WaterLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<double>("AmountInMl")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Date");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("WaterLogs", (string)null);
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.WeightLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<double>("Weight")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Date");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("WeightLogs", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -845,36 +726,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NutriGuard.Domain.Entities.MealItem", b =>
-                {
-                    b.HasOne("NutriGuard.Domain.Entities.Food", "Food")
-                        .WithMany()
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("NutriGuard.Domain.Entities.MealLog", "MealLog")
-                        .WithMany("MealItems")
-                        .HasForeignKey("MealLogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Food");
-
-                    b.Navigation("MealLog");
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.MealLog", b =>
-                {
-                    b.HasOne("NutriGuard.Domain.Entities.ApplicationUser", "User")
-                        .WithMany("MealLogs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("NutriGuard.Domain.Entities.PasswordResetOtp", b =>
                 {
                     b.HasOne("NutriGuard.Domain.Entities.ApplicationUser", "User")
@@ -916,37 +767,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("NutriGuard.Domain.Entities.WaterLog", b =>
-                {
-                    b.HasOne("NutriGuard.Domain.Entities.ApplicationUser", "User")
-                        .WithMany("WaterLogs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.WeightLog", b =>
-                {
-                    b.HasOne("NutriGuard.Domain.Entities.ApplicationUser", "User")
-                        .WithMany("WeightLogs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("MealLogs");
-
-                    b.Navigation("WaterLogs");
-
-                    b.Navigation("WeightLogs");
-                });
-
             modelBuilder.Entity("NutriGuard.Domain.Entities.Food", b =>
                 {
                     b.Navigation("Aliases");
@@ -962,11 +782,6 @@ namespace NutriGuard.Infrastructure.Migrations
             modelBuilder.Entity("NutriGuard.Domain.Entities.HealthProfile", b =>
                 {
                     b.Navigation("FoodPreferences");
-                });
-
-            modelBuilder.Entity("NutriGuard.Domain.Entities.MealLog", b =>
-                {
-                    b.Navigation("MealItems");
                 });
 
             modelBuilder.Entity("NutriGuard.Domain.Entities.Recipe", b =>

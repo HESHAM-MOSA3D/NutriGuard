@@ -53,8 +53,6 @@ Fried Rice with Noodles,أرز بالشعرية,2
 Fried Rice with Onions,Rice,1
 Fried Rice with Onions,Onions,1
 Fried Rice with Onions,أرز بالبصل,2
-Fortified Rice Baby Food,Rice,1
-Fortified Rice Baby Food,أرز مدعم للأطفال,2
 Rice (Koshari),Rice,1
 Rice (Koshari),Koshari,1
 Rice (Koshari),كشري,2
@@ -86,8 +84,6 @@ Wheat Flour (Brown),دقيق أسمر,2
 Wheat Flour (White),Wheat,1
 Wheat Flour (White),Flour,1
 Wheat Flour (White),دقيق أبيض,2
-Fortified Wheat Baby Food,Wheat,1
-Fortified Wheat Baby Food,قمح مدعم للأطفال,2
 "Wheat Koskos, Plain",Wheat,1
 "Wheat Koskos, Plain",Koskos,1
 "Wheat Koskos, Plain",كسكسي سادة,2
@@ -220,72 +216,6 @@ Flaky Pastry,عجينة مورقة,2
 Date Pie (School),Date,1
 Date Pie (School),Pie,1
 Date Pie (School),فطيرة بالتمر,2
-"Fiteer Pie, Meshaltet",Fiteer,1
-"Fiteer Pie, Meshaltet",Pie,1
-"Fiteer Pie, Meshaltet",Meshaltet,1
-"Fiteer Pie, Meshaltet",فطير مشلتت,2
-"Fiteer Pie, Market",Fiteer,1
-"Fiteer Pie, Market",Pie,1
-"Fiteer Pie, Market",فطير من المحل,2
-Rucak Pie with Meat,Rucak,1
-Rucak Pie with Meat,Pie,1
-Rucak Pie with Meat,رقاق باللحمة,2
-Pizza with Cheese Topping,Pizza,1
-Pizza with Cheese Topping,Cheese,1
-Pizza with Cheese Topping,بيتزا بالجبنة,2
-Pizza with Meat/Sausage Topping,Pizza,1
-Pizza with Meat/Sausage Topping,Sausage,1
-Pizza with Meat/Sausage Topping,بيتزا باللحمة والسجق,2
-Pizza with Seafood Topping,Pizza,1
-Pizza with Seafood Topping,Seafood,1
-Pizza with Seafood Topping,بيتزا بالمأكولات البحرية,2
-Vegetarian Pizza,Vegetarian,1
-Vegetarian Pizza,Pizza,1
-Vegetarian Pizza,بيتزا خضار,2
-White Cheese Sandwich,Cheese,1
-White Cheese Sandwich,Sandwich,1
-White Cheese Sandwich,ساندوتش جبنة بيضاء,2
-Yellow Cheese Sandwich,Cheese,1
-Yellow Cheese Sandwich,Sandwich,1
-Yellow Cheese Sandwich,ساندوتش جبنة صفراء,2
-Fried Brain Sandwich,Brain,1
-Fried Brain Sandwich,Sandwich,1
-Fried Brain Sandwich,ساندوتش مخ مقلي,2
-Fried Chicken Sandwich,Chicken,1
-Fried Chicken Sandwich,Sandwich,1
-Fried Chicken Sandwich,ساندوتش فراخ مقلية,2
-Fried Eggplant Sandwich,Eggplant,1
-Fried Eggplant Sandwich,Sandwich,1
-Fried Eggplant Sandwich,ساندوتش باذنجان مقلي,2
-Fried Liver Sandwich,Liver,1
-Fried Liver Sandwich,Sandwich,1
-Fried Liver Sandwich,ساندوتش كبدة,2
-Fried Shrimp Sandwich,Shrimp,1
-Fried Shrimp Sandwich,Sandwich,1
-Fried Shrimp Sandwich,ساندوتش جمبري مقلي,2
-Fried Taamia Sandwich,Taamia,1
-Fried Taamia Sandwich,Sandwich,1
-Fried Taamia Sandwich,ساندوتش طعمية,2
-Fried Taamia Sandwich,ساندوتش فلافل,2
-Grilled Chicken Sandwich,Chicken,1
-Grilled Chicken Sandwich,Sandwich,1
-Grilled Chicken Sandwich,ساندوتش فراخ مشوية,2
-Grilled Kofta Sandwich,Kofta,1
-Grilled Kofta Sandwich,Sandwich,1
-Grilled Kofta Sandwich,ساندوتش كفتة مشوية,2
-Hamburger Sandwich,Hamburger,1
-Hamburger Sandwich,Sandwich,1
-Hamburger Sandwich,ساندوتش هامبورجر,2
-Hotdog Sandwich,Hotdog,1
-Hotdog Sandwich,Sandwich,1
-Hotdog Sandwich,ساندوتش هوت دوج,2
-Shawerma Meat Sandwich,Shawerma,1
-Shawerma Meat Sandwich,Sandwich,1
-Shawerma Meat Sandwich,ساندوتش شاورما لحمة,2
-Stewed Foul Sandwich,Stewed,1
-Stewed Foul Sandwich,Foul,1
-Stewed Foul Sandwich,Sandwich,1
-Stewed Foul Sandwich,ساندوتش فول,2
 Chufa Tuber (Hab-Alaziz),Chufa,1
 Chufa Tuber (Hab-Alaziz),Tuber,1
 Chufa Tuber (Hab-Alaziz),Hab,1
@@ -303,27 +233,18 @@ Potato Chips,Chips,1
 Potato Chips,شيبسي,2
 Fried Potatoes,Potatoes,1
 Fried Potatoes,بطاطس مقلية,2
-Potatoes Cooked with Tomato,Potatoes,1
-Potatoes Cooked with Tomato,Tomato,1
-Potatoes Cooked with Tomato,بطاطس بالصلصة,2
 Mashed Potatoes with Milk,Potatoes,1
 Mashed Potatoes with Milk,Milk,1
 Mashed Potatoes with Milk,بطاطس مهروسة باللبن,2
 Mashed Potatoes with Meat/Egg,Potatoes,1
 Mashed Potatoes with Meat/Egg,Egg,1
 Mashed Potatoes with Meat/Egg,بطاطس مهروسة باللحمة والبيض,2
-Potatoes Stuffed with Meat,Potatoes,1
-Potatoes Stuffed with Meat,بطاطس محشية لحمة,2
 Sweet Potatoes,Sweet,1
 Sweet Potatoes,Potatoes,1
 Sweet Potatoes,بطاطا,2
 Broad Beans,Broad,1
 Broad Beans,Beans,1
 Broad Beans,فول,2
-Broad Beans (Bisara),Broad,1
-Broad Beans (Bisara),Beans,1
-Broad Beans (Bisara),Bisara,1
-Broad Beans (Bisara),بيصارة,2
 Decorticated Broad Beans,Broad,1
 Decorticated Broad Beans,Beans,1
 Decorticated Broad Beans,فول مقشور,2
@@ -331,24 +252,6 @@ Decorticated Broad Beans,فول مقشور,2
 "Broad Beans (Foul), Canned",Beans,1
 "Broad Beans (Foul), Canned",Foul,1
 "Broad Beans (Foul), Canned",فول معلب,2
-Broad Beans (Foul Medames),Broad,1
-Broad Beans (Foul Medames),Beans,1
-Broad Beans (Foul Medames),Foul,1
-Broad Beans (Foul Medames),Medames,1
-Broad Beans (Foul Medames),فول مدمس,2
-Broad Beans (Menabet),Broad,1
-Broad Beans (Menabet),Beans,1
-Broad Beans (Menabet),Menabet,1
-Broad Beans (Menabet),فول منبت,2
-"Broad Beans (Nabet), Cooked",Broad,1
-"Broad Beans (Nabet), Cooked",Beans,1
-"Broad Beans (Nabet), Cooked",Nabet,1
-"Broad Beans (Nabet), Cooked",فول نابت مطبوخ,2
-"Broad Beans (Taamia), Fried",Broad,1
-"Broad Beans (Taamia), Fried",Beans,1
-"Broad Beans (Taamia), Fried",Taamia,1
-"Broad Beans (Taamia), Fried",طعمية,2
-"Broad Beans (Taamia), Fried",فلافل,2
 Kidney Beans (Red),Kidney,1
 Kidney Beans (Red),Beans,1
 Kidney Beans (Red),لوبيا حمراء,2
@@ -378,8 +281,6 @@ Dry Cowpeas,Cowpeas,1
 Fresh Cowpeas,Cowpeas,1
 "Cowpeas, Cooked",Cowpeas,1
 "Cowpeas, Cooked",لوبيا مطبوخة,2
-Cowpeas Cooked with Meat,Cowpeas,1
-Cowpeas Cooked with Meat,لوبيا باللحمة,2
 Fenugreek,حلبة,2
 Unpeeled Lentils,Lentils,1
 Unpeeled Lentils,عدس أسمر,2
@@ -390,9 +291,6 @@ Peeled Lentils (Yellow),عدس أصفر مقشور,2
 "Peeled Lentils with Rice, Cooked",Lentils,1
 "Peeled Lentils with Rice, Cooked",Rice,1
 "Peeled Lentils with Rice, Cooked",عدس بالأرز,2
-Peeled Lentil Soup,Lentil,1
-Peeled Lentil Soup,Soup,1
-Peeled Lentil Soup,شوربة عدس,2
 Lupines,ترمس,2
 Lupines (Termis),Lupines,1
 Lupines (Termis),Termis,1
@@ -454,12 +352,6 @@ Red Cabbage,كرنب أحمر,2
 White Cabbage,Cabbage,1
 White Cabbage,كرنب أبيض,2
 White Cabbage,ملفوف,2
-Cabbage Stuffed with Rice,Cabbage,1
-Cabbage Stuffed with Rice,Rice,1
-Cabbage Stuffed with Rice,كرنب محشي,2
-Cabbage Stuffed with Rice and Meat,Cabbage,1
-Cabbage Stuffed with Rice and Meat,Rice,1
-Cabbage Stuffed with Rice and Meat,كرنب محشي باللحمة,2
 Carrots,جزر,2
 Cauliflower,قرنبيط,2
 Cauliflower,زهرة,2
@@ -491,13 +383,8 @@ Round Eggplant,باذنجان بلدي,2
 Round Eggplant,باذنجان مدور,2
 "Eggplant, Cooked",Eggplant,1
 "Eggplant, Cooked",باذنجان مطبوخ,2
-Eggplant Cooked with Meat,Eggplant,1
-Eggplant Cooked with Meat,باذنجان باللحمة,2
 Fried Eggplant,Eggplant,1
 Fried Eggplant,باذنجان مقلي,2
-Eggplant Stuffed with Rice,Eggplant,1
-Eggplant Stuffed with Rice,Rice,1
-Eggplant Stuffed with Rice,باذنجان محشي,2
 Fennel,شمر,2
 Fenugreek Leaves,Fenugreek,1
 Fenugreek Leaves,Leaves,1
@@ -514,16 +401,9 @@ Pickled Grape Leaves,Pickled,1
 Pickled Grape Leaves,Grape,1
 Pickled Grape Leaves,Leaves,1
 Pickled Grape Leaves,ورق عنب مخلل,2
-Grape Leaves Stuffed with Rice,Grape,1
-Grape Leaves Stuffed with Rice,Leaves,1
-Grape Leaves Stuffed with Rice,Rice,1
-Grape Leaves Stuffed with Rice,ورق عنب محشي,2
 Jew's Mallow,Jew's,1
 Jew's Mallow,Mallow,1
 Jew's Mallow,ملوخية,2
-"Jew's Mallow, Cooked",Jew's,1
-"Jew's Mallow, Cooked",Mallow,1
-"Jew's Mallow, Cooked",ملوخية مطبوخة,2
 Leek Bulb,Leek,1
 Leek Bulb,كراث,2
 Iceberg Lettuce,Iceberg,1
@@ -532,15 +412,7 @@ Iceberg Lettuce,خس أيسبرج,2
 Lettuce Leaves,Lettuce,1
 Lettuce Leaves,Leaves,1
 Lettuce Leaves,ورق خس,2
-Lettuce Stuffed with Rice,Lettuce,1
-Lettuce Stuffed with Rice,Rice,1
-Lettuce Stuffed with Rice,خس محشي,2
-Lettuce Stuffed with Rice and Meat,Lettuce,1
-Lettuce Stuffed with Rice and Meat,Rice,1
-Lettuce Stuffed with Rice and Meat,خس محشي باللحمة,2
 Mallow,خبيزة,2
-"Mallow, Cooked",Mallow,1
-"Mallow, Cooked",خبيزة مطبوخة,2
 Mint,نعناع,2
 Mushrooms,مشروم,2
 Mushrooms,عيش الغراب,2
@@ -549,8 +421,6 @@ Canned Mushrooms,مشروم معلب,2
 Okra,بامية,2
 "Okra, Cooked",Okra,1
 "Okra, Cooked",بامية مطبوخة,2
-Okra Cooked with Meat,Okra,1
-Okra Cooked with Meat,بامية باللحمة,2
 Pickled Black Olives,Pickled,1
 Pickled Black Olives,Olives,1
 Pickled Black Olives,زيتون أسود مخلل,2
@@ -589,19 +459,9 @@ White Radish Root/Leaves,فجل أبيض بالورق,2
 Spinach,سبانخ,2
 "Spinach, Cooked",Spinach,1
 "Spinach, Cooked",سبانخ مطبوخة,2
-Spinach Cooked with Meat,Spinach,1
-Spinach Cooked with Meat,سبانخ باللحمة,2
 Squash,كوسة,2
 "Squash, Cooked",Squash,1
 "Squash, Cooked",كوسة مطبوخة,2
-Squash Cooked with Meat,Squash,1
-Squash Cooked with Meat,كوسة باللحمة,2
-Squash Stuffed with Rice,Squash,1
-Squash Stuffed with Rice,Rice,1
-Squash Stuffed with Rice,كوسة محشية,2
-Squash Stuffed with Rice and Meat,Squash,1
-Squash Stuffed with Rice and Meat,Rice,1
-Squash Stuffed with Rice and Meat,كوسة محشية باللحمة,2
 Tomatoes,طماطم,2
 Tomatoes,قوطة,2
 Tomato Ketchup,Tomato,1
@@ -737,53 +597,6 @@ Jams,مربى,2
 Jelly Powder,Jelly,1
 Jelly Powder,جيلي بودرة,2
 Molasses,عسل أسود,2
-Oriental Baklava,Oriental,1
-Oriental Baklava,Baklava,1
-Oriental Baklava,بقلاوة,2
-Oriental Baklava (Assorted),Oriental,1
-Oriental Baklava (Assorted),Baklava,1
-Oriental Baklava (Assorted),بقلاوة مشكلة,2
-Oriental Balah El-Sham,Oriental,1
-Oriental Balah El-Sham,Balah,1
-Oriental Balah El-Sham,Sham,1
-Oriental Balah El-Sham,بلح الشام,2
-Oriental Basbusa,Oriental,1
-Oriental Basbusa,Basbusa,1
-Oriental Basbusa,بسبوسة,2
-Oriental Basbusa with Nuts,Oriental,1
-Oriental Basbusa with Nuts,Basbusa,1
-Oriental Basbusa with Nuts,Nuts,1
-Oriental Basbusa with Nuts,بسبوسة بالمكسرات,2
-Oriental Eish Saraya (Cream),Oriental,1
-Oriental Eish Saraya (Cream),Eish,1
-Oriental Eish Saraya (Cream),Saraya,1
-Oriental Eish Saraya (Cream),Cream,1
-Oriental Eish Saraya (Cream),عيش السرايا,2
-Oriental Ghoraiba,Oriental,1
-Oriental Ghoraiba,Ghoraiba,1
-Oriental Ghoraiba,غريبة,2
-Oriental Kaak Eid,Oriental,1
-Oriental Kaak Eid,Kaak,1
-Oriental Kaak Eid,Eid,1
-Oriental Kaak Eid,كعك العيد,2
-Oriental Katait,Oriental,1
-Oriental Katait,Katait,1
-Oriental Katait,قطايف,2
-"Oriental Kunafa, Cream",Oriental,1
-"Oriental Kunafa, Cream",Kunafa,1
-"Oriental Kunafa, Cream",Cream,1
-"Oriental Kunafa, Cream",كنافة بالقشطة,2
-Oriental Kunafa with Nuts,Oriental,1
-Oriental Kunafa with Nuts,Kunafa,1
-Oriental Kunafa with Nuts,Nuts,1
-Oriental Kunafa with Nuts,كنافة بالمكسرات,2
-Oriental Lukmet El-Kady,Oriental,1
-Oriental Lukmet El-Kady,Lukmet,1
-Oriental Lukmet El-Kady,Kady,1
-Oriental Lukmet El-Kady,لقمة القاضي,2
-Oriental Maamoul,Oriental,1
-Oriental Maamoul,Maamoul,1
-Oriental Maamoul,معمول,2
 Sugar (Sucrose),Sugar,1
 Sugar (Sucrose),Sucrose,1
 Sugar (Sucrose),سكر,2
@@ -843,16 +656,6 @@ Beef Meat,Beef,1
 Beef Meat,لحم بقري,2
 Beef Meat Round,Beef,1
 Beef Meat Round,لحم بقري موزة,2
-"Beef Meat (Kofta, Fried)",Beef,1
-"Beef Meat (Kofta, Fried)",Kofta,1
-"Beef Meat (Kofta, Fried)",كفتة مقلية,2
-"Beef Meat (Kofta, Grilled)",Beef,1
-"Beef Meat (Kofta, Grilled)",Kofta,1
-"Beef Meat (Kofta, Grilled)",كفتة مشوية,2
-Beef Meat (Kofta/Rice),Beef,1
-Beef Meat (Kofta/Rice),Kofta,1
-Beef Meat (Kofta/Rice),Rice,1
-Beef Meat (Kofta/Rice),كفتة بالأرز,2
 "Beef Meat (Kubeba, Fried)",Beef,1
 "Beef Meat (Kubeba, Fried)",Kubeba,1
 "Beef Meat (Kubeba, Fried)",كبيبة مقلية,2
@@ -923,9 +726,6 @@ Lamb Liver,Liver,1
 Lamb Liver,كبدة ضاني,2
 Lamb Meat,Lamb,1
 Lamb Meat,لحم ضاني,2
-Lamb Meat (Kabab),Lamb,1
-Lamb Meat (Kabab),Kabab,1
-Lamb Meat (Kabab),كباب ضاني,2
 Pigeon Meat and Skin,Pigeon,1
 Pigeon Meat and Skin,حمام بالجلد,2
 Pork Meat,Pork,1
@@ -955,9 +755,6 @@ Chicken Egg Yolk,صفار بيض,2
 Whole Duck Egg,Duck,1
 Whole Duck Egg,Egg,1
 Whole Duck Egg,بيض بط,2
-Omelet (Ijaa),Omelet,1
-Omelet (Ijaa),Ijaa,1
-Omelet (Ijaa),عجة,2
 Bream,دنيس,2
 Golden Bream,Golden,1
 Golden Bream,Bream,1
@@ -1082,10 +879,6 @@ Buffalo Milk,لبن جاموسي,2
 Cow Milk,Cow,1
 Cow Milk,Milk,1
 Cow Milk,لبن بقري,2
-Human Milk,Human,1
-Human Milk,Milk,1
-Human Milk,لبن أم,2
-Human Milk,حليب أم,2
 Chocolate Milk,Chocolate,1
 Chocolate Milk,Milk,1
 Chocolate Milk,لبن بالشوكولاتة,2
@@ -1225,3 +1018,17 @@ Compressed Yeast,خميرة طازجة,2
 Dried Yeast,Yeast,1
 Dried Yeast,خميرة فورية,2
 Dried Yeast,خميرة جافة,2
+Cumin,Cumin,1
+Black Pepper,Black Pepper,1
+Cinnamon,Cinnamon,1
+Cardamom,Cardamom,1
+Turmeric,Turmeric,1
+Turmeric,كركم,2
+Paprika,Paprika,1
+Paprika,بابريكا,2
+Bay Leaf,Bay Leaf,1
+Bay Leaf,ورق لورا,2
+Chili Powder,Chili Powder,1
+Chili Powder,شطة,2
+Coriander Powder,Coriander Powder,1
+Coriander Powder,كزبرة ناشفة,2

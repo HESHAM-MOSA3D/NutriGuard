@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using NutriGuard.Domain.Enums;
@@ -18,4 +19,4 @@ public class MealLog
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public ICollection<MealItem> MealItems { get; set; } = new List<MealItem>();
-}
+
