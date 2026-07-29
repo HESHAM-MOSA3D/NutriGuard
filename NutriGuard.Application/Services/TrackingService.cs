@@ -35,6 +35,24 @@ public class TrackingService : ITrackingService
 
     public async Task<MealLogResponseDto> LogMealAsync(string userId, LogMealRequestDto request, CancellationToken cancellationToken = default)
     {
+        if (request.MealItems == null || !request.MealItems.Any())
+        {
+            return MealLogResponseDto.Failure("Meal must contain at least one item.");
+        }
+
+        if (!Enum.IsDefined(typeof(MealType), request.MealType))
+        {
+            return MealLogResponseDto.Failure("Invalid meal type.");
+        }
+
+        foreach (var item in request.MealItems)
+        {
+            if (item.Quantity <= 0)
+            {
+                return MealLogResponseDto.Failure("Quantity must be greater than zero.");
+            }
+        }
+
         var mealLog = new MealLog
         {
             UserId = userId,
@@ -74,6 +92,16 @@ public class TrackingService : ITrackingService
 
     public async Task<WaterLogResponseDto> LogWaterAsync(string userId, LogWaterRequestDto request, CancellationToken cancellationToken = default)
     {
+        if (request.AmountInMl <= 0)
+        {
+            return WaterLogResponseDto.Failure("Water amount must be greater than zero.");
+        }
+
+        if (request.AmountInMl > 10000)
+        {
+            return WaterLogResponseDto.Failure("Water amount exceeds the maximum allowed.");
+        }
+
         var waterLog = new WaterLog
         {
             UserId = userId,
@@ -96,6 +124,16 @@ public class TrackingService : ITrackingService
 
     public async Task<WeightLogResponseDto> LogWeightAsync(string userId, LogWeightRequestDto request, CancellationToken cancellationToken = default)
     {
+        if (request.Weight <= 0)
+        {
+            return WeightLogResponseDto.Failure("Weight must be greater than zero.");
+        }
+
+        if (request.Weight > 500)
+        {
+            return WeightLogResponseDto.Failure("Weight exceeds the maximum allowed.");
+        }
+
         var weightLog = new WeightLog
         {
             UserId = userId,
@@ -233,6 +271,60 @@ public class TrackingService : ITrackingService
         return summaries;
     }
 
+    public async Task<BaseResponse> DeleteMealAsync(string userId, int mealLogId, CancellationToken cancellationToken = default)
+    {
+        var meal = await _mealLogRepository.GetByIdAsync(mealLogId, cancellationToken);
+        if (meal == null)
+        {
+            return BaseResponse.Failure("Meal log not found.");
+        }
+
+        if (meal.UserId != userId)
+        {
+            return BaseResponse.Failure("Unauthorized.");
+        }
+
+        _mealLogRepository.Delete(meal);
+        await _mealLogRepository.SaveChangesAsync(cancellationToken);
+        return BaseResponse.Success("Meal log deleted successfully.");
+    }
+
+    public async Task<BaseResponse> DeleteWaterAsync(string userId, int waterLogId, CancellationToken cancellationToken = default)
+    {
+        var water = await _waterLogRepository.GetByIdAsync(waterLogId, cancellationToken);
+        if (water == null)
+        {
+            return BaseResponse.Failure("Water log not found.");
+        }
+
+        if (water.UserId != userId)
+        {
+            return BaseResponse.Failure("Unauthorized.");
+        }
+
+        _waterLogRepository.Delete(water);
+        await _waterLogRepository.SaveChangesAsync(cancellationToken);
+        return BaseResponse.Success("Water log deleted successfully.");
+    }
+
+    public async Task<BaseResponse> DeleteWeightAsync(string userId, int weightLogId, CancellationToken cancellationToken = default)
+    {
+        var weight = await _weightLogRepository.GetByIdAsync(weightLogId, cancellationToken);
+        if (weight == null)
+        {
+            return BaseResponse.Failure("Weight log not found.");
+        }
+
+        if (weight.UserId != userId)
+        {
+            return BaseResponse.Failure("Unauthorized.");
+        }
+
+        _weightLogRepository.Delete(weight);
+        await _weightLogRepository.SaveChangesAsync(cancellationToken);
+        return BaseResponse.Success("Weight log deleted successfully.");
+    }
+
     private MealLogDto MapToMealLogDto(MealLog log)
     {
         var dto = new MealLogDto
@@ -274,9 +366,20 @@ public class TrackingService : ITrackingService
 
     private static readonly Dictionary<int, Dictionary<Unit, double>> FoodSpecificUnitWeights = new()
     {
-        // Extensible mapping for specific foods (e.g., FoodId -> (Unit -> WeightInGrams))
-        // Example: FoodId 1 (Egg) -> Piece weighs 50 grams
-        // { 1, new() { { Unit.Piece, 50.0 } } }
+        {
+            5,
+            new Dictionary<Unit, double>
+            {
+                { Unit.Piece, 55 }
+            }
+        },
+        {
+            17,
+            new Dictionary<Unit, double>
+            {
+                { Unit.Piece, 180 }
+            }
+        }
     };
 
     private double ConvertToGrams(int foodId, decimal quantity, Unit unit)
