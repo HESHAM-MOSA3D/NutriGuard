@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -45,10 +45,14 @@ public static class DependencyInjection
 
         services.AddScoped<IHealthProfileService, HealthProfileService>();
         services.AddScoped<IFoodPreferenceService, FoodPreferenceService>();
+        services.AddScoped<ITrackingService, TrackingService>();
 
         services.AddScoped<IFoodRepository, FoodRepository>();
 
         services.AddScoped<IFoodPreferenceRepository, FoodPreferenceRepository>();
+        services.AddScoped<IMealLogRepository, MealLogRepository>();
+        services.AddScoped<IWaterLogRepository, WaterLogRepository>();
+        services.AddScoped<IWeightLogRepository, WeightLogRepository>();
 
 
         services.AddScoped<IRecipeImportService, RecipeImportService>();

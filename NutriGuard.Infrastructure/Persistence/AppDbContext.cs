@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NutriGuard.Domain.Entities;
 using System.Reflection.Emit;
@@ -21,6 +22,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Recipe> Recipes => Set<Recipe>();
     public DbSet<RecipeAlias> RecipeAliases => Set<RecipeAlias>();
     public DbSet<RecipeIngredient> RecipeIngredients => Set<RecipeIngredient>();
+    public DbSet<MealLog> MealLogs => Set<MealLog>();
+    public DbSet<MealItem> MealItems => Set<MealItem>();
+    public DbSet<WaterLog> WaterLogs => Set<WaterLog>();
+    public DbSet<WeightLog> WeightLogs => Set<WeightLog>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

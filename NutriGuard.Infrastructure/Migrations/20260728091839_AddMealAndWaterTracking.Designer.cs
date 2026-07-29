@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NutriGuard.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using NutriGuard.Infrastructure.Persistence;
 namespace NutriGuard.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260728091839_AddMealAndWaterTracking")]
+    partial class AddMealAndWaterTracking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -613,33 +616,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.ToTable("Recipes", (string)null);
                 });
 
-            modelBuilder.Entity("NutriGuard.Domain.Entities.RecipeAlias", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Alias")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.Property<int>("Language")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeId", "Alias")
-                        .IsUnique();
-
-                    b.ToTable("RecipeAliases", (string)null);
-                });
-
             modelBuilder.Entity("NutriGuard.Domain.Entities.RecipeIngredient", b =>
                 {
                     b.Property<int>("Id")
@@ -886,17 +862,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NutriGuard.Domain.Entities.RecipeAlias", b =>
-                {
-                    b.HasOne("NutriGuard.Domain.Entities.Recipe", "Recipe")
-                        .WithMany("RecipeAliases")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recipe");
-                });
-
             modelBuilder.Entity("NutriGuard.Domain.Entities.RecipeIngredient", b =>
                 {
                     b.HasOne("NutriGuard.Domain.Entities.Food", "Food")
@@ -971,8 +936,6 @@ namespace NutriGuard.Infrastructure.Migrations
 
             modelBuilder.Entity("NutriGuard.Domain.Entities.Recipe", b =>
                 {
-                    b.Navigation("RecipeAliases");
-
                     b.Navigation("RecipeIngredients");
                 });
 #pragma warning restore 612, 618

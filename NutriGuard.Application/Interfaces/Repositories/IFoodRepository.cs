@@ -11,6 +11,10 @@ public interface IFoodRepository : IGenericRepository<Food>
         int id,
         CancellationToken cancellationToken = default);
 
+    Task<IReadOnlyList<Food>> GetFoodsByIdsAsync(
+        List<int> ids,
+        CancellationToken cancellationToken = default);
+
     Task<IReadOnlyList<Food>> GetByCategoryAsync(
         int categoryId,
         CancellationToken cancellationToken = default);
