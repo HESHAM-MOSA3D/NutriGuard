@@ -1,4 +1,5 @@
-﻿using NutriGuard.Domain.Enums;
+using NutriGuard.Application.DTOs.FoodPreference;
+using NutriGuard.Domain.Enums;
 
 namespace NutriGuard.Application.DTOs.HealthProfile;
 
@@ -19,4 +20,6 @@ public class HealthProfileDto
     public DietType? DietType { get; set; }
 
     public Goal? Goal { get; set; }
+
+    public List<FoodPreferenceDto> FoodPreferences { get; set; } = new();
 }
