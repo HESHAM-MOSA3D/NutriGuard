@@ -36,4 +36,17 @@ public class WaterLogRepository : GenericRepository<WaterLog>, IWaterLogReposito
             .Where(x => x.UserId == userId && x.Date == date)
             .SumAsync(x => x.AmountInMl, cancellationToken);
     }
+
+    public async Task<IEnumerable<WaterLog>> GetUserWaterLogsInDateRangeAsync(
+        string userId,
+        DateOnly startDate,
+        DateOnly endDate,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Where(x => x.UserId == userId && x.Date >= startDate && x.Date <= endDate)
+            .OrderBy(x => x.Date)
+            .ThenBy(x => x.CreatedAt)
+            .ToListAsync(cancellationToken);
+    }
 }

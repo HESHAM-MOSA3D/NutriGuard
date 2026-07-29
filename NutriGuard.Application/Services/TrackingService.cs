@@ -43,10 +43,13 @@ public class TrackingService : ITrackingService
             CreatedAt = DateTime.UtcNow
         };
 
+        var foodIds = request.MealItems.Select(x => x.FoodId).Distinct().ToList();
+        var foods = await _foodRepository.GetFoodsByIdsAsync(foodIds, cancellationToken);
+        var foodDict = foods.ToDictionary(f => f.Id);
+
         foreach (var item in request.MealItems)
         {
-            var food = await _foodRepository.GetByIdAsync(item.FoodId, cancellationToken);
-            if (food == null)
+            if (!foodDict.ContainsKey(item.FoodId))
             {
                 return MealLogResponseDto.Failure($"Food with ID {item.FoodId} not found.");
             }
@@ -132,9 +135,6 @@ public class TrackingService : ITrackingService
             summary.ProteinTargetGrams = targets.ProteinGrams;
             summary.CarbsTargetGrams = targets.CarbsGrams;
             summary.FatTargetGrams = targets.FatGrams;
-
-            // Standard recommendation (approx 30ml per kg of body weight or simple constant). Let's default to standard 2000ml or 0 if not calc.
-            // For now sticking to simple 2000 ml default if not calculated.
             summary.WaterTargetMl = 2000;
         }
 
@@ -166,12 +166,70 @@ public class TrackingService : ITrackingService
 
     public async Task<IEnumerable<DailySummaryDto>> GetDailyHistoryAsync(string userId, DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken = default)
     {
+        // 1. Fetch static Targets once
+        var targetsResult = await _nutritionCalculator.CalculateAsync(userId, cancellationToken);
+        var targets = targetsResult.Data;
+
+        // 2. Fetch latest weight once
+        var latestWeight = await _weightLogRepository.GetLatestUserWeightLogAsync(userId, cancellationToken);
+        double? currentWeight = latestWeight?.Weight;
+
+        // 3. Fetch all meal logs in the range in one query (Eager Loaded)
+        var allMealLogs = await _mealLogRepository.GetUserMealLogsInDateRangeAsync(userId, startDate, endDate, cancellationToken);
+        
+        // Group meal logs by date in memory
+        var mealLogsByDate = allMealLogs.GroupBy(x => x.Date).ToDictionary(g => g.Key, g => g.ToList());
+
+        // 4. Fetch all water logs in the range in one query
+        var allWaterLogs = await _waterLogRepository.GetUserWaterLogsInDateRangeAsync(userId, startDate, endDate, cancellationToken);
+
+        // Group water logs by date and calculate sum in memory
+        var waterTotalByDate = allWaterLogs
+            .GroupBy(x => x.Date)
+            .ToDictionary(g => g.Key, g => g.Sum(x => x.AmountInMl));
+
         var summaries = new List<DailySummaryDto>();
         for (var date = startDate; date <= endDate; date = date.AddDays(1))
         {
-            var summary = await GetDailySummaryAsync(userId, date, cancellationToken);
+            var waterTotal = waterTotalByDate.ContainsKey(date) ? waterTotalByDate[date] : 0.0;
+            var mealLogs = mealLogsByDate.ContainsKey(date) ? mealLogsByDate[date] : new List<MealLog>();
+
+            var summary = new DailySummaryDto
+            {
+                Date = date,
+                WaterConsumedMl = waterTotal,
+                CurrentWeightKg = currentWeight
+            };
+
+            if (targets != null)
+            {
+                summary.CaloriesTarget = targets.DailyCalories;
+                summary.ProteinTargetGrams = targets.ProteinGrams;
+                summary.CarbsTargetGrams = targets.CarbsGrams;
+                summary.FatTargetGrams = targets.FatGrams;
+                summary.WaterTargetMl = 2000;
+            }
+
+            foreach (var log in mealLogs)
+            {
+                var logDto = MapToMealLogDto(log);
+                summary.Meals.Add(logDto);
+
+                summary.CaloriesConsumed += logDto.TotalCalories;
+                summary.ProteinConsumedGrams += logDto.TotalProtein;
+                summary.CarbsConsumedGrams += logDto.TotalCarbs;
+                summary.FatConsumedGrams += logDto.TotalFat;
+            }
+
+            summary.CaloriesRemaining = Math.Max(0, summary.CaloriesTarget - summary.CaloriesConsumed);
+            summary.ProteinRemainingGrams = Math.Max(0, summary.ProteinTargetGrams - summary.ProteinConsumedGrams);
+            summary.CarbsRemainingGrams = Math.Max(0, summary.CarbsTargetGrams - summary.CarbsConsumedGrams);
+            summary.FatRemainingGrams = Math.Max(0, summary.FatTargetGrams - summary.FatConsumedGrams);
+            summary.WaterRemainingMl = Math.Max(0, summary.WaterTargetMl - summary.WaterConsumedMl);
+
             summaries.Add(summary);
         }
+
         return summaries;
     }
 
@@ -188,21 +246,20 @@ public class TrackingService : ITrackingService
 
         foreach (var item in log.MealItems)
         {
-            // Simple multiplier based on unit (assuming per 100g data in DB). Adjust based on exact business logic if needed.
-            double multiplier = (double)item.Quantity / 100.0;
-            // Handle different units if necessary (e.g. Piece, Cup). For simplicity assuming grams.
+            double grams = ConvertToGrams(item.FoodId, item.Quantity, item.Unit);
+            double multiplier = grams / 100.0;
 
             var itemDto = new MealItemDto
             {
                 Id = item.Id,
                 FoodId = item.FoodId,
-                FoodName = item.Food.Name,
+                FoodName = item.Food?.Name ?? string.Empty,
                 Quantity = item.Quantity,
                 Unit = item.Unit.ToString(),
-                Calories = (double)(item.Food.Energy ?? 0) * multiplier,
-                Protein = (double)(item.Food.Protein ?? 0) * multiplier,
-                Carbs = (double)(item.Food.Carbohydrate ?? 0) * multiplier,
-                Fat = (double)(item.Food.Fat ?? 0) * multiplier
+                Calories = (double)(item.Food?.Energy ?? 0) * multiplier,
+                Protein = (double)(item.Food?.Protein ?? 0) * multiplier,
+                Carbs = (double)(item.Food?.Carbohydrate ?? 0) * multiplier,
+                Fat = (double)(item.Food?.Fat ?? 0) * multiplier
             };
             dto.MealItems.Add(itemDto);
 
@@ -213,5 +270,36 @@ public class TrackingService : ITrackingService
         }
 
         return dto;
+    }
+
+    private static readonly Dictionary<int, Dictionary<Unit, double>> FoodSpecificUnitWeights = new()
+    {
+        // Extensible mapping for specific foods (e.g., FoodId -> (Unit -> WeightInGrams))
+        // Example: FoodId 1 (Egg) -> Piece weighs 50 grams
+        // { 1, new() { { Unit.Piece, 50.0 } } }
+    };
+
+    private double ConvertToGrams(int foodId, decimal quantity, Unit unit)
+    {
+        double quantityDouble = (double)quantity;
+
+        // 1. Check for food-specific conversion factors first
+        if (FoodSpecificUnitWeights.TryGetValue(foodId, out var unitWeights) && 
+            unitWeights.TryGetValue(unit, out var specificWeight))
+        {
+            return quantityDouble * specificWeight;
+        }
+
+        // 2. Fall back to standard defaults
+        return unit switch
+        {
+            Unit.Gram => quantityDouble,
+            Unit.Milliliter => quantityDouble, // 1 ml = 1 g approx
+            Unit.Tablespoon => quantityDouble * 15.0,
+            Unit.Teaspoon => quantityDouble * 5.0,
+            Unit.Cup => quantityDouble * 240.0, // Default liquid cup weight fallback
+            Unit.Piece => quantityDouble * 100.0, // Default piece fallback
+            _ => quantityDouble
+        };
     }
 }

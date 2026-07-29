@@ -17,4 +17,10 @@ public interface IWaterLogRepository : IGenericRepository<WaterLog>
         string userId,
         DateOnly date,
         CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<WaterLog>> GetUserWaterLogsInDateRangeAsync(
+        string userId,
+        DateOnly startDate,
+        DateOnly endDate,
+        CancellationToken cancellationToken = default);
 }

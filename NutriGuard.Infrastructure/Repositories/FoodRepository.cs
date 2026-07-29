@@ -36,6 +36,22 @@ public sealed class FoodRepository
                 cancellationToken);
     }
 
+    public async Task<IReadOnlyList<Food>> GetFoodsByIdsAsync(
+        List<int> ids,
+        CancellationToken cancellationToken = default)
+    {
+        if (ids.Count == 0)
+        {
+            return [];
+        }
+
+        return await _dbSet
+            .Include(x => x.FoodCategory)
+            .AsNoTracking()
+            .Where(x => ids.Contains(x.Id))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<IReadOnlyList<Food>> GetByCategoryAsync(
         int categoryId,
         CancellationToken cancellationToken = default)

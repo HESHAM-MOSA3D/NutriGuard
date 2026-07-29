@@ -38,4 +38,19 @@ public class MealLogRepository : GenericRepository<MealLog>, IMealLogRepository
                 .ThenInclude(i => i.Food)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
+
+    public async Task<IEnumerable<MealLog>> GetUserMealLogsInDateRangeAsync(
+        string userId,
+        DateOnly startDate,
+        DateOnly endDate,
+        CancellationToken cancellationToken = default)
+    {
+        return await _dbSet
+            .Include(x => x.MealItems)
+                .ThenInclude(i => i.Food)
+            .Where(x => x.UserId == userId && x.Date >= startDate && x.Date <= endDate)
+            .OrderBy(x => x.Date)
+            .ThenBy(x => x.CreatedAt)
+            .ToListAsync(cancellationToken);
+    }
 }

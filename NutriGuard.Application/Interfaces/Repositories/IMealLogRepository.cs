@@ -16,4 +16,10 @@ public interface IMealLogRepository : IGenericRepository<MealLog>
     Task<MealLog?> GetMealLogByIdWithItemsAsync(
         int id,
         CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<MealLog>> GetUserMealLogsInDateRangeAsync(
+        string userId,
+        DateOnly startDate,
+        DateOnly endDate,
+        CancellationToken cancellationToken = default);
 }
