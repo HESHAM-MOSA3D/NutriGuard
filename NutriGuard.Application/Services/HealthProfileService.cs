@@ -1,4 +1,5 @@
-﻿using NutriGuard.Application.DTOs.HealthProfile;
+using NutriGuard.Application.DTOs.FoodPreference;
+using NutriGuard.Application.DTOs.HealthProfile;
 using NutriGuard.Application.Interfaces.Repositories;
 using NutriGuard.Application.Interfaces.Services;
 using NutriGuard.Domain.Entities;
@@ -66,9 +67,9 @@ public class HealthProfileService : IHealthProfileService
         string userId,
         CancellationToken cancellationToken = default)
     {
-        var profile = await _healthProfileRepository.FirstOrDefaultAsync(
-            x => x.UserId == userId,
-            cancellationToken);
+        var profile = await _healthProfileRepository.GetByUserIdAsync(
+     userId,
+     cancellationToken);
 
         if (profile is null)
         {
@@ -85,7 +86,17 @@ public class HealthProfileService : IHealthProfileService
             Gender = profile.Gender,
             ActivityLevel = profile.ActivityLevel,
             DietType = profile.DietType,
-            Goal = profile.Goal
+            Goal = profile.Goal,
+            FoodPreferences = profile.FoodPreferences
+    .Select(fp => new FoodPreferenceDto
+    {
+        Id = fp.Id,
+        FoodId = fp.FoodId,
+        FoodName = fp.Food.Name,
+        PreferenceType = fp.PreferenceType,
+        CreatedAt = fp.CreatedAt
+    })
+    .ToList()
         };
 
         return HealthProfileResponseDto.Success(
@@ -198,7 +209,10 @@ public class HealthProfileService : IHealthProfileService
         if (profile.Goal is null)
             missingFields.Add("Goal");
 
-        const int totalFields = 7;
+        if (profile.FoodPreferences is null || !profile.FoodPreferences.Any())
+            missingFields.Add("FoodPreferences");
+
+        const int totalFields = 8;
 
         var completedFields = totalFields - missingFields.Count;
 
