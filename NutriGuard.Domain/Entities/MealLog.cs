@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using NutriGuard.Domain.Enums;
@@ -10,6 +9,7 @@ public class MealLog
     public int Id { get; set; }
 
     public string UserId { get; set; } = string.Empty;
+
     public ApplicationUser User { get; set; } = null!;
 
     public MealType MealType { get; set; }
