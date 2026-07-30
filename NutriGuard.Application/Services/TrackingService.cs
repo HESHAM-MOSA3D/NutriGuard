@@ -18,19 +18,22 @@ public class TrackingService : ITrackingService
     private readonly IWeightLogRepository _weightLogRepository;
     private readonly IFoodRepository _foodRepository;
     private readonly INutritionCalculatorService _nutritionCalculator;
+    private readonly IFoodUnitConversionRepository _foodUnitConversionRepository;
 
     public TrackingService(
-        IMealLogRepository mealLogRepository,
-        IWaterLogRepository waterLogRepository,
-        IWeightLogRepository weightLogRepository,
-        IFoodRepository foodRepository,
-        INutritionCalculatorService nutritionCalculator)
+     IMealLogRepository mealLogRepository,
+     IWaterLogRepository waterLogRepository,
+     IWeightLogRepository weightLogRepository,
+     IFoodRepository foodRepository,
+     INutritionCalculatorService nutritionCalculator,
+     IFoodUnitConversionRepository foodUnitConversionRepository)
     {
         _mealLogRepository = mealLogRepository;
         _waterLogRepository = waterLogRepository;
         _weightLogRepository = weightLogRepository;
         _foodRepository = foodRepository;
         _nutritionCalculator = nutritionCalculator;
+        _foodUnitConversionRepository = foodUnitConversionRepository;
     }
 
     public async Task<MealLogResponseDto> LogMealAsync(string userId, LogMealRequestDto request, CancellationToken cancellationToken = default)
@@ -63,6 +66,14 @@ public class TrackingService : ITrackingService
 
         var foodIds = request.MealItems.Select(x => x.FoodId).Distinct().ToList();
         var foods = await _foodRepository.GetFoodsByIdsAsync(foodIds, cancellationToken);
+        var conversions = await _foodUnitConversionRepository
+           .GetByFoodIdsAsync(foodIds, cancellationToken);
+
+        var conversionLookup = conversions
+            .GroupBy(x => x.FoodId)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(x => x.Unit).ToHashSet());
         var foodDict = foods.ToDictionary(f => f.Id);
 
         foreach (var item in request.MealItems)
@@ -70,6 +81,18 @@ public class TrackingService : ITrackingService
             if (!foodDict.ContainsKey(item.FoodId))
             {
                 return MealLogResponseDto.Failure($"Food with ID {item.FoodId} not found.");
+            }
+
+            if (!conversionLookup.TryGetValue(item.FoodId, out var allowedUnits))
+            {
+                return MealLogResponseDto.Failure(
+                    $"No unit conversions found for Food ID {item.FoodId}.");
+            }
+
+            if (!allowedUnits.Contains(item.Unit))
+            {
+                return MealLogResponseDto.Failure(
+                    $"Unit '{item.Unit}' is not valid for food '{foodDict[item.FoodId].Name}'.");
             }
 
             mealLog.MealItems.Add(new MealItem
@@ -85,8 +108,9 @@ public class TrackingService : ITrackingService
 
         // Map to Dto
         var logFromDb = await _mealLogRepository.GetMealLogByIdWithItemsAsync(mealLog.Id, cancellationToken);
-        var dto = MapToMealLogDto(logFromDb!);
-
+        var dto = await MapToMealLogDtoAsync(
+            logFromDb!,
+            cancellationToken);
         return MealLogResponseDto.Success(dto);
     }
 
@@ -178,8 +202,9 @@ public class TrackingService : ITrackingService
 
         foreach (var log in mealLogs)
         {
-            var logDto = MapToMealLogDto(log);
-            summary.Meals.Add(logDto);
+            var logDto = await MapToMealLogDtoAsync(
+                log,
+                cancellationToken); summary.Meals.Add(logDto);
 
             summary.CaloriesConsumed += logDto.TotalCalories;
             summary.ProteinConsumedGrams += logDto.TotalProtein;
@@ -250,8 +275,9 @@ public class TrackingService : ITrackingService
 
             foreach (var log in mealLogs)
             {
-                var logDto = MapToMealLogDto(log);
-                summary.Meals.Add(logDto);
+                var logDto = await MapToMealLogDtoAsync(
+                    log,
+                    cancellationToken); summary.Meals.Add(logDto);
 
                 summary.CaloriesConsumed += logDto.TotalCalories;
                 summary.ProteinConsumedGrams += logDto.TotalProtein;
@@ -325,7 +351,9 @@ public class TrackingService : ITrackingService
         return BaseResponse.Success("Weight log deleted successfully.");
     }
 
-    private MealLogDto MapToMealLogDto(MealLog log)
+    private async Task<MealLogDto> MapToMealLogDtoAsync(
+    MealLog log,
+    CancellationToken cancellationToken = default)
     {
         var dto = new MealLogDto
         {
@@ -338,7 +366,12 @@ public class TrackingService : ITrackingService
 
         foreach (var item in log.MealItems)
         {
-            double grams = ConvertToGrams(item.FoodId, item.Quantity, item.Unit);
+            double grams = await ConvertToGramsAsync(
+                           item.FoodId,
+                           item.Quantity,
+                           item.Unit,
+                           cancellationToken);
+
             double multiplier = grams / 100.0;
 
             var itemDto = new MealItemDto
@@ -364,45 +397,33 @@ public class TrackingService : ITrackingService
         return dto;
     }
 
-    private static readonly Dictionary<int, Dictionary<Unit, double>> FoodSpecificUnitWeights = new()
-    {
-        {
-            5,
-            new Dictionary<Unit, double>
-            {
-                { Unit.Piece, 55 }
-            }
-        },
-        {
-            17,
-            new Dictionary<Unit, double>
-            {
-                { Unit.Piece, 180 }
-            }
-        }
-    };
+    
 
-    private double ConvertToGrams(int foodId, decimal quantity, Unit unit)
+    private async Task<double> ConvertToGramsAsync(
+     int foodId,
+     decimal quantity,
+     Unit unit,
+     CancellationToken cancellationToken = default)
     {
-        double quantityDouble = (double)quantity;
+        var conversion = await _foodUnitConversionRepository.GetConversionAsync(
+            foodId,
+            unit,
+            cancellationToken);
 
-        // 1. Check for food-specific conversion factors first
-        if (FoodSpecificUnitWeights.TryGetValue(foodId, out var unitWeights) && 
-            unitWeights.TryGetValue(unit, out var specificWeight))
+        if (conversion != null)
         {
-            return quantityDouble * specificWeight;
+            return (double)quantity * conversion.GramsPerUnit;
         }
 
-        // 2. Fall back to standard defaults
         return unit switch
         {
-            Unit.Gram => quantityDouble,
-            Unit.Milliliter => quantityDouble, // 1 ml = 1 g approx
-            Unit.Tablespoon => quantityDouble * 15.0,
-            Unit.Teaspoon => quantityDouble * 5.0,
-            Unit.Cup => quantityDouble * 240.0, // Default liquid cup weight fallback
-            Unit.Piece => quantityDouble * 100.0, // Default piece fallback
-            _ => quantityDouble
+            Unit.Gram => (double)quantity,
+            Unit.Milliliter => (double)quantity,
+            Unit.Tablespoon => (double)quantity * 15,
+            Unit.Teaspoon => (double)quantity * 5,
+            Unit.Cup => (double)quantity * 240,
+            Unit.Piece => (double)quantity * 100,
+            _ => (double)quantity
         };
     }
 }

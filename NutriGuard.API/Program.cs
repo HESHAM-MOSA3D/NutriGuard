@@ -75,7 +75,18 @@ var app = builder.Build();
 //    await seeder.SeedAsync();
 //}
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
+    var seeder = new FoodUnitConversionSeeder(context);
+
+    await seeder.SeedAsync(
+        Path.Combine(
+            app.Environment.ContentRootPath,
+            "SeedData",
+            "FoodUnitConversions.csv"));
+}
 
 
 app.UseSwagger();

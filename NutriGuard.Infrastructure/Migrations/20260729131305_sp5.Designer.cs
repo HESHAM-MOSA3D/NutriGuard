@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using NutriGuard.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using NutriGuard.Infrastructure.Persistence;
 namespace NutriGuard.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260729131305_sp5")]
+    partial class sp5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,34 +25,6 @@ namespace NutriGuard.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "pg_trgm");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("FoodUnitConversion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("FoodId")
-                        .HasColumnType("integer");
-
-                    b.Property<double>("GramsPerUnit")
-                        .HasColumnType("double precision");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("Unit")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodId", "Unit")
-                        .IsUnique();
-
-                    b.ToTable("FoodUnitConversions", (string)null);
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -761,17 +736,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.ToTable("WeightLogs", (string)null);
                 });
 
-            modelBuilder.Entity("FoodUnitConversion", b =>
-                {
-                    b.HasOne("NutriGuard.Domain.Entities.Food", "Food")
-                        .WithMany("UnitConversions")
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Food");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -991,8 +955,6 @@ namespace NutriGuard.Infrastructure.Migrations
                     b.Navigation("Aliases");
 
                     b.Navigation("FoodPreferences");
-
-                    b.Navigation("UnitConversions");
                 });
 
             modelBuilder.Entity("NutriGuard.Domain.Entities.FoodCategory", b =>

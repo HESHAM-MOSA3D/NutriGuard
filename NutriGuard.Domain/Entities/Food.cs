@@ -53,4 +53,7 @@ public class Food
     public ICollection<FoodAlias> Aliases { get; set; } = new List<FoodAlias>();
 
     public ICollection<FoodPreference> FoodPreferences { get; set; } = new List<FoodPreference>();
+
+    public ICollection<FoodUnitConversion> UnitConversions { get; set; }
+    = new List<FoodUnitConversion>();
 }

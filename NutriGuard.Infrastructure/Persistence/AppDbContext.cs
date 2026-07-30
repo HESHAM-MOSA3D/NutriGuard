@@ -26,6 +26,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<MealItem> MealItems => Set<MealItem>();
     public DbSet<WaterLog> WaterLogs => Set<WaterLog>();
     public DbSet<WeightLog> WeightLogs => Set<WeightLog>();
+    public DbSet<FoodUnitConversion> FoodUnitConversions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

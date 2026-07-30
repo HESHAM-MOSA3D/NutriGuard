@@ -67,7 +67,7 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssemblyContaining<FoodSearchRequestValidator>();
 
-
+        services.AddScoped<IFoodUnitConversionRepository,FoodUnitConversionRepository>();
 
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         {
