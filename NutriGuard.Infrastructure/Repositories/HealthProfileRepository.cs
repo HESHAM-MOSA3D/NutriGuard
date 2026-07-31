@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NutriGuard.Application.Interfaces.Repositories;
 using NutriGuard.Domain.Entities;
 using NutriGuard.Infrastructure.Persistence;
@@ -18,6 +18,8 @@ public class HealthProfileRepository
         CancellationToken cancellationToken = default)
     {
         return await _dbSet
+            .Include(x => x.FoodPreferences)
+                .ThenInclude(fp => fp.Food)
             .AsNoTracking()
             .FirstOrDefaultAsync(
                 x => x.UserId == userId,
