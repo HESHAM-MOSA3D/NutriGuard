@@ -373,6 +373,33 @@ Planned Features
 
 ---
 
+# Completed Sprint 6
+
+## Nutrition Rules Engine
+
+An intelligent rules engine evaluating food choices and meals against user health profiles, goals, allergens, diets, and traditional Egyptian food rules.
+
+### Features
+
+- **Allergy Rules**: Automatic allergen detection (Milk, Egg, Gluten, Nuts, Fish, Soy) and user preference matching.
+- **Diet Rules**: Enforces Vegan, LowCarb, and Balanced diet compliance.
+- **Goal Rules**: Aligns meal choices with user weight loss, weight gain, or maintenance goals.
+- **Calories Validation**: Real-time evaluation against remaining daily budget & single-meal thresholds.
+- **Macronutrient Validation**: Evaluates protein, carbohydrate, and fat balance.
+- **Meal & Recipe Eligibility Filtering**: Pre-screening APIs for safe food and recipe choices.
+- **Traditional Egyptian Food Rules**: Culturally tailored advice and portion recommendations for Egyptian dishes (Koshary, Fiteer, Mahshi, Ful, Taameya, Molokhia, etc.).
+
+### APIs
+
+```text
+POST /api/nutrition/validate-meal
+GET  /api/nutrition/check-food/{foodId}
+POST /api/nutrition/eligible-foods
+POST /api/nutrition/eligible-recipes
+```
+
+---
+
 # Future Roadmap
 
 ## Sprint 7

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NutriGuard.Application.Interfaces.Repositories;
 using NutriGuard.Domain.Entities;
+using NutriGuard.Domain.Enums;
 using NutriGuard.Infrastructure.Persistence;
 
 namespace NutriGuard.Infrastructure.Repositories;
@@ -76,5 +77,14 @@ public sealed class FoodPreferenceRepository
     {
         _dbSet.Remove(preference);
         await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<List<FoodPreference>> GetAllergiesAsync(int healthProfileId, CancellationToken cancellationToken = default)
+    {
+        return await _context.FoodPreferences
+    .Where(x =>
+        x.HealthProfileId == healthProfileId &&
+        x.PreferenceType == FoodPreferenceType.Allergy)
+    .ToListAsync(cancellationToken);
     }
 }
