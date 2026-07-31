@@ -79,17 +79,17 @@ public class RecipeRepository
 
 
     public async Task<(IReadOnlyList<Recipe>, int)> SearchAsync(
-    string? searchTerm,
-    int pageNumber,
-    int pageSize,
-    string? sortBy,
-    bool sortDescending,
-    CancellationToken cancellationToken = default)
+     string? searchTerm,
+     int pageNumber,
+     int pageSize,
+     string? sortBy,
+     bool sortDescending,
+     CancellationToken cancellationToken = default)
     {
         if (pageNumber <= 0) pageNumber = 1;
         if (pageSize <= 0) pageSize = 10;
 
-        searchTerm ??= string.Empty;
+        searchTerm = string.IsNullOrWhiteSpace(searchTerm) ? string.Empty : searchTerm.Trim();
 
         var orderColumn = sortBy?.ToLower() switch
         {
@@ -97,36 +97,55 @@ public class RecipeRepository
             "servings" => "\"Servings\"",
             _ => "\"Name\""
         };
-
         var orderDirection = sortDescending ? "DESC" : "ASC";
 
-        var sql = $@"
-SELECT DISTINCT r.*
-FROM ""Recipes"" r
-LEFT JOIN ""RecipeAliases"" ra
-    ON ra.""RecipeId"" = r.""Id""
-WHERE
-(
-    @p0 = ''
-    OR normalize_arabic(r.""Name"")
-        ILIKE '%' || normalize_arabic(@p0) || '%'
-    OR normalize_arabic(ra.""Alias"")
-        ILIKE '%' || normalize_arabic(@p0) || '%'
-)
-ORDER BY {orderColumn} {orderDirection}";
+        var countSql = @"
+        SELECT COUNT(DISTINCT r.""Id"") 
+        FROM ""Recipes"" r
+        LEFT JOIN ""RecipeAliases"" ra ON ra.""RecipeId"" = r.""Id""
+        WHERE (@p0 = '' 
+            OR normalize_arabic(r.""Name"") ILIKE '%' || normalize_arabic(@p0) || '%'
+            OR normalize_arabic(ra.""Alias"") ILIKE '%' || normalize_arabic(@p0) || '%')";
 
-        var query = _context.Recipes
-            .FromSqlRaw(sql, searchTerm)
+        int totalCount;
+        using (var command = _context.Database.GetDbConnection().CreateCommand())
+        {
+            command.CommandText = countSql;
+            var parameter = command.CreateParameter();
+            parameter.ParameterName = "p0";
+            parameter.Value = searchTerm;
+            command.Parameters.Add(parameter);
+
+            await _context.Database.OpenConnectionAsync(cancellationToken);
+            totalCount = Convert.ToInt32(await command.ExecuteScalarAsync(cancellationToken));
+        }
+
+        var sql = $@"
+        SELECT DISTINCT r.* 
+        FROM ""Recipes"" r
+        LEFT JOIN ""RecipeAliases"" ra ON ra.""RecipeId"" = r.""Id""
+        WHERE (@p0 = '' 
+            OR normalize_arabic(r.""Name"") ILIKE '%' || normalize_arabic(@p0) || '%'
+            OR normalize_arabic(ra.""Alias"") ILIKE '%' || normalize_arabic(@p0) || '%')
+        ORDER BY r.{orderColumn} {orderDirection}
+        LIMIT @p1 OFFSET @p2";
+
+        int offset = (pageNumber - 1) * pageSize;
+
+        var recipes = await _context.Recipes
+            .FromSqlRaw($@"
+            SELECT DISTINCT r.* 
+            FROM ""Recipes"" r
+            LEFT JOIN ""RecipeAliases"" ra ON ra.""RecipeId"" = r.""Id""
+            WHERE ('{searchTerm}' = '' 
+                OR normalize_arabic(r.""Name"") ILIKE '%' || normalize_arabic('{searchTerm}') || '%'
+                OR normalize_arabic(ra.""Alias"") ILIKE '%' || normalize_arabic('{searchTerm}') || '%')
+            ORDER BY r.{orderColumn} {orderDirection}
+            LIMIT {pageSize} OFFSET {offset}")
             .AsNoTracking()
             .Include(x => x.RecipeAliases)
             .Include(x => x.RecipeIngredients)
-                .ThenInclude(x => x.Food);
-
-        var totalCount = await query.CountAsync(cancellationToken);
-
-        var recipes = await query
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
+                .ThenInclude(x => x.Food)
             .ToListAsync(cancellationToken);
 
         return (recipes, totalCount);
