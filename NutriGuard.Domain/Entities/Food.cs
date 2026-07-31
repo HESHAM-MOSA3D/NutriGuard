@@ -56,4 +56,7 @@ public class Food
 
     public ICollection<FoodUnitConversion> UnitConversions { get; set; }
     = new List<FoodUnitConversion>();
+
+    public ICollection<FoodTagAssignment> FoodTagAssignments { get; set; }
+    = new List<FoodTagAssignment>();
 }

@@ -8,12 +8,13 @@ using Microsoft.IdentityModel.Tokens;
 using NutriGuard.Application.Interfaces;
 using NutriGuard.Application.Interfaces.Repositories;
 using NutriGuard.Application.Interfaces.Services;
+
 using NutriGuard.Application.Services;
 using NutriGuard.Application.Validators.Foods;
 using NutriGuard.Domain.Entities;
 using NutriGuard.Infrastructure.Csv;
 using NutriGuard.Infrastructure.Persistence;
-
+using NutriGuard.Infrastructure.Persistence.Seed;
 using NutriGuard.Infrastructure.Repositories;
 using NutriGuard.Infrastructure.Security;
 using NutriGuard.Infrastructure.Services;
@@ -68,6 +69,11 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<FoodSearchRequestValidator>();
 
         services.AddScoped<IFoodUnitConversionRepository,FoodUnitConversionRepository>();
+        services.AddScoped<INutritionRuleEngine, NutritionRuleEngine>();
+        services.AddScoped<IFoodTagAssignmentRepository, FoodTagAssignmentRepository>();
+        services.AddScoped<FoodTagSeeder>();
+        services.AddScoped<FoodTagAssignmentSeeder>();
+
 
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         {

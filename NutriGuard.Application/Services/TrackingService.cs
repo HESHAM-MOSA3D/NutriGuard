@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using NutriGuard.Application.DTOs.Tracking;
 using NutriGuard.Application.Interfaces.Repositories;
 using NutriGuard.Application.Interfaces.Services;
 using NutriGuard.Domain.Entities;
 using NutriGuard.Domain.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NutriGuard.Application.Services;
 
@@ -19,14 +19,18 @@ public class TrackingService : ITrackingService
     private readonly IFoodRepository _foodRepository;
     private readonly INutritionCalculatorService _nutritionCalculator;
     private readonly IFoodUnitConversionRepository _foodUnitConversionRepository;
+    private readonly INutritionRuleEngine _nutritionRuleEngine;
+    private readonly IHealthProfileService _healthProfileService;
 
     public TrackingService(
-     IMealLogRepository mealLogRepository,
-     IWaterLogRepository waterLogRepository,
-     IWeightLogRepository weightLogRepository,
-     IFoodRepository foodRepository,
-     INutritionCalculatorService nutritionCalculator,
-     IFoodUnitConversionRepository foodUnitConversionRepository)
+    IMealLogRepository mealLogRepository,
+    IWaterLogRepository waterLogRepository,
+    IWeightLogRepository weightLogRepository,
+    IFoodRepository foodRepository,
+    INutritionCalculatorService nutritionCalculator,
+    IFoodUnitConversionRepository foodUnitConversionRepository,
+    INutritionRuleEngine nutritionRuleEngine,
+    IHealthProfileService healthProfileService)
     {
         _mealLogRepository = mealLogRepository;
         _waterLogRepository = waterLogRepository;
@@ -34,8 +38,10 @@ public class TrackingService : ITrackingService
         _foodRepository = foodRepository;
         _nutritionCalculator = nutritionCalculator;
         _foodUnitConversionRepository = foodUnitConversionRepository;
-    }
 
+        _nutritionRuleEngine = nutritionRuleEngine;
+        _healthProfileService = healthProfileService;
+    }
     public async Task<MealLogResponseDto> LogMealAsync(string userId, LogMealRequestDto request, CancellationToken cancellationToken = default)
     {
         if (request.MealItems == null || !request.MealItems.Any())
@@ -66,6 +72,20 @@ public class TrackingService : ITrackingService
 
         var foodIds = request.MealItems.Select(x => x.FoodId).Distinct().ToList();
         var foods = await _foodRepository.GetFoodsByIdsAsync(foodIds, cancellationToken);
+
+        var profileResult = await _healthProfileService.GetAsync(userId, cancellationToken);
+
+        if (!profileResult.IsSuccess || profileResult.Data is null)
+        {
+            return MealLogResponseDto.Failure("Health profile not found.");
+        }
+
+       
+
+     
+
+
+
         var conversions = await _foodUnitConversionRepository
            .GetByFoodIdsAsync(foodIds, cancellationToken);
 

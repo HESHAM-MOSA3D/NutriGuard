@@ -28,6 +28,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<WeightLog> WeightLogs => Set<WeightLog>();
     public DbSet<FoodUnitConversion> FoodUnitConversions { get; set; }
 
+    public DbSet<FoodTag> FoodTags => Set<FoodTag>();
+
+    public DbSet<FoodTagAssignment> FoodTagAssignments => Set<FoodTagAssignment>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
        

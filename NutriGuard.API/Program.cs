@@ -75,18 +75,37 @@ var app = builder.Build();
 //    await seeder.SeedAsync();
 //}
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//using (var scope = app.Services.CreateScope())
+//{
+//    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    var seeder = new FoodUnitConversionSeeder(context);
+//    // Food Unit Conversions
+//    var unitSeeder = new FoodUnitConversionSeeder(context);
 
-    await seeder.SeedAsync(
-        Path.Combine(
-            app.Environment.ContentRootPath,
-            "SeedData",
-            "FoodUnitConversions.csv"));
-}
+//    await unitSeeder.SeedAsync(
+//        Path.Combine(
+//            app.Environment.ContentRootPath,
+//            "SeedData",
+//            "FoodUnitConversions.csv"));
+
+//    // Food Tags
+//    var tagSeeder = new FoodTagSeeder(context);
+
+//    await tagSeeder.SeedAsync(
+//        Path.Combine(
+//            app.Environment.ContentRootPath,
+//            "SeedData",
+//            "FoodTags.csv"));
+
+//    // Food Tag Assignments
+//    var assignmentSeeder = new FoodTagAssignmentSeeder(context);
+
+//    await assignmentSeeder.SeedAsync(
+//        Path.Combine(
+//            app.Environment.ContentRootPath,
+//            "SeedData",
+//            "FoodTagAssignments.csv"));
+//}
 
 
 app.UseSwagger();
