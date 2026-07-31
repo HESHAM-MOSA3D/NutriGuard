@@ -27,4 +27,9 @@ public interface IFoodPreferenceRepository
     Task DeleteAsync(
         FoodPreference preference,
         CancellationToken cancellationToken = default);
+
+
+    Task<List<FoodPreference>> GetAllergiesAsync(
+    int healthProfileId,
+    CancellationToken cancellationToken = default);
 }

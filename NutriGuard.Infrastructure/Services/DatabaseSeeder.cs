@@ -33,5 +33,40 @@ public class DatabaseSeeder
             services.GetRequiredService<IRecipeImportService>();
 
         await recipeImporter.SeedRecipesAsync();
+
+    
+
+
+        var foodUnitSeeder =
+            services.GetRequiredService<FoodUnitConversionSeeder>();
+
+        await foodUnitSeeder.SeedAsync(
+            Path.Combine(
+                AppContext.BaseDirectory,
+                "SeedData",
+                "FoodUnitConversions.csv"));
+
+    
+
+
+        var foodTagSeeder =
+            services.GetRequiredService<FoodTagSeeder>();
+
+        await foodTagSeeder.SeedAsync(
+            Path.Combine(
+                AppContext.BaseDirectory,
+                "SeedData",
+                "FoodTags.csv"));
+
+
+
+        var assignmentSeeder =
+            services.GetRequiredService<FoodTagAssignmentSeeder>();
+
+        await assignmentSeeder.SeedAsync(
+            Path.Combine(
+                AppContext.BaseDirectory,
+                "SeedData",
+                "FoodTagAssignments.csv"));
     }
 }

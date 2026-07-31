@@ -8,7 +8,6 @@ public class MealItemDto
     public decimal Quantity { get; set; }
     public string Unit { get; set; } = string.Empty;
 
-    // Macronutrients calculated for the log entry based on quantity
     public double Calories { get; set; }
     public double Protein { get; set; }
     public double Carbs { get; set; }

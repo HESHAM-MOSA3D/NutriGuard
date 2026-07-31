@@ -1,0 +1,16 @@
+Id,Name
+1,Allergy_Milk
+2,Allergy_Egg
+3,Allergy_Gluten
+4,Allergy_Nuts
+5,Allergy_Fish
+6,Allergy_Soy
+7,Vegan
+8,Vegetarian
+9,LowCarb
+10,HighProtein
+11,HighFiber
+12,TraditionalEgyptian
+13,WeightLossFriendly
+14,WeightGainFriendly
+15,MuscleBuilding

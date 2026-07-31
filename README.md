@@ -53,7 +53,7 @@ NutriGuard.Infrastructure
 - User Registration
 - User Login
 - Forgot Password
-- Verify-Otp
+- Verify OTP
 - Change Password
 - JWT Authentication
 - Protected Endpoints
@@ -171,6 +171,127 @@ Recipes are fully linked with the Food database.
 
 ---
 
+# Completed Sprint 5
+
+## Meal & Nutrition Tracking
+
+Sprint 5 introduces comprehensive daily nutrition tracking and monitoring.
+
+### Features
+
+### Meal Logging
+
+- Log meals by meal type
+- Multiple food items per meal
+- Automatic calorie calculation
+- Automatic macronutrient calculation
+- Unit-aware food quantity conversion
+
+### Water Tracking
+
+- Log daily water intake
+- Daily water consumption summary
+
+### Weight Tracking
+
+- Log body weight
+- Retrieve latest recorded weight
+
+### Daily Summary
+
+Automatically calculates:
+
+- Calories Consumed
+- Protein Consumed
+- Carbohydrates Consumed
+- Fat Consumed
+- Water Consumed
+
+Also returns:
+
+- Remaining Calories
+- Remaining Protein
+- Remaining Carbohydrates
+- Remaining Fat
+- Remaining Water
+
+### Daily History
+
+Retrieve daily nutrition summaries for any date range.
+
+Optimized to avoid N+1 database queries.
+
+### Input Validation
+
+Meal Validation
+
+- Meal must contain at least one food item
+- Quantity must be greater than zero
+- Food must exist
+- Meal type validation
+
+Water Validation
+
+- Water amount must be greater than zero
+- Maximum allowed water intake validation
+
+Weight Validation
+
+- Weight must be greater than zero
+- Maximum allowed weight validation
+
+### Authorization
+
+Users can only access, update, or delete their own tracking records.
+
+### Delete Operations
+
+Implemented APIs for deleting:
+
+- Meal Logs
+- Water Logs
+- Weight Logs
+
+### Food Unit Conversion System
+
+NutriGuard now supports food-specific unit conversions.
+
+Instead of using generic assumptions (e.g., every piece = 100g), the system uses a dedicated FoodUnitConversion table.
+
+This enables accurate conversions for units such as:
+
+- Piece
+- Cup
+- Tablespoon
+- Teaspoon
+- Gram
+- Milliliter
+
+Examples:
+
+- 1 Egg = 55 g
+- 1 Apple = 180 g
+- Future foods can be added without changing application code.
+
+Conversion data is seeded automatically during application startup.
+
+### APIs
+
+```text
+POST   /api/tracking/meals
+POST   /api/tracking/water
+POST   /api/tracking/weight
+
+GET    /api/tracking/summary/{date}
+GET    /api/tracking/history
+
+DELETE /api/tracking/meals/{id}
+DELETE /api/tracking/water/{id}
+DELETE /api/tracking/weight/{id}
+```
+
+---
+
 # Current Database Tables
 
 ## Identity
@@ -187,11 +308,25 @@ Recipes are fully linked with the Food database.
 
 - HealthProfiles
 - PasswordResetOtps
+
+### Food
+
 - FoodCategories
 - Foods
 - FoodAliases
+- FoodUnitConversions
+
+### Recipes
+
 - Recipes
 - RecipeIngredients
+
+### Tracking
+
+- MealLogs
+- MealItems
+- WaterLogs
+- WeightLogs
 
 ---
 
@@ -203,12 +338,19 @@ Completed
 - ASP.NET Identity
 - JWT Authentication
 - Health Profile
+- Food Preferences
 - Nutrition Calculator
 - Food Database
 - Food Categories
 - Food Aliases
 - Recipe Database
 - CSV Import
+- Meal Tracking
+- Water Tracking
+- Weight Tracking
+- Daily Summary
+- Daily History
+- Food Unit Conversion
 - Repository Pattern
 - Service Layer
 - Swagger
@@ -218,30 +360,47 @@ Completed
 
 # Next Sprint
 
-## Sprint 5 — Meal Logging & Tracking
+## Sprint 6 — Nutrition Rules Engine
 
 Planned Features
 
-- Log Meals
-- Log Water Intake
-- Daily Calories Tracking
-- Macro Tracking
-- Micro Tracking
-- Remaining Daily Targets
-- Weight Logging
-- Daily History
+- Nutrition Rules Engine
+- Allergy Rules
+- Medical Condition Rules
+- Diet Rules
+- Goal Rules
+- Personalized Nutrition Recommendations
+
+---
+
+# Completed Sprint 6
+
+## Nutrition Rules Engine
+
+An intelligent rules engine evaluating food choices and meals against user health profiles, goals, allergens, diets, and traditional Egyptian food rules.
+
+### Features
+
+- **Allergy Rules**: Automatic allergen detection (Milk, Egg, Gluten, Nuts, Fish, Soy) and user preference matching.
+- **Diet Rules**: Enforces Vegan, LowCarb, and Balanced diet compliance.
+- **Goal Rules**: Aligns meal choices with user weight loss, weight gain, or maintenance goals.
+- **Calories Validation**: Real-time evaluation against remaining daily budget & single-meal thresholds.
+- **Macronutrient Validation**: Evaluates protein, carbohydrate, and fat balance.
+- **Meal & Recipe Eligibility Filtering**: Pre-screening APIs for safe food and recipe choices.
+- **Traditional Egyptian Food Rules**: Culturally tailored advice and portion recommendations for Egyptian dishes (Koshary, Fiteer, Mahshi, Ful, Taameya, Molokhia, etc.).
+
+### APIs
+
+```text
+POST /api/nutrition/validate-meal
+GET  /api/nutrition/check-food/{foodId}
+POST /api/nutrition/eligible-foods
+POST /api/nutrition/eligible-recipes
+```
 
 ---
 
 # Future Roadmap
-
-## Sprint 6
-
-- Nutrition Rules Engine
-- Allergy Rules
-- Halal Rules
-- Diet Rules
-- Goal Rules
 
 ## Sprint 7
 
@@ -293,7 +452,7 @@ develop
 feature/authentication
 feature/health-profile
 feature/nutrition-calculator
-feature/meal-logging
+feature/meal-tracking
 feature/rules-engine
 feature/rag
 ```
