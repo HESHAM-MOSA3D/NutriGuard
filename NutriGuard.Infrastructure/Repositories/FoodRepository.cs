@@ -73,37 +73,51 @@ public sealed class FoodRepository
 
 
     public async Task<(List<Food> Items, int TotalCount)> SearchAsync(
-        string? searchTerm,
-        int? categoryId,
-        string sortBy,
-        bool sortDescending,
-        int pageNumber,
-        int pageSize,
-        CancellationToken cancellationToken = default)
+    string? searchTerm,
+    int? categoryId,
+    string sortBy,
+    bool sortDescending,
+    int pageNumber,
+    int pageSize,
+    CancellationToken cancellationToken = default)
     {
-        var query = _context.Foods
-     .AsNoTracking()
-     .Include(f => f.FoodCategory)
-     .Include(f => f.Aliases)
-     .AsSplitQuery()
-     .AsQueryable();
+        if (pageNumber <= 0) pageNumber = 1;
+        if (pageSize <= 0) pageSize = 10;
 
+        var term = (searchTerm ?? string.Empty).Trim();
+
+        const string sql = @"
+SELECT f.*
+FROM ""Foods"" f
+WHERE
+(
+    @p0 = ''
+    OR normalize_arabic(f.""Name"") ILIKE '%' || normalize_arabic(@p0) || '%'
+    OR EXISTS (
+        SELECT 1
+        FROM ""FoodAliases"" fa
+        WHERE fa.""FoodId"" = f.""Id""
+        AND normalize_arabic(fa.""Alias"") ILIKE '%' || normalize_arabic(@p0) || '%'
+    )
+)";
+
+        IQueryable<Food> query = _context.Foods
+            .FromSqlRaw(sql, term)
+            .AsNoTracking()
+            .Include(f => f.FoodCategory)
+            .Include(f => f.Aliases)
+            .AsSplitQuery();
+
+        // Optional filter applied as plain LINQ, not raw SQL — avoids
+        // the "could not determine data type of parameter" issue entirely.
         if (categoryId.HasValue)
         {
             query = query.Where(f => f.FoodCategoryId == categoryId.Value);
         }
-        if (!string.IsNullOrWhiteSpace(searchTerm))
-        {
-            var term = searchTerm.Trim();
-
-            query = query.Where(f =>
-                EF.Functions.ILike(f.Name, $"%{term}%") ||
-                f.Aliases.Any(a => EF.Functions.ILike(a.Alias, $"%{term}%")));
-        }
 
         var totalCount = await query.CountAsync(cancellationToken);
 
-        query = ApplySorting(query, sortBy, sortDescending, searchTerm);
+        query = ApplySorting(query, sortBy, sortDescending, term);
 
         var items = await query
             .Skip((pageNumber - 1) * pageSize)
@@ -119,9 +133,16 @@ public sealed class FoodRepository
         bool sortDescending,
         string? searchTerm)
     {
+        IOrderedQueryable<Food> ordered;
+
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
-            query = query.OrderByDescending(f => f.Name.ToLower() == searchTerm.Trim().ToLower());
+            var term = searchTerm.Trim().ToLower();
+            ordered = query.OrderByDescending(f => f.Name.ToLower() == term);
+        }
+        else
+        {
+            ordered = query.OrderBy(f => 0);
         }
 
         Expression<Func<Food, object>> keySelector = sortBy switch
@@ -131,29 +152,15 @@ public sealed class FoodRepository
             "Fat" => f => f.Fat,
             "Carbohydrate" => f => f.Carbohydrate,
             "Category" => f => f.FoodCategory.Name,
-            
-
             _ => f => f.Name
         };
 
         query = sortDescending
-            ? query.OrderBy(f => 0).ThenByDescending(keySelector)
-            : query.OrderBy(f => 0).ThenBy(keySelector);
+            ? ordered.ThenByDescending(keySelector)
+            : ordered.ThenBy(keySelector);
 
         return query;
     }
-
-
-
-
-
-
-
-
-
-
-
-
     //public async Task<IReadOnlyList<Food>> SearchAsync(
     // string query,
     // CancellationToken cancellationToken = default)
