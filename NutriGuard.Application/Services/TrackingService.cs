@@ -80,11 +80,19 @@ public class TrackingService : ITrackingService
             return MealLogResponseDto.Failure("Health profile not found.");
         }
 
-       
+        // Validate meal items using NutritionRuleEngine
+        var validationResult = await _nutritionRuleEngine.ValidateMealItemsAsync(
+            userId,
+            request.MealItems,
+            request.Date,
+            cancellationToken);
 
-     
-
-
+        if (!validationResult.IsValid)
+        {
+            return MealLogResponseDto.Failure(
+                "Meal validation failed due to allergy or diet conflicts.",
+                validationResult);
+        }
 
         var conversions = await _foodUnitConversionRepository
            .GetByFoodIdsAsync(foodIds, cancellationToken);
@@ -131,7 +139,7 @@ public class TrackingService : ITrackingService
         var dto = await MapToMealLogDtoAsync(
             logFromDb!,
             cancellationToken);
-        return MealLogResponseDto.Success(dto);
+        return MealLogResponseDto.Success(dto, validationResult);
     }
 
     public async Task<WaterLogResponseDto> LogWaterAsync(string userId, LogWaterRequestDto request, CancellationToken cancellationToken = default)

@@ -1,4 +1,6 @@
-﻿namespace NutriGuard.Application.DTOs.Tracking;
+using NutriGuard.Application.DTOs.Nutrition;
+
+namespace NutriGuard.Application.DTOs.Tracking;
 
 public class MealValidationResult
 {
@@ -8,6 +10,12 @@ public class MealValidationResult
 
     public List<string> Warnings { get; set; } = new();
 
+    public List<string> Tips { get; set; } = new();
+
+    public MealCalorieValidationDto? CalorieBreakdown { get; set; }
+
+    public MealMacroValidationDto? MacroBreakdown { get; set; }
+
     public void AddError(string error)
     {
         Errors.Add(error);
@@ -16,5 +24,10 @@ public class MealValidationResult
     public void AddWarning(string warning)
     {
         Warnings.Add(warning);
+    }
+
+    public void AddTip(string tip)
+    {
+        Tips.Add(tip);
     }
 }
