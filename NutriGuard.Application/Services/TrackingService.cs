@@ -60,6 +60,22 @@ public class TrackingService : ITrackingService
             {
                 return MealLogResponseDto.Failure("Quantity must be greater than zero.");
             }
+
+            var maxQuantity = item.Unit switch
+            {
+                Unit.Piece => 20,
+                Unit.Cup => 4,
+                Unit.Tablespoon => 20,
+                Unit.Teaspoon => 30,
+                Unit.Gram => 5000,
+                Unit.Milliliter => 5000,
+                _ => 10000
+            };
+
+            if (item.Quantity > maxQuantity)
+            {
+                return MealLogResponseDto.Failure($"Quantity {item.Quantity} {item.Unit} exceeds maximum allowed ({maxQuantity} {item.Unit}).");
+            }
         }
 
         var mealLog = new MealLog
@@ -102,6 +118,9 @@ public class TrackingService : ITrackingService
             .ToDictionary(
                 g => g.Key,
                 g => g.Select(x => x.Unit).ToHashSet());
+
+        var conversionDataLookup = conversions.ToDictionary(x => (x.FoodId, x.Unit), x => (double)x.GramsPerUnit);
+
         var foodDict = foods.ToDictionary(f => f.Id);
 
         foreach (var item in request.MealItems)
@@ -138,6 +157,7 @@ public class TrackingService : ITrackingService
         var logFromDb = await _mealLogRepository.GetMealLogByIdWithItemsAsync(mealLog.Id, cancellationToken);
         var dto = await MapToMealLogDtoAsync(
             logFromDb!,
+            null,
             cancellationToken);
         return MealLogResponseDto.Success(dto, validationResult);
     }
@@ -228,11 +248,18 @@ public class TrackingService : ITrackingService
             summary.WaterTargetMl = 2000;
         }
 
+        // Batch load all conversions for the day
+        var foodIds = mealLogs.SelectMany(m => m.MealItems.Select(i => i.FoodId)).Distinct().ToList();
+        var conversions = await _foodUnitConversionRepository.GetByFoodIdsAsync(foodIds, cancellationToken);
+        var conversionLookup = conversions.ToDictionary(x => (x.FoodId, x.Unit), x => (double)x.GramsPerUnit);
+
         foreach (var log in mealLogs)
         {
             var logDto = await MapToMealLogDtoAsync(
                 log,
-                cancellationToken); summary.Meals.Add(logDto);
+                conversionLookup,
+                cancellationToken);
+            summary.Meals.Add(logDto);
 
             summary.CaloriesConsumed += logDto.TotalCalories;
             summary.ProteinConsumedGrams += logDto.TotalProtein;
@@ -240,11 +267,31 @@ public class TrackingService : ITrackingService
             summary.FatConsumedGrams += logDto.TotalFat;
         }
 
+        // Calculate remaining and exceeded values
         summary.CaloriesRemaining = Math.Max(0, summary.CaloriesTarget - summary.CaloriesConsumed);
+        summary.CaloriesExceeded = Math.Max(0, summary.CaloriesConsumed - summary.CaloriesTarget);
         summary.ProteinRemainingGrams = Math.Max(0, summary.ProteinTargetGrams - summary.ProteinConsumedGrams);
         summary.CarbsRemainingGrams = Math.Max(0, summary.CarbsTargetGrams - summary.CarbsConsumedGrams);
+        summary.CarbsExceeded = Math.Max(0, summary.CarbsConsumedGrams - summary.CarbsTargetGrams);
         summary.FatRemainingGrams = Math.Max(0, summary.FatTargetGrams - summary.FatConsumedGrams);
+        summary.FatExceeded = Math.Max(0, summary.FatConsumedGrams - summary.FatTargetGrams);
         summary.WaterRemainingMl = Math.Max(0, summary.WaterTargetMl - summary.WaterConsumedMl);
+
+        // Set status flags
+        summary.IsCaloriesExceeded = summary.CaloriesConsumed > summary.CaloriesTarget;
+        summary.IsCarbsExceeded = summary.CarbsConsumedGrams > summary.CarbsTargetGrams;
+        summary.IsFatExceeded = summary.FatConsumedGrams > summary.FatTargetGrams;
+        summary.IsProteinCompleted = summary.ProteinConsumedGrams >= summary.ProteinTargetGrams;
+        summary.IsWaterCompleted = summary.WaterConsumedMl >= summary.WaterTargetMl;
+
+        // Calculate completion percentages
+        summary.Completion = CalculateCompletion(summary);
+
+        // Calculate daily nutrition score
+        summary.DailyNutritionScore = CalculateNutritionScore(summary);
+
+        // Generate summary message
+        summary.SummaryMessage = GenerateSummaryMessage(summary);
 
         var latestWeight = await _weightLogRepository.GetLatestUserWeightLogAsync(userId, cancellationToken);
         if (latestWeight != null)
@@ -267,7 +314,7 @@ public class TrackingService : ITrackingService
 
         // 3. Fetch all meal logs in the range in one query (Eager Loaded)
         var allMealLogs = await _mealLogRepository.GetUserMealLogsInDateRangeAsync(userId, startDate, endDate, cancellationToken);
-        
+
         // Group meal logs by date in memory
         var mealLogsByDate = allMealLogs.GroupBy(x => x.Date).ToDictionary(g => g.Key, g => g.ToList());
 
@@ -278,6 +325,11 @@ public class TrackingService : ITrackingService
         var waterTotalByDate = allWaterLogs
             .GroupBy(x => x.Date)
             .ToDictionary(g => g.Key, g => g.Sum(x => x.AmountInMl));
+
+        // 5. Batch load all conversions for the entire date range
+        var allFoodIds = allMealLogs.SelectMany(m => m.MealItems.Select(i => i.FoodId)).Distinct().ToList();
+        var allConversions = await _foodUnitConversionRepository.GetByFoodIdsAsync(allFoodIds, cancellationToken);
+        var allConversionLookup = allConversions.ToDictionary(x => (x.FoodId, x.Unit), x => (double)x.GramsPerUnit);
 
         var summaries = new List<DailySummaryDto>();
         for (var date = startDate; date <= endDate; date = date.AddDays(1))
@@ -305,7 +357,9 @@ public class TrackingService : ITrackingService
             {
                 var logDto = await MapToMealLogDtoAsync(
                     log,
-                    cancellationToken); summary.Meals.Add(logDto);
+                    allConversionLookup,
+                    cancellationToken);
+                summary.Meals.Add(logDto);
 
                 summary.CaloriesConsumed += logDto.TotalCalories;
                 summary.ProteinConsumedGrams += logDto.TotalProtein;
@@ -313,11 +367,31 @@ public class TrackingService : ITrackingService
                 summary.FatConsumedGrams += logDto.TotalFat;
             }
 
+            // Calculate remaining and exceeded values
             summary.CaloriesRemaining = Math.Max(0, summary.CaloriesTarget - summary.CaloriesConsumed);
+            summary.CaloriesExceeded = Math.Max(0, summary.CaloriesConsumed - summary.CaloriesTarget);
             summary.ProteinRemainingGrams = Math.Max(0, summary.ProteinTargetGrams - summary.ProteinConsumedGrams);
             summary.CarbsRemainingGrams = Math.Max(0, summary.CarbsTargetGrams - summary.CarbsConsumedGrams);
+            summary.CarbsExceeded = Math.Max(0, summary.CarbsConsumedGrams - summary.CarbsTargetGrams);
             summary.FatRemainingGrams = Math.Max(0, summary.FatTargetGrams - summary.FatConsumedGrams);
+            summary.FatExceeded = Math.Max(0, summary.FatConsumedGrams - summary.FatTargetGrams);
             summary.WaterRemainingMl = Math.Max(0, summary.WaterTargetMl - summary.WaterConsumedMl);
+
+            // Set status flags
+            summary.IsCaloriesExceeded = summary.CaloriesConsumed > summary.CaloriesTarget;
+            summary.IsCarbsExceeded = summary.CarbsConsumedGrams > summary.CarbsTargetGrams;
+            summary.IsFatExceeded = summary.FatConsumedGrams > summary.FatTargetGrams;
+            summary.IsProteinCompleted = summary.ProteinConsumedGrams >= summary.ProteinTargetGrams;
+            summary.IsWaterCompleted = summary.WaterConsumedMl >= summary.WaterTargetMl;
+
+            // Calculate completion percentages
+            summary.Completion = CalculateCompletion(summary);
+
+            // Calculate daily nutrition score
+            summary.DailyNutritionScore = CalculateNutritionScore(summary);
+
+            // Generate summary message
+            summary.SummaryMessage = GenerateSummaryMessage(summary);
 
             summaries.Add(summary);
         }
@@ -381,6 +455,7 @@ public class TrackingService : ITrackingService
 
     private async Task<MealLogDto> MapToMealLogDtoAsync(
     MealLog log,
+    Dictionary<(int FoodId, Unit Unit), double>? conversionLookup = null,
     CancellationToken cancellationToken = default)
     {
         var dto = new MealLogDto
@@ -392,13 +467,21 @@ public class TrackingService : ITrackingService
             MealItems = new List<MealItemDto>()
         };
 
+        // Load conversions if not provided
+        if (conversionLookup == null)
+        {
+            var foodIds = log.MealItems.Select(x => x.FoodId).Distinct().ToList();
+            var conversions = await _foodUnitConversionRepository.GetByFoodIdsAsync(foodIds, cancellationToken);
+            conversionLookup = conversions.ToDictionary(x => (x.FoodId, x.Unit), x => (double)x.GramsPerUnit);
+        }
+
         foreach (var item in log.MealItems)
         {
-            double grams = await ConvertToGramsAsync(
+            double grams = ConvertToGrams(
                            item.FoodId,
                            item.Quantity,
                            item.Unit,
-                           cancellationToken);
+                           conversionLookup!);
 
             double multiplier = grams / 100.0;
 
@@ -425,22 +508,15 @@ public class TrackingService : ITrackingService
         return dto;
     }
 
-    
-
-    private async Task<double> ConvertToGramsAsync(
+    private static double ConvertToGrams(
      int foodId,
      decimal quantity,
      Unit unit,
-     CancellationToken cancellationToken = default)
+     Dictionary<(int FoodId, Unit Unit), double> conversionLookup)
     {
-        var conversion = await _foodUnitConversionRepository.GetConversionAsync(
-            foodId,
-            unit,
-            cancellationToken);
-
-        if (conversion != null)
+        if (conversionLookup.TryGetValue((foodId, unit), out var gramsPerUnit))
         {
-            return (double)quantity * conversion.GramsPerUnit;
+            return (double)quantity * gramsPerUnit;
         }
 
         return unit switch
@@ -453,5 +529,83 @@ public class TrackingService : ITrackingService
             Unit.Piece => (double)quantity * 100,
             _ => (double)quantity
         };
+    }
+
+    private static CompletionDto CalculateCompletion(DailySummaryDto summary)
+    {
+        return new CompletionDto
+        {
+            Calories = CalculatePercentage(summary.CaloriesConsumed, summary.CaloriesTarget),
+            Protein = CalculatePercentage(summary.ProteinConsumedGrams, summary.ProteinTargetGrams),
+            Carbs = CalculatePercentage(summary.CarbsConsumedGrams, summary.CarbsTargetGrams),
+            Fat = CalculatePercentage(summary.FatConsumedGrams, summary.FatTargetGrams),
+            Water = CalculatePercentage(summary.WaterConsumedMl, summary.WaterTargetMl)
+        };
+    }
+
+    private static double CalculatePercentage(double consumed, double target)
+    {
+        if (target <= 0) return 0;
+        return Math.Clamp((consumed / target) * 100, 0, 100);
+    }
+
+    private static int CalculateNutritionScore(DailySummaryDto summary)
+    {
+        int score = 100;
+
+        if (summary.IsCaloriesExceeded) score -= 15;
+        if (summary.IsCarbsExceeded) score -= 10;
+        if (summary.IsFatExceeded) score -= 10;
+        if (!summary.IsProteinCompleted) score -= 10;
+        if (!summary.IsWaterCompleted) score -= 5;
+
+        return Math.Clamp(score, 0, 100);
+    }
+
+    private static string GenerateSummaryMessage(DailySummaryDto summary)
+    {
+        var issues = new List<string>();
+
+        if (summary.IsCaloriesExceeded)
+        {
+            issues.Add($"Calories exceeded by {Math.Round(summary.CaloriesExceeded)} kcal");
+        }
+
+        if (summary.IsCarbsExceeded)
+        {
+            issues.Add($"Carbohydrates exceeded by {Math.Round(summary.CarbsExceeded)}g");
+        }
+
+        if (summary.IsFatExceeded)
+        {
+            issues.Add($"Fat exceeded by {Math.Round(summary.FatExceeded)}g");
+        }
+
+        if (!summary.IsProteinCompleted)
+        {
+            issues.Add($"Protein target not reached ({Math.Round(summary.ProteinConsumedGrams)}g of {Math.Round(summary.ProteinTargetGrams)}g)");
+        }
+
+        if (!summary.IsWaterCompleted)
+        {
+            issues.Add($"Water target not reached ({Math.Round(summary.WaterConsumedMl)}ml of {Math.Round(summary.WaterTargetMl)}ml)");
+        }
+
+        if (issues.Count == 0)
+        {
+            return "Excellent day. You met all your nutrition goals.";
+        }
+
+        if (summary.DailyNutritionScore >= 80)
+        {
+            return $"Great day! {string.Join(". ", issues)}.";
+        }
+
+        if (summary.DailyNutritionScore >= 60)
+        {
+            return $"Good day overall. {string.Join(". ", issues)}.";
+        }
+
+        return $"Needs improvement. {string.Join(". ", issues)}.";
     }
 }

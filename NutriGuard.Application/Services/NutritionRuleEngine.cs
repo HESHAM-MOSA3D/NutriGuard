@@ -88,6 +88,10 @@ public class NutritionRuleEngine : INutritionRuleEngine
 
         var foodTagMap = await _foodTagAssignmentRepository.GetFoodTagsMapAsync(foodIds, cancellationToken);
 
+        // Batch load conversions for all food items
+        var conversions = await _foodUnitConversionRepository.GetByFoodIdsAsync(foodIds, cancellationToken);
+        var conversionLookup = conversions.ToDictionary(x => (x.FoodId, x.Unit), x => (double)x.GramsPerUnit);
+
         // Compute total meal nutritional values
         double totalCalories = 0;
         double totalProtein = 0;
@@ -102,7 +106,7 @@ public class NutritionRuleEngine : INutritionRuleEngine
                 continue;
             }
 
-            double grams = await ConvertToGramsAsync(item.FoodId, item.Quantity, item.Unit, cancellationToken);
+            double grams = ConvertToGrams(item.FoodId, item.Quantity, item.Unit, conversionLookup);
             double multiplier = grams / 100.0;
 
             totalCalories += (double)(food.Energy ?? 0) * multiplier;
@@ -353,8 +357,8 @@ public class NutritionRuleEngine : INutritionRuleEngine
                         }
                         else
                         {
-                            // Only add informational warning, not an error
-                            result.AddWarning($"Contains {allergenName}.");
+                            // Only add informational tip, not a warning
+                            result.AddTip($"Ingredient Notice: Contains {allergenName}.");
                         }
                     }
                 }
@@ -442,12 +446,17 @@ public class NutritionRuleEngine : INutritionRuleEngine
                 if (totalCalories > 700)
                 {
                     result.AddWarning($"Goal Warning: High calorie meal ({Math.Round(totalCalories)} kcal). For weight loss goals, consider lighter portions.");
+                    result.IsRecommended = false;
                 }
 
                 bool hasWeightLossFriendly = foodTagMap.Values.Any(tags => tags.Contains((int)FoodTagType.WeightLossFriendly) || tags.Contains((int)FoodTagType.HighFiber));
-                if (hasWeightLossFriendly)
+                if (hasWeightLossFriendly && totalCalories <= 700)
                 {
                     result.AddTip("Goal Tip: Great choice! This meal contains high-fiber or weight-loss friendly foods.");
+                }
+                else if (!hasWeightLossFriendly && totalCalories > 500 && totalCalories <= 700)
+                {
+                    result.AddTip("Goal Tip: Consider replacing with weight-loss friendly options like vegetables, lean proteins, or high-fiber foods.");
                 }
                 break;
 
@@ -455,12 +464,17 @@ public class NutritionRuleEngine : INutritionRuleEngine
                 if (totalCalories < 250 && totalCalories > 0)
                 {
                     result.AddWarning($"Goal Warning: Low calorie meal ({Math.Round(totalCalories)} kcal). For weight gain goals, aim for higher caloric density.");
+                    result.IsRecommended = false;
                 }
 
                 bool hasGainFriendly = foodTagMap.Values.Any(tags => tags.Contains((int)FoodTagType.WeightGainFriendly) || tags.Contains((int)FoodTagType.MuscleBuilding));
-                if (hasGainFriendly)
+                if (hasGainFriendly && totalCalories >= 250)
                 {
                     result.AddTip("Goal Tip: Excellent! This meal includes high calorie density / muscle building components.");
+                }
+                else if (!hasGainFriendly && totalCalories >= 250)
+                {
+                    result.AddTip("Goal Tip: Consider adding nutrient-dense foods like nuts, healthy fats, or protein sources to support weight gain.");
                 }
                 break;
 
@@ -468,12 +482,14 @@ public class NutritionRuleEngine : INutritionRuleEngine
                 if (totalCalories > 800)
                 {
                     result.AddWarning($"Goal Warning: High calorie meal ({Math.Round(totalCalories)} kcal). For weight maintenance, balance your intake throughout the day.");
+                    result.IsRecommended = false;
                 }
                 if (totalCalories < 150 && totalCalories > 0)
                 {
                     result.AddWarning($"Goal Warning: Low calorie meal ({Math.Round(totalCalories)} kcal). Ensure you're meeting your daily nutritional needs.");
+                    result.IsRecommended = false;
                 }
-                if (totalProtein >= 20)
+                if (totalProtein >= 20 && totalCalories >= 150 && totalCalories <= 800)
                 {
                     result.AddTip("Goal Tip: Well-balanced protein intake for weight maintenance.");
                 }
@@ -493,7 +509,13 @@ public class NutritionRuleEngine : INutritionRuleEngine
 
         var dailyTarget = targetResult.Data.DailyCalories;
         var existingLogs = await _mealLogRepository.GetUserMealLogsByDateAsync(userId, date, cancellationToken);
-        double alreadyConsumed = existingLogs.Sum(m => m.MealItems.Sum(i => (double)(i.Food?.Energy ?? 0) * ((double)i.Quantity / 100.0)));
+
+        // Batch load conversions for existing meal items
+        var existingFoodIds = existingLogs.SelectMany(m => m.MealItems.Select(i => i.FoodId)).Distinct().ToList();
+        var conversions = await _foodUnitConversionRepository.GetByFoodIdsAsync(existingFoodIds, cancellationToken);
+        var conversionLookup = conversions.ToDictionary(x => (x.FoodId, x.Unit), x => (double)x.GramsPerUnit);
+
+        double alreadyConsumed = CalculateConsumedNutrient(existingLogs, conversionLookup, f => (double)(f.Energy ?? 0));
 
         double remaining = Math.Max(0, dailyTarget - alreadyConsumed);
         bool exceedsRemaining = totalCalories > remaining && remaining > 0;
@@ -511,11 +533,15 @@ public class NutritionRuleEngine : INutritionRuleEngine
         if (exceedsRemaining)
         {
             result.AddWarning($"Calorie Overflow Warning: This meal ({Math.Round(totalCalories)} kcal) exceeds your remaining daily budget ({Math.Round(remaining)} kcal).");
+            result.AddTip("Consider reducing portion size or splitting this meal across multiple eating occasions.");
+            result.IsRecommended = false;
         }
 
         if (isHighCalorie)
         {
             result.AddWarning($"Calorie Warning: This meal contains {Math.Round(totalCalories)} kcal, which is more than 50% of your total daily target.");
+            result.AddTip("Balance your remaining meals to stay within your daily calorie goal.");
+            result.IsRecommended = false;
         }
     }
 
@@ -535,9 +561,14 @@ public class NutritionRuleEngine : INutritionRuleEngine
         var existingLogs = await _mealLogRepository.GetUserMealLogsByDateAsync(userId, date, cancellationToken);
         var profile = await _healthProfileRepository.GetByUserIdAsync(userId, cancellationToken);
 
-        double consumedProtein = existingLogs.Sum(m => m.MealItems.Sum(i => (double)(i.Food?.Protein ?? 0) * ((double)i.Quantity / 100.0)));
-        double consumedCarbs = existingLogs.Sum(m => m.MealItems.Sum(i => (double)(i.Food?.Carbohydrate ?? 0) * ((double)i.Quantity / 100.0)));
-        double consumedFat = existingLogs.Sum(m => m.MealItems.Sum(i => (double)(i.Food?.Fat ?? 0) * ((double)i.Quantity / 100.0)));
+        // Batch load conversions for existing meal items
+        var existingFoodIds = existingLogs.SelectMany(m => m.MealItems.Select(i => i.FoodId)).Distinct().ToList();
+        var conversions = await _foodUnitConversionRepository.GetByFoodIdsAsync(existingFoodIds, cancellationToken);
+        var conversionLookup = conversions.ToDictionary(x => (x.FoodId, x.Unit), x => (double)x.GramsPerUnit);
+
+        double consumedProtein = CalculateConsumedNutrient(existingLogs, conversionLookup, f => (double)(f.Protein ?? 0));
+        double consumedCarbs = CalculateConsumedNutrient(existingLogs, conversionLookup, f => (double)(f.Carbohydrate ?? 0));
+        double consumedFat = CalculateConsumedNutrient(existingLogs, conversionLookup, f => (double)(f.Fat ?? 0));
 
         double remainingProtein = Math.Max(0, targetData.ProteinGrams - consumedProtein);
         double remainingCarbs = Math.Max(0, targetData.CarbsGrams - consumedCarbs);
@@ -566,20 +597,39 @@ public class NutritionRuleEngine : INutritionRuleEngine
             IsHighFat = isHighFat
         };
 
+        if (result.MacroBreakdown.ExceedsCarbsBudget)
+        {
+            result.AddWarning($"Macro Overflow: This meal exceeds your remaining daily carbohydrate budget ({Math.Round(remainingCarbs, 1)}g).");
+            result.AddTip("Consider reducing portion size or replacing with lower-carb options like vegetables or lean proteins.");
+            result.IsRecommended = false;
+        }
+
+        if (result.MacroBreakdown.ExceedsFatBudget)
+        {
+            result.AddWarning($"Macro Overflow: This meal exceeds your remaining daily fat budget ({Math.Round(remainingFat, 1)}g).");
+            result.AddTip("Consider reducing portion size or choosing leaner alternatives to support your nutritional goals.");
+            result.IsRecommended = false;
+        }
+
         if (isLowProtein)
         {
             string proteinRecommendation = GetDietSpecificProteinRecommendation(profile?.DietType);
             result.AddWarning($"Macro Warning: Protein is low for your daily goal ({Math.Round(totalProtein, 1)}g). {proteinRecommendation}");
+            result.IsRecommended = false;
         }
 
-        if (isHighCarb)
+        if (isHighCarb && !result.MacroBreakdown.ExceedsCarbsBudget)
         {
             result.AddWarning($"Macro Warning: High carbohydrate intake ({Math.Round(totalCarbs, 1)}g) in a single meal.");
+            result.AddTip("Consider reducing portion size or replacing with lower-carb options like vegetables or lean proteins.");
+            result.IsRecommended = false;
         }
 
-        if (isHighFat)
+        if (isHighFat && !result.MacroBreakdown.ExceedsFatBudget)
         {
             result.AddWarning($"Macro Warning: High fat content ({Math.Round(totalFat, 1)}g) in a single meal.");
+            result.AddTip("Consider reducing portion size or choosing leaner alternatives to support your nutritional goals.");
+            result.IsRecommended = false;
         }
     }
 
@@ -676,16 +726,15 @@ public class NutritionRuleEngine : INutritionRuleEngine
         };
     }
 
-    private async Task<double> ConvertToGramsAsync(
+    private static double ConvertToGrams(
         int foodId,
         decimal quantity,
         Unit unit,
-        CancellationToken cancellationToken)
+        Dictionary<(int FoodId, Unit Unit), double> conversionLookup)
     {
-        var conversion = await _foodUnitConversionRepository.GetConversionAsync(foodId, unit, cancellationToken);
-        if (conversion != null)
+        if (conversionLookup.TryGetValue((foodId, unit), out var gramsPerUnit))
         {
-            return (double)quantity * conversion.GramsPerUnit;
+            return (double)quantity * gramsPerUnit;
         }
 
         return unit switch
@@ -698,6 +747,19 @@ public class NutritionRuleEngine : INutritionRuleEngine
             Unit.Piece => (double)quantity * 100,
             _ => (double)quantity
         };
+    }
+
+    private static double CalculateConsumedNutrient(
+        IEnumerable<MealLog> mealLogs,
+        Dictionary<(int FoodId, Unit Unit), double> conversionLookup,
+        Func<Food, double> nutrientSelector)
+    {
+        return mealLogs.Sum(m => m.MealItems.Sum(i =>
+        {
+            double grams = ConvertToGrams(i.FoodId, i.Quantity, i.Unit, conversionLookup);
+            double multiplier = grams / 100.0;
+            return nutrientSelector(i.Food ?? new Food()) * multiplier;
+        }));
     }
 
     #endregion

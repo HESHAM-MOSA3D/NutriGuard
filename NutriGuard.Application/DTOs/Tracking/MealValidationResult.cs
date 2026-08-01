@@ -6,11 +6,15 @@ public class MealValidationResult
 {
     public bool IsValid => Errors.Count == 0;
 
-    public List<string> Errors { get; set; } = new();
+    public bool IsRecommended { get; set; } = true;
 
-    public List<string> Warnings { get; set; } = new();
+    private List<string> _errors = new();
+    private List<string> _warnings = new();
+    private List<string> _tips = new();
 
-    public List<string> Tips { get; set; } = new();
+    public List<string> Errors => _errors.Distinct().ToList();
+    public List<string> Warnings => _warnings.Distinct().ToList();
+    public List<string> Tips => _tips.Distinct().ToList();
 
     public MealCalorieValidationDto? CalorieBreakdown { get; set; }
 
@@ -18,16 +22,16 @@ public class MealValidationResult
 
     public void AddError(string error)
     {
-        Errors.Add(error);
+        _errors.Add(error);
     }
 
     public void AddWarning(string warning)
     {
-        Warnings.Add(warning);
+        _warnings.Add(warning);
     }
 
     public void AddTip(string tip)
     {
-        Tips.Add(tip);
+        _tips.Add(tip);
     }
 }
