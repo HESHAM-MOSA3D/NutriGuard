@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NutriGuard.Application.Interfaces;
 using NutriGuard.Application.Interfaces.Repositories;
@@ -11,6 +12,7 @@ using NutriGuard.Application.Interfaces.Services;
 
 using NutriGuard.Application.Services;
 using NutriGuard.Application.Validators.Foods;
+using NutriGuard.Application.Settings;
 using NutriGuard.Domain.Entities;
 using NutriGuard.Infrastructure.Csv;
 using NutriGuard.Infrastructure.Persistence;
@@ -96,28 +98,37 @@ public static class DependencyInjection
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-.AddJwtBearer(options =>
-{
-    options.SaveToken = true;
+        .AddJwtBearer(options =>
+        {
+            options.SaveToken = true;
 
-    options.RequireHttpsMetadata = false;
+            options.RequireHttpsMetadata = false;
 
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
+            var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
+            if (jwtSettings == null)
+            {
+                throw new InvalidOperationException("JWT settings are not configured properly.");
+            }
 
-        ValidIssuer = configuration["Jwt:Issuer"],
-        ValidAudience = configuration["Jwt:Audience"],
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
 
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience,
 
-        ClockSkew = TimeSpan.Zero
-    };
-});
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(jwtSettings.Key)),
+
+                ClockSkew = TimeSpan.Zero
+            };
+        });
+
+        // Configure JwtSettings for dependency injection
+        services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
 
         
 

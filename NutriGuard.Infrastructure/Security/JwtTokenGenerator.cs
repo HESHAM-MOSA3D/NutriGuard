@@ -39,7 +39,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             SecurityAlgorithms.HmacSha256);
 
         var expiration = DateTime.UtcNow.AddMinutes(
-            _jwtSettings.DurationInMinutes);
+            _jwtSettings.AccessTokenExpirationMinutes);
 
         var token = new JwtSecurityToken(
             issuer: _jwtSettings.Issuer,

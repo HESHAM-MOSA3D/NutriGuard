@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NutriGuard.Application.DTOs.Auth;
 using NutriGuard.Application.Interfaces;
 
@@ -33,6 +34,41 @@ public class AuthController : ControllerBase
 
         if (!result.IsSuccess)
             return Unauthorized(result);
+
+        return Ok(result);
+    }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh(RefreshTokenRequestDto request)
+    {
+        var result = await _authService.RefreshTokenAsync(request);
+
+        if (!result.IsSuccess)
+            return Unauthorized(result);
+
+        return Ok(result);
+    }
+
+    [HttpPost("logout")]
+    [Authorize]
+    public async Task<IActionResult> Logout()
+    {
+        var result = await _authService.LogoutAsync(User);
+
+        if (!result.IsSuccess)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var result = await _authService.GetCurrentUserAsync(User);
+
+        if (!result.IsSuccess)
+            return NotFound(result);
 
         return Ok(result);
     }

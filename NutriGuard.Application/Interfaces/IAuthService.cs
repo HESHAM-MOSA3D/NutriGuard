@@ -1,4 +1,5 @@
 ﻿using NutriGuard.Application.DTOs.Auth;
+using System.Security.Claims;
 
 namespace NutriGuard.Application.Interfaces
 {
@@ -7,6 +8,12 @@ namespace NutriGuard.Application.Interfaces
         Task<AuthResponseDto> RegisterAsync(RegisterRequestDto request);
 
         Task<AuthResponseDto> LoginAsync(LoginRequestDto request);
+
+        Task<AuthResponseDto> RefreshTokenAsync(RefreshTokenRequestDto request);
+
+        Task<AuthResponseDto> LogoutAsync(ClaimsPrincipal user);
+
+        Task<AuthResponseDto> GetCurrentUserAsync(ClaimsPrincipal user);
 
         Task<AuthResponseDto> ForgotPasswordAsync(ForgotPasswordRequestDto request);
 

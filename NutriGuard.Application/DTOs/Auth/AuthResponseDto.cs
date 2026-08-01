@@ -8,8 +8,19 @@
 
         public string? Token { get; set; }
 
+        public string? RefreshToken { get; set; }
+
         public DateTime? Expiration { get; set; }
 
         public bool IsProfileCompleted { get; set; }
+
+        public UserDto? User { get; set; }
+    }
+
+    public class UserDto
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
     }
 }

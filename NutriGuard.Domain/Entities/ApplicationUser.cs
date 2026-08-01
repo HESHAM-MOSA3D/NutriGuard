@@ -7,6 +7,9 @@ namespace NutriGuard.Domain.Entities
     {
         public string FullName { get; set; } = string.Empty;
 
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
+
         // Navigate
         public HealthProfile? HealthProfile { get; set; }
         public ICollection<MealLog> MealLogs { get; set; } = new List<MealLog>();
