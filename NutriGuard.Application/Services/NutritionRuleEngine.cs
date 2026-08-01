@@ -127,7 +127,7 @@ public class NutritionRuleEngine : INutritionRuleEngine
         await ValidateMacronutrients(userId, date, totalProtein, totalCarbs, totalFat, result, cancellationToken);
 
         // 6. Validate Traditional Egyptian Food Rules
-        ValidateTraditionalFoods(foodDict, foodTagMap, result);
+        ValidateTraditionalFoods(foodDict, foodTagMap, result, profile.DietType);
 
         return result;
     }
@@ -162,20 +162,7 @@ public class NutritionRuleEngine : INutritionRuleEngine
             ValidateDiet(profile, foodDict, tagMap, (double)(food.Energy ?? 0), (double)(food.Carbohydrate ?? 0), (double)(food.Protein ?? 0), validationResult);
         }
 
-        var tags = tagMap.TryGetValue(foodId, out var tagIds) ? tagIds : new List<int>();
-        var healthTagNames = tags.Select(t => ((FoodTagType)t).ToString()).ToList();
-        bool isTraditional = tags.Contains((int)FoodTagType.TraditionalEgyptian) || IsTraditionalEgyptianName(food.Name);
-
-        return new FoodEligibilityDto
-        {
-            FoodId = foodId,
-            FoodName = food.Name,
-            IsEligible = validationResult.IsValid,
-            IneligibilityReasons = validationResult.Errors,
-            Warnings = validationResult.Warnings,
-            HealthTags = healthTagNames,
-            IsTraditionalEgyptian = isTraditional
-        };
+        return BuildFoodEligibilityDto(foodId, food, tagMap, validationResult);
     }
 
     public async Task<List<FoodEligibilityDto>> FilterEligibleFoodsAsync(
@@ -183,12 +170,41 @@ public class NutritionRuleEngine : INutritionRuleEngine
         IEnumerable<int> foodIds,
         CancellationToken cancellationToken = default)
     {
+        var distinctFoodIds = foodIds.Distinct().ToList();
+        var profile = await _healthProfileRepository.GetByUserIdAsync(userId, cancellationToken);
+        var foods = await _foodRepository.GetFoodsByIdsAsync(distinctFoodIds, cancellationToken);
+        var foodDict = foods.ToDictionary(f => f.Id);
+        var tagMap = await _foodTagAssignmentRepository.GetFoodTagsMapAsync(distinctFoodIds, cancellationToken);
+
         var resultList = new List<FoodEligibilityDto>();
-        foreach (var foodId in foodIds.Distinct())
+
+        foreach (var foodId in distinctFoodIds)
         {
-            var eligibility = await CheckFoodEligibilityAsync(userId, foodId, cancellationToken);
-            resultList.Add(eligibility);
+            if (!foodDict.TryGetValue(foodId, out var food))
+            {
+                resultList.Add(new FoodEligibilityDto
+                {
+                    FoodId = foodId,
+                    FoodName = "Unknown",
+                    IsEligible = false,
+                    IneligibilityReasons = new List<string> { "Food not found." }
+                });
+                continue;
+            }
+
+            var singleFoodDict = new Dictionary<int, Food> { { foodId, food } };
+            var singleTagMap = new Dictionary<int, List<int>> { { foodId, tagMap.TryGetValue(foodId, out var tags) ? tags : new List<int>() } };
+            var validationResult = new MealValidationResult();
+
+            if (profile != null)
+            {
+                await ValidateAllergies(profile.Id, singleFoodDict, singleTagMap, validationResult, cancellationToken);
+                ValidateDiet(profile, singleFoodDict, singleTagMap, (double)(food.Energy ?? 0), (double)(food.Carbohydrate ?? 0), (double)(food.Protein ?? 0), validationResult);
+            }
+
+            resultList.Add(BuildFoodEligibilityDto(foodId, food, singleTagMap, validationResult));
         }
+
         return resultList;
     }
 
@@ -226,18 +242,7 @@ public class NutritionRuleEngine : INutritionRuleEngine
                 ValidateDiet(profile, foodDict, tagMap, 0, 0, 0, validationResult);
             }
 
-            bool isTraditional = recipe.Name.Contains("كشري", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("Koshary", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("فطير", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("Fiteer", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("محشي", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("Mahshi", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("ملوخية", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("Molokhia", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("فول", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("Ful", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("طعمية", StringComparison.OrdinalIgnoreCase) ||
-                                 recipe.Name.Contains("Taameya", StringComparison.OrdinalIgnoreCase);
+            bool isTraditional = IsTraditionalEgyptianRecipeName(recipe.Name);
 
             resultList.Add(new RecipeEligibilityDto
             {
@@ -253,6 +258,49 @@ public class NutritionRuleEngine : INutritionRuleEngine
         return resultList;
     }
 
+    #region Helper Methods
+
+    private static FoodEligibilityDto BuildFoodEligibilityDto(
+        int foodId,
+        Food food,
+        Dictionary<int, List<int>> tagMap,
+        MealValidationResult validationResult)
+    {
+        var tags = tagMap.TryGetValue(foodId, out var tagIds) ? tagIds : new List<int>();
+        var healthTagNames = tags.Select(t => ((FoodTagType)t).ToString()).ToList();
+        bool isTraditional = tags.Contains((int)FoodTagType.TraditionalEgyptian) || IsTraditionalEgyptianName(food.Name);
+
+        return new FoodEligibilityDto
+        {
+            FoodId = foodId,
+            FoodName = food.Name,
+            IsEligible = validationResult.IsValid,
+            IneligibilityReasons = validationResult.Errors,
+            Warnings = validationResult.Warnings,
+            HealthTags = healthTagNames,
+            IsTraditionalEgyptian = isTraditional
+        };
+    }
+
+    private static bool IsTraditionalEgyptianRecipeName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return false;
+        return name.Contains("كشري", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("Koshary", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("فطير", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("Fiteer", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("محشي", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("Mahshi", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("ملوخية", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("Molokhia", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("فول", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("Ful", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("طعمية", StringComparison.OrdinalIgnoreCase) ||
+               name.Contains("Taameya", StringComparison.OrdinalIgnoreCase);
+    }
+
+    #endregion
+
     #region Rule Implementations
 
     private async Task ValidateAllergies(
@@ -265,13 +313,30 @@ public class NutritionRuleEngine : INutritionRuleEngine
         var userAllergyPrefs = await _foodPreferenceRepository.GetAllergiesAsync(healthProfileId, cancellationToken);
         var allergyFoodIds = userAllergyPrefs.Select(p => p.FoodId).ToHashSet();
 
+        // Get the allergen tags from the user's allergy foods to determine which allergen types they're allergic to
+        var allergyFoodTagIds = await _foodTagAssignmentRepository.GetFoodTagsMapAsync(allergyFoodIds, cancellationToken);
+        var userAllergenTagTypes = new HashSet<FoodTagType>();
+        foreach (var tagList in allergyFoodTagIds.Values)
+        {
+            foreach (var tagId in tagList)
+            {
+                var tagEnum = (FoodTagType)tagId;
+                if (IsAllergyTag(tagEnum))
+                {
+                    userAllergenTagTypes.Add(tagEnum);
+                }
+            }
+        }
+
         foreach (var food in foodDict.Values)
         {
+            // Check explicit food allergy
             if (allergyFoodIds.Contains(food.Id))
             {
                 result.AddError($"Allergy Conflict: '{food.Name}' is listed in your explicit allergy preferences.");
             }
 
+            // Check allergen tags against user's actual allergens
             if (foodTagMap.TryGetValue(food.Id, out var tags))
             {
                 foreach (var tagId in tags)
@@ -280,8 +345,17 @@ public class NutritionRuleEngine : INutritionRuleEngine
                     if (IsAllergyTag(tagEnum))
                     {
                         string allergenName = GetFriendlyAllergenName(tagEnum);
-                        // Check if user has an allergy preference or tagged item matching this allergen tag
-                        result.AddError($"Allergy Warning: '{food.Name}' contains allergen ({allergenName}).");
+
+                        // Only generate ERROR if user is actually allergic to this allergen type
+                        if (userAllergenTagTypes.Contains(tagEnum))
+                        {
+                            result.AddError($"Allergy Conflict: '{food.Name}' contains {allergenName}, which you are allergic to.");
+                        }
+                        else
+                        {
+                            // Only add informational warning, not an error
+                            result.AddWarning($"Contains {allergenName}.");
+                        }
                     }
                 }
             }
@@ -291,7 +365,8 @@ public class NutritionRuleEngine : INutritionRuleEngine
     private static bool IsAllergyTag(FoodTagType tag)
     {
         return tag is FoodTagType.Allergy_Milk or FoodTagType.Allergy_Egg or FoodTagType.Allergy_Gluten
-                   or FoodTagType.Allergy_Nuts or FoodTagType.Allergy_Fish or FoodTagType.Allergy_Soy;
+                   or FoodTagType.Allergy_Nuts or FoodTagType.Allergy_Fish or FoodTagType.Allergy_Soy
+                   or FoodTagType.Allergy_Meat;
     }
 
     private static string GetFriendlyAllergenName(FoodTagType tag) => tag switch
@@ -302,6 +377,7 @@ public class NutritionRuleEngine : INutritionRuleEngine
         FoodTagType.Allergy_Nuts => "Nuts",
         FoodTagType.Allergy_Fish => "Fish",
         FoodTagType.Allergy_Soy => "Soy",
+        FoodTagType.Allergy_Meat => "Meat",
         _ => tag.ToString()
     };
 
@@ -321,14 +397,15 @@ public class NutritionRuleEngine : INutritionRuleEngine
             case DietType.Vegan:
                 foreach (var food in foodDict.Values)
                 {
-                    bool hasMilk = foodTagMap.TryGetValue(food.Id, out var tags) && tags.Contains((int)FoodTagType.Allergy_Milk);
+                    foodTagMap.TryGetValue(food.Id, out var tags);
+                    bool hasMilk = tags != null && tags.Contains((int)FoodTagType.Allergy_Milk);
                     bool hasEgg = tags != null && tags.Contains((int)FoodTagType.Allergy_Egg);
                     bool hasFish = tags != null && tags.Contains((int)FoodTagType.Allergy_Fish);
-                    bool isTaggedVegan = tags != null && (tags.Contains((int)FoodTagType.Vegan) || tags.Contains((int)FoodTagType.Vegetarian));
+                    bool hasMeat = tags != null && tags.Contains((int)FoodTagType.Allergy_Meat);
 
-                    bool isNonVeganCategory = food.FoodCategoryId == 1 || food.FoodCategoryId == 2; // Meat/Poultry/Fish categories
+                    bool isNonVeganCategory = food.FoodCategoryId == 1 || food.FoodCategoryId == 2 || food.FoodCategoryId == 3; // Meat/Poultry/Fish/Egg categories
 
-                    if (hasMilk || hasEgg || hasFish || isNonVeganCategory)
+                    if (hasMilk || hasEgg || hasFish || hasMeat || isNonVeganCategory)
                     {
                         result.AddError($"Diet Violation: '{food.Name}' contains animal products and is not suitable for a Vegan diet.");
                     }
@@ -345,7 +422,7 @@ public class NutritionRuleEngine : INutritionRuleEngine
                 break;
 
             case DietType.Balanced:
-                // Standard balanced diet validation
+                // Standard balanced diet validation - no restrictions
                 break;
         }
     }
@@ -388,6 +465,14 @@ public class NutritionRuleEngine : INutritionRuleEngine
                 break;
 
             case Goal.MaintainWeight:
+                if (totalCalories > 800)
+                {
+                    result.AddWarning($"Goal Warning: High calorie meal ({Math.Round(totalCalories)} kcal). For weight maintenance, balance your intake throughout the day.");
+                }
+                if (totalCalories < 150 && totalCalories > 0)
+                {
+                    result.AddWarning($"Goal Warning: Low calorie meal ({Math.Round(totalCalories)} kcal). Ensure you're meeting your daily nutritional needs.");
+                }
                 if (totalProtein >= 20)
                 {
                     result.AddTip("Goal Tip: Well-balanced protein intake for weight maintenance.");
@@ -448,6 +533,7 @@ public class NutritionRuleEngine : INutritionRuleEngine
 
         var targetData = targetResult.Data;
         var existingLogs = await _mealLogRepository.GetUserMealLogsByDateAsync(userId, date, cancellationToken);
+        var profile = await _healthProfileRepository.GetByUserIdAsync(userId, cancellationToken);
 
         double consumedProtein = existingLogs.Sum(m => m.MealItems.Sum(i => (double)(i.Food?.Protein ?? 0) * ((double)i.Quantity / 100.0)));
         double consumedCarbs = existingLogs.Sum(m => m.MealItems.Sum(i => (double)(i.Food?.Carbohydrate ?? 0) * ((double)i.Quantity / 100.0)));
@@ -482,7 +568,8 @@ public class NutritionRuleEngine : INutritionRuleEngine
 
         if (isLowProtein)
         {
-            result.AddWarning($"Macro Warning: Low protein content ({Math.Round(totalProtein, 1)}g). Adding a high-protein side (e.g., eggs, Greek yogurt, chicken) is recommended.");
+            string proteinRecommendation = GetDietSpecificProteinRecommendation(profile?.DietType);
+            result.AddWarning($"Macro Warning: Protein is low for your daily goal ({Math.Round(totalProtein, 1)}g). {proteinRecommendation}");
         }
 
         if (isHighCarb)
@@ -499,7 +586,8 @@ public class NutritionRuleEngine : INutritionRuleEngine
     private static void ValidateTraditionalFoods(
         Dictionary<int, Food> foodDict,
         Dictionary<int, List<int>> foodTagMap,
-        MealValidationResult result)
+        MealValidationResult result,
+        DietType? dietType = null)
     {
         foreach (var food in foodDict.Values)
         {
@@ -520,7 +608,10 @@ public class NutritionRuleEngine : INutritionRuleEngine
                 }
                 else if (nameLower.Contains("محشي") || nameLower.Contains("mahshi"))
                 {
-                    result.AddTip("Egyptian Cuisine Tip: Mahshi provides great vitamins from vegetable skin! Add lean protein (chicken or meat) for complete macro balance.");
+                    string proteinTip = dietType == DietType.Vegan
+                        ? "Add plant-based protein like lentils or chickpeas for complete macro balance."
+                        : "Add lean protein (chicken or meat) for complete macro balance.";
+                    result.AddTip($"Egyptian Cuisine Tip: Mahshi provides great vitamins from vegetable skin! {proteinTip}");
                 }
                 else if (nameLower.Contains("فول") || nameLower.Contains("ful") || nameLower.Contains("طعمية") || nameLower.Contains("taameya"))
                 {
@@ -533,6 +624,27 @@ public class NutritionRuleEngine : INutritionRuleEngine
                 else
                 {
                     result.AddTip($"Egyptian Cuisine Tip: '{food.Name}' is a classic traditional Egyptian food! Keep your overall daily targets in mind.");
+                }
+
+                // Add diet-specific traditional food recommendations
+                if (dietType == DietType.Vegan)
+                {
+                    if (nameLower.Contains("فول") || nameLower.Contains("ful"))
+                    {
+                        result.AddTip("Vegan Tip: Ful Medames is perfect for your diet - rich in protein and fiber.");
+                    }
+                    else if (nameLower.Contains("طعمية") || nameLower.Contains("taameya"))
+                    {
+                        result.AddTip("Vegan Tip: Taameya (Egyptian falafel) is an excellent protein source for vegans.");
+                    }
+                    else if (nameLower.Contains("ملوخية") || nameLower.Contains("molokhia"))
+                    {
+                        result.AddTip("Vegan Tip: Molokhia is naturally vegan and packed with nutrients.");
+                    }
+                    else if (nameLower.Contains("كشري") || nameLower.Contains("koshary"))
+                    {
+                        result.AddTip("Vegan Tip: Traditional Koshary is naturally vegan and provides complete protein.");
+                    }
                 }
             }
         }
@@ -551,6 +663,17 @@ public class NutritionRuleEngine : INutritionRuleEngine
                lower.Contains("حواوشي") || lower.Contains("hawawshi") ||
                lower.Contains("ارز بلبن") || lower.Contains("roz bel laban") ||
                lower.Contains("بصارة") || lower.Contains("bessara");
+    }
+
+    private static string GetDietSpecificProteinRecommendation(DietType? dietType)
+    {
+        return dietType switch
+        {
+            DietType.Vegan => "Recommended vegan sources: Lentils, Chickpeas, Tofu, Tempeh, Quinoa, Soy Milk, and Beans.",
+            DietType.LowCarb => "Recommended low-carb sources: Eggs, Greek Yogurt, Cottage Cheese, Fish, Chicken, and Tofu.",
+            DietType.Balanced => "Recommended sources: Chicken, Eggs, Greek Yogurt, Fish, Beans, Lentils, and Cottage Cheese.",
+            _ => "Recommended sources: Chicken, Eggs, Greek Yogurt, Fish, Beans, Lentils, and Cottage Cheese."
+        };
     }
 
     private async Task<double> ConvertToGramsAsync(

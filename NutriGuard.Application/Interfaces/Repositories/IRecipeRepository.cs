@@ -4,15 +4,9 @@ namespace NutriGuard.Application.Interfaces.Repositories;
 
 public interface IRecipeRepository : IGenericRepository<Recipe>
 {
- 
-
-
     Task<Recipe?> GetDetailsByIdAsync(
         int id,
         CancellationToken cancellationToken = default);
-
-
- 
 
     Task<IReadOnlyList<Recipe>> GetAllAsync(
     CancellationToken cancellationToken = default);

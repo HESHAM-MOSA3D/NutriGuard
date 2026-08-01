@@ -8,6 +8,7 @@ public enum FoodTagType
     Allergy_Nuts = 4,
     Allergy_Fish = 5,
     Allergy_Soy = 6,
+    Allergy_Meat = 16,
 
     Vegan = 7,
     Vegetarian = 8,
