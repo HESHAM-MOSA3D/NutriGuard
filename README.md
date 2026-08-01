@@ -15,6 +15,7 @@ The project follows Clean Architecture principles using ASP.NET Core, Entity Fra
 - PostgreSQL
 - ASP.NET Identity
 - JWT Authentication
+- Refresh Token Authentication
 - SendGrid
 - CsvHelper
 - Swagger
@@ -22,6 +23,8 @@ The project follows Clean Architecture principles using ASP.NET Core, Entity Fra
 - Repository Pattern
 - Service Layer
 - Code First
+- PostgreSQL Trigram Search
+- Arabic Text Normalization
 
 ---
 
@@ -48,6 +51,8 @@ NutriGuard.Infrastructure
 
 ## Authentication
 
+### Features
+
 - ASP.NET Identity
 - Custom ApplicationUser
 - User Registration
@@ -56,7 +61,24 @@ NutriGuard.Infrastructure
 - Verify OTP
 - Change Password
 - JWT Authentication
+- Refresh Token Authentication
+- Refresh Token Rotation
+- Logout
+- Current User Endpoint
 - Protected Endpoints
+
+### APIs
+
+```text
+POST /api/Auth/register
+POST /api/Auth/login
+POST /api/Auth/forgot-password
+POST /api/Auth/verify-otp
+POST /api/Auth/change-password
+POST /api/Auth/refresh
+POST /api/Auth/logout
+GET  /api/Auth/me
+```
 
 ---
 
@@ -129,6 +151,13 @@ Returns
 - Food Aliases
 - Egyptian Food Dataset Import (CSV)
 
+### Search Features
+
+- Arabic-aware search
+- Alias search
+- PostgreSQL Trigram Search
+- Optimized search performance
+
 ### APIs
 
 ```text
@@ -149,6 +178,12 @@ GET /api/foods/categories
 - Egyptian Recipes Dataset Import (CSV)
 - Recipe Search
 - Recipe Details
+
+### Search Features
+
+- Arabic-aware recipe search
+- Alias search
+- PostgreSQL optimized queries
 
 ### APIs
 
@@ -199,7 +234,7 @@ Sprint 5 introduces comprehensive daily nutrition tracking and monitoring.
 
 ### Daily Summary
 
-Automatically calculates:
+Automatically calculates
 
 - Calories Consumed
 - Protein Consumed
@@ -207,7 +242,7 @@ Automatically calculates:
 - Fat Consumed
 - Water Consumed
 
-Also returns:
+Also returns
 
 - Remaining Calories
 - Remaining Protein
@@ -233,12 +268,10 @@ Meal Validation
 Water Validation
 
 - Water amount must be greater than zero
-- Maximum allowed water intake validation
 
 Weight Validation
 
 - Weight must be greater than zero
-- Maximum allowed weight validation
 
 ### Authorization
 
@@ -246,19 +279,15 @@ Users can only access, update, or delete their own tracking records.
 
 ### Delete Operations
 
-Implemented APIs for deleting:
+Implemented APIs for deleting
 
 - Meal Logs
 - Water Logs
 - Weight Logs
 
-### Food Unit Conversion System
+### Food Unit Conversion
 
-NutriGuard now supports food-specific unit conversions.
-
-Instead of using generic assumptions (e.g., every piece = 100g), the system uses a dedicated FoodUnitConversion table.
-
-This enables accurate conversions for units such as:
+Supports
 
 - Piece
 - Cup
@@ -267,13 +296,10 @@ This enables accurate conversions for units such as:
 - Gram
 - Milliliter
 
-Examples:
+Examples
 
 - 1 Egg = 55 g
 - 1 Apple = 180 g
-- Future foods can be added without changing application code.
-
-Conversion data is seeded automatically during application startup.
 
 ### APIs
 
@@ -288,6 +314,125 @@ GET    /api/tracking/history
 DELETE /api/tracking/meals/{id}
 DELETE /api/tracking/water/{id}
 DELETE /api/tracking/weight/{id}
+```
+
+---
+
+# Completed Sprint 6
+
+# Nutrition Rules Engine
+
+Sprint 6 introduces an intelligent Nutrition Rules Engine that validates foods, recipes, and complete meals according to each user's health profile.
+
+### Allergy Rules
+
+- Explicit allergy preferences
+- Automatic allergen detection
+- Milk
+- Egg
+- Fish
+- Gluten
+- Soy
+- Nuts
+- Meat
+
+### Diet Rules
+
+Supports
+
+- Balanced
+- LowCarb
+- Vegan
+
+Automatically rejects foods that violate the selected diet.
+
+### Goal Rules
+
+Supports
+
+- Lose Weight
+- Maintain Weight
+- Gain Weight
+
+Provides personalized recommendations according to the user's goal.
+
+### Calories Validation
+
+- Meal Calories
+- Remaining Calories
+- Daily Target Calories
+- Remaining Daily Budget
+- High-Calorie Meal Detection
+
+### Macronutrient Validation
+
+Evaluates
+
+- Protein
+- Carbohydrates
+- Fat
+
+Provides
+
+- Low Protein Warnings
+- High Carbohydrate Warnings
+- High Fat Warnings
+- Diet-aware Recommendations
+
+### Meal Eligibility
+
+Determines whether foods are suitable according to
+
+- Health Profile
+- Allergies
+- Diet
+- Goal
+- Food Tags
+
+### Recipe Eligibility
+
+Evaluates complete recipes using
+
+- Ingredients
+- Nutrition Rules
+- User Preferences
+
+### Traditional Egyptian Food Rules
+
+Special handling for Egyptian dishes including
+
+- Koshary
+- Mahshi
+- Molokhia
+- Ful
+- Taameya
+- Fiteer
+
+Recommendations adapt according to
+
+- User Goal
+- Diet
+- Calories
+- Macronutrients
+
+### Performance Optimizations
+
+- Arabic-aware search
+- PostgreSQL Trigram Indexes
+- Optimized filtering
+- Bulk loading
+- Eliminated N+1 Queries
+
+### APIs
+
+```text
+POST /api/Nutrition/validate-meal
+
+GET  /api/Nutrition/check-food/{foodId}
+
+POST /api/Nutrition/eligible-foods
+
+POST /api/Nutrition/eligible-recipes
 ```
 
 ---
@@ -315,6 +460,8 @@ DELETE /api/tracking/weight/{id}
 - Foods
 - FoodAliases
 - FoodUnitConversions
+- FoodTags
+- FoodTagAssignments
 
 ### Recipes
 
@@ -330,73 +477,30 @@ DELETE /api/tracking/weight/{id}
 
 ---
 
-# Project Status
+# Backend Status
 
-Completed
+The backend API is feature-complete.
 
-- Clean Architecture
-- ASP.NET Identity
-- JWT Authentication
+Implemented modules
+
+- Authentication
+- Refresh Tokens
 - Health Profile
 - Food Preferences
 - Nutrition Calculator
 - Food Database
-- Food Categories
-- Food Aliases
 - Recipe Database
-- CSV Import
 - Meal Tracking
 - Water Tracking
 - Weight Tracking
-- Daily Summary
-- Daily History
-- Food Unit Conversion
+- Nutrition Rules Engine
+- Traditional Egyptian Food Rules
+- Arabic-aware Search
+- PostgreSQL Optimization
 - Repository Pattern
 - Service Layer
 - Swagger
 - PostgreSQL
-
----
-
-# Next Sprint
-
-## Sprint 6 — Nutrition Rules Engine
-
-Planned Features
-
-- Nutrition Rules Engine
-- Allergy Rules
-- Medical Condition Rules
-- Diet Rules
-- Goal Rules
-- Personalized Nutrition Recommendations
-
----
-
-# Completed Sprint 6
-
-## Nutrition Rules Engine
-
-An intelligent rules engine evaluating food choices and meals against user health profiles, goals, allergens, diets, and traditional Egyptian food rules.
-
-### Features
-
-- **Allergy Rules**: Automatic allergen detection (Milk, Egg, Gluten, Nuts, Fish, Soy) and user preference matching.
-- **Diet Rules**: Enforces Vegan, LowCarb, and Balanced diet compliance.
-- **Goal Rules**: Aligns meal choices with user weight loss, weight gain, or maintenance goals.
-- **Calories Validation**: Real-time evaluation against remaining daily budget & single-meal thresholds.
-- **Macronutrient Validation**: Evaluates protein, carbohydrate, and fat balance.
-- **Meal & Recipe Eligibility Filtering**: Pre-screening APIs for safe food and recipe choices.
-- **Traditional Egyptian Food Rules**: Culturally tailored advice and portion recommendations for Egyptian dishes (Koshary, Fiteer, Mahshi, Ful, Taameya, Molokhia, etc.).
-
-### APIs
-
-```text
-POST /api/nutrition/validate-meal
-GET  /api/nutrition/check-food/{foodId}
-POST /api/nutrition/eligible-foods
-POST /api/nutrition/eligible-recipes
-```
 
 ---
 
@@ -405,23 +509,18 @@ POST /api/nutrition/eligible-recipes
 ## Sprint 7
 
 - AI Knowledge Base (RAG)
-- PostgreSQL pgvector / ChromaDB
-- Embeddings
-- Semantic Search
 
 ## Sprint 8
 
-- AI Conversation
-- Chat API
-- Tool Calling
+- AI Chat Assistant
 
 ## Sprint 9
 
-- Meal Planning Agent
+- AI Meal Planning Agent
 
 ## Sprint 10
 
-- Insights & Motivation
+- AI Insights & Recommendations
 
 ## Sprint 11
 
@@ -459,11 +558,11 @@ feature/rag
 
 Rules
 
-- Never push directly to `master`
+- Never push directly to master
 - Create a feature branch
 - Open a Pull Request
-- Merge into `develop`
-- Release from `develop` to `master`
+- Merge into develop
+- Release from develop to master
 
 ---
 
