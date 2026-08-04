@@ -18,6 +18,21 @@ builder.Services.AddAuthorization();
 builder.Services.Configure<SendGridSettings>(
     builder.Configuration.GetSection("SendGrid"));
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy
+            .WithOrigins(
+                "http://localhost:5173",
+                "https://localhost:5173"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
@@ -111,10 +126,13 @@ app.UseSwaggerUI();
 
 // Configure the HTTP request pipeline.
 
+app.UseRouting();
+
+app.UseCors("FrontendPolicy");
+
 app.UseAuthentication();
 
 app.UseAuthorization();
-
 
 app.MapControllers();
 

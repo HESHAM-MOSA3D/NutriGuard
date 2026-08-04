@@ -26,4 +26,10 @@
     <Folder Include="SeedData\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
