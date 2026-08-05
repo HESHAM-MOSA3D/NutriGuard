@@ -89,10 +89,10 @@ public class AuthController : ControllerBase
     {
         var result = await _authService.VerifyOtpAsync(request);
 
-        return Ok(new
-        {
-            Message = result
-        });
+        if (!result.IsSuccess)
+            return BadRequest(result);
+
+        return Ok(result);
     }
 
     [HttpPost("reset-password")]
@@ -100,9 +100,9 @@ public class AuthController : ControllerBase
     {
         var result = await _authService.ResetPasswordAsync(request);
 
-        return Ok(new
-        {
-            Message = result
-        });
+        if (!result.IsSuccess)
+            return BadRequest(result);
+
+        return Ok(result);
     }
 }

@@ -26,7 +26,8 @@ builder.Services.AddCors(options =>
         policy
             .WithOrigins(
                 "http://localhost:5173",
-                "https://localhost:5173"
+                "https://localhost:5173",
+                "https://nutri-guard-frontend.vercel.app"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
